@@ -20,6 +20,8 @@ app.use(session({
   }
 }))
 
+app.post('/auth/register', AuthCtrl.register)
+
 massive(CONNECTION_STRING).then(db => {
   app.set('db', db)
   console.log(`DB Set`)
