@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import './Sidebar.scss'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import axios from 'axios'
@@ -32,9 +33,15 @@ class Sidebar extends Component {
 
   render() {
     return (
-      <div>
+      <div className='Sidebar'>
         Welcome, {this.state.firstname}
-        <button onClick={this.handleLogout}>Log Out</button>
+
+        <ul>
+          <li>My Profile</li>
+          <li>Create Group</li>
+          <li>Join Group</li>
+          <li onClick={this.handleLogout}>Logout</li>
+        </ul>
       </div>
     )
   }

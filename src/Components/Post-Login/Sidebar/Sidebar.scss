@@ -1,0 +1,12 @@
+@import '../../../variables.scss';
+
+li{
+  cursor: pointer;
+}
+
+.Sidebar{
+  height: 92vh;
+  background: $tertiary;
+  width: 10vw;
+  position: fixed;
+}

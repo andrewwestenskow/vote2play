@@ -1,9 +1,9 @@
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 import './Header.scss'
 import axios from 'axios'
-import {updateLoginId} from '../../ducks/userReducer'
-import {connect} from 'react-redux'
-import {withRouter} from 'react-router-dom'
+import { updateLoginId } from '../../ducks/userReducer'
+import { connect } from 'react-redux'
+import { withRouter } from 'react-router-dom'
 
 class Header extends Component {
 
@@ -22,9 +22,9 @@ class Header extends Component {
 
   handleLoginFormSubmit = async (e) => {
     e.preventDefault()
-    const {loginEmail: email, loginPassword: password} = this.state
+    const { loginEmail: email, loginPassword: password } = this.state
     try {
-      const user = await axios.post('/auth/login', {email, password})
+      const user = await axios.post('/auth/login', { email, password })
       this.props.updateLoginId(user.data)
       this.props.history.push(`/${user.data.login_id}/dashboard`)
       this.setState({
@@ -41,16 +41,19 @@ class Header extends Component {
     }
   }
 
-  render(){
-    return(
-      <header>
-
-        {!this.props.isAuthenticated && <form onSubmit={this.handleLoginFormSubmit}>
-          <input placeholder='Email' type="text" name='loginEmail' value={this.state.loginEmail} onChange={e => this.handleFormUpdate(e)}/>
-          <input placeholder='Password' type="text" name='loginPassword' value={this.state.loginPassword} onChange={e => this.handleFormUpdate(e)}/>
+  render() {
+    return (
+      <header className='Header'>
+      <div className="logo-hold">
+        <h1 className='logo'>Social Playlists</h1>
+      </div>
+        <div className="login-form-hold">{!this.props.isAuthenticated && <form onSubmit={this.handleLoginFormSubmit}>
+          <input placeholder='Email' type="text" name='loginEmail' value={this.state.loginEmail} onChange={e => this.handleFormUpdate(e)} />
+          <input placeholder='Password' type="text" name='loginPassword' value={this.state.loginPassword} onChange={e => this.handleFormUpdate(e)} />
           <button>Log In</button>
           {this.state.loginError && <h3>{this.state.loginErrorMessage}</h3>}
         </form>}
+        </div>
       </header>
     )
   }
@@ -63,4 +66,4 @@ const mapStateToProps = (reduxState) => {
   }
 }
 
-export default connect(mapStateToProps, {updateLoginId})(withRouter(Header))
+export default connect(mapStateToProps, { updateLoginId })(withRouter(Header))

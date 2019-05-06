@@ -1,0 +1,18 @@
+@import '../../variables.scss';
+
+.Header {
+  background-color: $primary;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 8vh;
+}
+
+.logo-hold{
+  font-size: 2em;
+  margin-left: 5%;
+}
+
+.login-form-hold{
+  margin-right: 5%;
+}
