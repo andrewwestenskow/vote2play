@@ -6,6 +6,6 @@ import Dashboard from './Components/Post-Login/Dashboard/Dashboard'
 export default(
   <Switch>
     <Route exact path='/' component={Home}/>
-    <Route path='/:login_id/dashboard' component={Dashboard}/>
+    <Route path='/:login_id' component={Dashboard}/>
   </Switch>
 )

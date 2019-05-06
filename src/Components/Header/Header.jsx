@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import './Header.scss'
 import axios from 'axios'
-import {updateUserDetails, updateLoginId} from '../../ducks/userReducer'
+import {updateLoginId} from '../../ducks/userReducer'
 import {connect} from 'react-redux'
 import {withRouter} from 'react-router-dom'
 
@@ -23,9 +23,7 @@ class Header extends Component {
     const {loginEmail: email, loginPassword: password} = this.state
     try {
       const user = await axios.post('/auth/login', {email, password})
-      const details = await axios.get('/auth/getdetails')
       this.props.updateLoginId(user.data)
-      this.props.updateUserDetails(details.data)
       this.props.history.push(`/${user.data.login_id}/dashboard`)
     } catch (err) {
       this.setState({
@@ -51,4 +49,4 @@ class Header extends Component {
 
 
 
-export default connect(null, {updateUserDetails, updateLoginId})(withRouter(Header))
+export default connect(null, {updateLoginId})(withRouter(Header))
