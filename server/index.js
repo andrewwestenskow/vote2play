@@ -7,6 +7,7 @@ const UsersCtrl = require('./Controllers/UsersController')
 const GroupCtrl = require('./Controllers/GroupController')
 const AuthCtrl = require('./Controllers/AuthController')
 const PlaylistCtrl = require('./Controllers/PlaylistController')
+const authMiddleware = require('./Middlewares/authMiddleware')
 
 const{SERVER_PORT, SESSION_SECRET, CONNECTION_STRING} = process.env
 
@@ -23,10 +24,11 @@ app.use(session({
 }))
 
 
+
 //AUTH ENDPOINTS
 app.post('/auth/register', AuthCtrl.register)
 app.post('/auth/login', AuthCtrl.logIn)
-app.get('/auth/getdetails', AuthCtrl.getDetails)
+app.get('/auth/getdetails', authMiddleware.isAuthenticated,AuthCtrl.getDetails)
 app.get('/auth/logout', AuthCtrl.logout)
 
 

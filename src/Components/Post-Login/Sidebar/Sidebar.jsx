@@ -1,25 +1,31 @@
-import React, {Component} from 'react'
-import {connect} from 'react-redux'
-import {withRouter} from 'react-router-dom'
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import { withRouter } from 'react-router-dom'
 import axios from 'axios'
 
 
 class Sidebar extends Component {
 
   state = {
-    firstname: '',
-    lastname: '',
-    isAuthenticated: false
+    firstname: ''
   }
 
-  componentDidMount(){
-    axios.get('/auth/getdetails').then(res => {
-      const {firstname} = res.data
-      this.setState({
-        firstname,
-        isAuthenticated: this.props.isAuthenticated
+  componentDidMount() {
+    try {
+      axios.get('/auth/getdetails').then(res => {
+        const { firstname } = res.data
+        this.setState({
+          firstname
+        })
+      }).catch(err => {
+        console.log(err)
+        this.props.history.push('/')
       })
-    })
+    } catch (err) {
+      alert(`Please log in`)
+
+      this.props.history.push('/')
+    }
 
   }
 
@@ -28,8 +34,8 @@ class Sidebar extends Component {
     this.props.history.push('/')
   }
 
-  render(){
-    return(
+  render() {
+    return (
       <div>
         Welcome, {this.state.firstname}
         <button onClick={this.handleLogout}>Log Out</button>
@@ -39,7 +45,7 @@ class Sidebar extends Component {
 }
 
 const mapStateToProps = (reduxState) => {
-  const {firstname, lastname, isAuthenticated} = reduxState
+  const { firstname, lastname, isAuthenticated } = reduxState
   return {
     firstname,
     lastname,
