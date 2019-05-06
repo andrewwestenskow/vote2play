@@ -3,7 +3,7 @@ import './Sidebar.scss'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import axios from 'axios'
-import {logoutUser} from '../../../ducks/userReducer'
+import { logoutUser } from '../../../ducks/userReducer'
 
 
 class Sidebar extends Component {
@@ -13,16 +13,16 @@ class Sidebar extends Component {
   }
 
   componentDidMount() {
-      axios.get('/auth/getdetails').then(res => {
-        const { firstname } = res.data
-        this.setState({
-          firstname
-        })
-      }).catch(err => {
-        console.log(err)
-        this.props.history.push('/')
+    axios.get('/auth/getdetails').then(res => {
+      const { firstname } = res.data
+      this.setState({
+        firstname
       })
-    
+    }).catch(err => {
+      console.log(err)
+      this.props.history.push('/')
+    })
+
   }
 
   handleLogout = async () => {
@@ -34,14 +34,20 @@ class Sidebar extends Component {
   render() {
     return (
       <div className='Sidebar'>
-        Welcome, {this.state.firstname}
 
-        <ul>
-          <li>My Profile</li>
-          <li>Create Group</li>
-          <li>Join Group</li>
-          <li onClick={this.handleLogout}>Logout</li>
-        </ul>
+        <div className="sidebar-menu-hold">
+          Welcome, {this.state.firstname}
+          <ul>
+            <li>My Profile</li>
+            <li>Create Group</li>
+            <li>Join Group</li>
+            <li onClick={this.handleLogout}>Logout</li>
+          </ul>
+        </div>
+
+        <div className="children">
+          {this.props.children}
+        </div>
       </div>
     )
   }
@@ -54,4 +60,4 @@ const mapStateToProps = (reduxState) => {
   }
 }
 
-export default connect(mapStateToProps, {logoutUser})(withRouter(Sidebar))
+export default connect(mapStateToProps, { logoutUser })(withRouter(Sidebar))

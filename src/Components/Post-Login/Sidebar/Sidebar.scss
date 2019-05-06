@@ -5,8 +5,13 @@ li{
 }
 
 .Sidebar{
+  
+  display: flex;
+}
+
+.sidebar-menu-hold{
   height: 92vh;
   background: $tertiary;
   width: 10vw;
-  position: fixed;
 }
+
