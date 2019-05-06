@@ -9,7 +9,9 @@ class Header extends Component {
 
   state = {
     loginEmail: '',
-    loginPassword: ''
+    loginPassword: '',
+    loginError: false,
+    loginErrorMessage: 'Email or Password are incorrect',
   }
 
   handleFormUpdate = (e) => {
@@ -25,10 +27,16 @@ class Header extends Component {
       const user = await axios.post('/auth/login', {email, password})
       this.props.updateLoginId(user.data)
       this.props.history.push(`/${user.data.login_id}/dashboard`)
+      this.setState({
+        loginEmail: '',
+        loginPassword: '',
+        loginError: false
+      })
     } catch (err) {
       this.setState({
         loginEmail: '',
-        loginPassword: ''
+        loginPassword: '',
+        loginError: true
       })
     }
   }
@@ -41,12 +49,11 @@ class Header extends Component {
           <input placeholder='Email' type="text" name='loginEmail' value={this.state.loginEmail} onChange={e => this.handleFormUpdate(e)}/>
           <input placeholder='Password' type="text" name='loginPassword' value={this.state.loginPassword} onChange={e => this.handleFormUpdate(e)}/>
           <button>Log In</button>
+          {this.state.loginError && <h3>{this.state.loginErrorMessage}</h3>}
         </form>
       </header>
     )
   }
 }
-
-
 
 export default connect(null, {updateLoginId})(withRouter(Header))

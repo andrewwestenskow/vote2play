@@ -11,7 +11,6 @@ class Sidebar extends Component {
   }
 
   componentDidMount() {
-    try {
       axios.get('/auth/getdetails').then(res => {
         const { firstname } = res.data
         this.setState({
@@ -21,12 +20,7 @@ class Sidebar extends Component {
         console.log(err)
         this.props.history.push('/')
       })
-    } catch (err) {
-      alert(`Please log in`)
-
-      this.props.history.push('/')
-    }
-
+    
   }
 
   handleLogout = async () => {
