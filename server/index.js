@@ -10,6 +10,8 @@ const PlaylistCtrl = require('./Controllers/PlaylistController')
 
 const{SERVER_PORT, SESSION_SECRET, CONNECTION_STRING} = process.env
 
+
+//MIDDLEWARE
 app.use(express.json())
 app.use(session({
   secret: SESSION_SECRET,
@@ -20,11 +22,15 @@ app.use(session({
   }
 }))
 
+
+//AUTH ENDPOINTS
 app.post('/auth/register', AuthCtrl.register)
 app.post('/auth/login', AuthCtrl.logIn)
 app.get('/auth/getdetails', AuthCtrl.getDetails)
 app.get('/auth/logout', AuthCtrl.logout)
 
+
+//MASSIVE CONNECTION
 massive(CONNECTION_STRING).then(db => {
   app.set('db', db)
   console.log(`DB Set`)
