@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import axios from 'axios'
+import {logoutUser} from '../../../ducks/userReducer'
 
 
 class Sidebar extends Component {
@@ -25,6 +26,7 @@ class Sidebar extends Component {
 
   handleLogout = async () => {
     await axios.get('/auth/logout')
+    this.props.logoutUser()
     this.props.history.push('/')
   }
 
@@ -39,12 +41,10 @@ class Sidebar extends Component {
 }
 
 const mapStateToProps = (reduxState) => {
-  const { firstname, lastname, isAuthenticated } = reduxState
+  const { isAuthenticated } = reduxState
   return {
-    firstname,
-    lastname,
     isAuthenticated
   }
 }
 
-export default connect(mapStateToProps)(withRouter(Sidebar))
+export default connect(mapStateToProps, {logoutUser})(withRouter(Sidebar))
