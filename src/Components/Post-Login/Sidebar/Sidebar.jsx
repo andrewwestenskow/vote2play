@@ -52,9 +52,6 @@ class Sidebar extends Component {
             <Link to={`/${id}/creategroup`}>
               <li>Create Group</li>
             </Link>
-            <Link to={`/${id}/joingroup`}>
-              <li>Join Group</li>
-            </Link>
             <li onClick={this.handleLogout}>Logout</li>
           </ul>
         </div>

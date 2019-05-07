@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import {connect} from 'react-redux'
 import axios from 'axios'
 import {Link} from 'react-router-dom'
+import JoinGroup from '../JoinGroup/JoinGroup'
 
 class Dashboard extends Component {
 
@@ -10,6 +11,14 @@ class Dashboard extends Component {
   }
 
   componentDidMount(){
+    axios.post('/api/group/getgroups', {login_id: this.props.login_id}).then(res => {
+      this.setState({
+        groups: res.data
+      })
+    })
+  }
+
+  updateGroups = () => {
     axios.post('/api/group/getgroups', {login_id: this.props.login_id}).then(res => {
       this.setState({
         groups: res.data
@@ -31,6 +40,9 @@ class Dashboard extends Component {
         DASHBOARD
         <div className="cards-hold">
           {groups}
+          <div className="Group-Card">
+            <JoinGroup login_id={this.props.login_id} updateGroups={this.updateGroups}/>
+          </div>
         </div>
       </div>
     )

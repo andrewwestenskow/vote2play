@@ -40,7 +40,7 @@ class CreateGroup extends Component{
 
   render(){
     return(
-      <div>Create GROUP
+      <div className='Create-Group'>Create GROUP
 
         <form onSubmit={this.handleCreateGroup}>
           <p>Group Name</p>
