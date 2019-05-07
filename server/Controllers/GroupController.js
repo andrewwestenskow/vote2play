@@ -1,7 +1,7 @@
 module.exports = {
   createGroup: async (req, res) => {
     const db = req.app.get('db')
-    const { name, require_admin_join, require_admin_song, login_id } = req.body
+    const { name, require_admin_join, require_admin_song, login_id, group_image } = req.body
 
     try {
       function randomString() {
@@ -12,7 +12,7 @@ module.exports = {
 
       let joincode = randomString()
 
-      let result = await db.createGroup([name, joincode, require_admin_join, require_admin_song])
+      let result = await db.createGroup([name, joincode, require_admin_join, require_admin_song, group_image])
 
       await db.joinGroup([result[0].group_id, login_id])
       return res.status(200).send(result[0])

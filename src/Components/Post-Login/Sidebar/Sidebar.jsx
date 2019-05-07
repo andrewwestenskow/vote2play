@@ -43,6 +43,9 @@ class Sidebar extends Component {
         <div className="sidebar-menu-hold">
           Welcome, {this.state.firstname}
           <ul>
+            <Link to={`/${id}/dashboard`}>
+              <li>Dashbaord</li>
+            </Link>
             <Link to={`/${id}/profile`}>
               <li>My Profile</li>
             </Link>

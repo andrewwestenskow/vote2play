@@ -22,6 +22,7 @@ class Dashboard extends Component {
     let groups = this.state.groups.map(group => {
       return <Link to={`/group/${group.joincode}`}><div className='Group-Card' key={group.group_id}>
       <p>{group.name}</p>
+      <img className='card-image' src={group.group_image} alt={group.name}/>
       <p>{group.joincode}</p>
       </div></Link>
     })

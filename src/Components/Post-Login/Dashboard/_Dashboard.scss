@@ -1,15 +1,30 @@
+@import '../../../variables.scss';
+
 .Dashboard{
-  border: 1px solid green;
+  // border: 1px solid green;
   width: 90vw;
   min-height: 92vh;
+  background: $neutral
 }
 
 .cards-hold{
   display: flex;
+  flex-wrap: wrap;
+  padding-top: 2rem;
 }
 
 .Group-Card{
   border: 1px solid black;
-  height: 15rem;
-  width: 13rem;
+  height: 20rem;
+  width: 15rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-left: 3rem;
+  background: $secondaryneutral
+}
+
+.card-image{
+  width: 80%;
+  height: 45%;
 }
