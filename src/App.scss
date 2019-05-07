@@ -3,15 +3,6 @@
    License: none (public domain)
 */
 
-@import './Components/Header/Header';
-@import './Components/Home/Home';
-@import './Components/Post-Login/Dashboard/Dashboard';
-@import './Components/Post-Login/Sidebar/Sidebar';
-@import './Components/Post-Login/CreateGroup/CreateGroup';
-@import './Components/Post-Login/JoinGroup/JoinGroup';
-@import './Components/Post-Login/Playlist/Playlist/Playlist';
-@import './Components/Post-Login/Profile/Profile';
-
 @import url('https://fonts.googleapis.com/css?family=Montserrat');
 
 html, body, div, span, applet, object, iframe,
@@ -31,7 +22,7 @@ time, mark, audio, video, button {
 	margin: 0;
 	padding: 0;
 	border: 0;
-	font-size: 100%;
+	font-size: 16px;
 	font: inherit;
 	vertical-align: baseline;
 	font-family: 'Montserrat', sans-serif;
@@ -59,3 +50,16 @@ table {
 	border-collapse: collapse;
 	border-spacing: 0;
 }
+
+*{
+	box-sizing: border-box;
+}
+
+@import './Components/Header/Header';
+@import './Components/Home/Home';
+@import './Components/Post-Login/Dashboard/Dashboard';
+@import './Components/Post-Login/Sidebar/Sidebar';
+@import './Components/Post-Login/CreateGroup/CreateGroup';
+@import './Components/Post-Login/JoinGroup/JoinGroup';
+@import './Components/Post-Login/Playlist/Playlist/Playlist';
+@import './Components/Post-Login/Profile/Profile';

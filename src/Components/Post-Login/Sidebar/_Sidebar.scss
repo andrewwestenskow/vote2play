@@ -7,12 +7,13 @@ li{
 .Sidebar{
   padding-top: 8vh;
   display: flex;
+  
 }
 
 .sidebar-menu-hold{
+  width: 10vw;
   height: 92vh;
   background: $tertiary;
-  width: 10vw;
   color: white;
 }
 

@@ -1,14 +1,46 @@
 import React, { Component } from 'react'
+import {connect} from 'react-redux'
+import axios from 'axios'
+import {Link} from 'react-router-dom'
 
 class Dashboard extends Component {
 
+  state = {
+    groups: []
+  }
+
+  componentDidMount(){
+    axios.post('/api/group/getgroups', {login_id: this.props.login_id}).then(res => {
+      this.setState({
+        groups: res.data
+      })
+    })
+  }
+
   render() {
+
+    let groups = this.state.groups.map(group => {
+      return <Link to={`/group/${group.joincode}`}><div className='Group-Card' key={group.group_id}>
+      <p>{group.name}</p>
+      <p>{group.joincode}</p>
+      </div></Link>
+    })
     return (
       <div className='Dashboard'>
         DASHBOARD
+        <div className="cards-hold">
+          {groups}
+        </div>
       </div>
     )
   }
 }
 
-export default Dashboard
+const mapStateToProps = (reduxState) => {
+  const {login_id} = reduxState
+  return {
+    login_id
+  }
+}
+
+export default connect(mapStateToProps)(Dashboard)
