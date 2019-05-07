@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { withRouter } from 'react-router-dom'
+import { withRouter, Link } from 'react-router-dom'
 import axios from 'axios'
 import { logoutUser } from '../../../ducks/userReducer'
 
@@ -37,9 +37,15 @@ class Sidebar extends Component {
         <div className="sidebar-menu-hold">
           Welcome, {this.state.firstname}
           <ul>
-            <li>My Profile</li>
-            <li>Create Group</li>
-            <li>Join Group</li>
+            <Link to='/profile'>
+              <li>My Profile</li>
+            </Link>
+            <Link to='/creategroup'>
+              <li>Create Group</li>
+            </Link>
+            <Link to='/joingroup'>
+              <li>Join Group</li>
+            </Link>
             <li onClick={this.handleLogout}>Logout</li>
           </ul>
         </div>

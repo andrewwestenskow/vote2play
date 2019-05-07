@@ -4,7 +4,7 @@ class JoinGroup extends Component{
 
   render(){
     return(
-      <div>JOIN GROUP</div>
+      <div className='Join-Group'>JOIN GROUP</div>
     )
   }
 }
