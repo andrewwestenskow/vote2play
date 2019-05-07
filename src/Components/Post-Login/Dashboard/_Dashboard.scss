@@ -10,7 +10,7 @@
 .cards-hold{
   display: flex;
   flex-wrap: wrap;
-  padding-top: 2rem;
+  // margin-top: 2rem;
 }
 
 .Group-Card{
@@ -21,7 +21,12 @@
   flex-direction: column;
   align-items: center;
   margin-left: 3rem;
-  background: $secondaryneutral
+  background: $secondaryneutral;
+  margin-top: 2rem;
+}
+
+.Join-Card{
+  margin-right: 2rem;
 }
 
 .card-image{
