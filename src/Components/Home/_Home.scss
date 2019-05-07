@@ -1,0 +1,29 @@
+@import '../../variables.scss';
+
+.hero-hold{
+  background: $neutral;
+  height: 80vh;
+  background-image: url('https://s3-us-west-1.amazonaws.com/socialplaylists/Hero+Images/Hero+1.jpeg');
+  background-repeat: no-repeat;
+  background-size: cover;
+  padding-top: 8vh;
+}
+
+.white-box{
+  height: 100%;
+  width: 100%;
+  background-color: rgba(255, 255, 255, 0.555);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+#register{
+  background: $neutral;
+}
+
+.instructions-hold{
+  background: $secondaryneutral;
+  height: 40vh;
+}

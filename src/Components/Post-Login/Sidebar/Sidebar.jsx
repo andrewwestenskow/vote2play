@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import './Sidebar.scss'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import axios from 'axios'

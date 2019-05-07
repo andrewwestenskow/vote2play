@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import './Dashboard.scss'
 
 class Dashboard extends Component {
 

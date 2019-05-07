@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import './Header.scss'
 import axios from 'axios'
 import { updateLoginId } from '../../ducks/userReducer'
 import { connect } from 'react-redux'
@@ -44,15 +43,17 @@ class Header extends Component {
   render() {
     return (
       <header className='Header'>
-      <div className="logo-hold">
-        <h1 className='logo'>Social Playlists</h1>
-      </div>
-        <div className="login-form-hold">{!this.props.isAuthenticated && <form onSubmit={this.handleLoginFormSubmit}>
-          <input placeholder='Email' type="text" name='loginEmail' value={this.state.loginEmail} onChange={e => this.handleFormUpdate(e)} />
-          <input placeholder='Password' type="text" name='loginPassword' value={this.state.loginPassword} onChange={e => this.handleFormUpdate(e)} />
-          <button>Log In</button>
-          {this.state.loginError && <h3>{this.state.loginErrorMessage}</h3>}
-        </form>}
+        <div className="logo-hold">
+          <h1 className='logo'>Social Playlists</h1>
+        </div>
+        <div className="login-form-hold">{!this.props.isAuthenticated &&
+          <form onSubmit={this.handleLoginFormSubmit}>
+            <input placeholder='Email' type="text" name='loginEmail' value={this.state.loginEmail} onChange={e => this.handleFormUpdate(e)} />
+            
+            <input placeholder='Password' type="text" name='loginPassword' value={this.state.loginPassword} onChange={e => this.handleFormUpdate(e)} />
+            <button>Log In</button>
+            {this.state.loginError && <h3>{this.state.loginErrorMessage}</h3>}
+          </form>}
         </div>
       </header>
     )
