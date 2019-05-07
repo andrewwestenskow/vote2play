@@ -31,6 +31,11 @@ app.post('/auth/login', AuthCtrl.logIn)
 app.get('/auth/getdetails', authMiddleware.isAuthenticated,AuthCtrl.getDetails)
 app.get('/auth/logout', AuthCtrl.logout)
 
+//GROUP ENDPOINT
+app.post('/api/group/create', GroupCtrl.createGroup)
+app.post('/api/group/getgroups', GroupCtrl.getGroups)
+app.post('/api/group/join', GroupCtrl.joinGroup)
+
 
 //MASSIVE CONNECTION
 massive(CONNECTION_STRING).then(db => {

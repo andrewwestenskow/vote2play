@@ -1,0 +1,62 @@
+module.exports = {
+  createGroup: async (req, res) => {
+    const db = req.app.get('db')
+    const { name, require_admin_join, require_admin_song, login_id } = req.body
+
+    try {
+      function randomString() {
+        let string = Math.random().toString(36).replace('0.', '').toUpperCase().split('')
+        string.splice(5, Infinity)
+        return string.join('')
+      }
+
+      let joincode = randomString()
+
+      let result = await db.createGroup([name, joincode, require_admin_join, require_admin_song])
+
+      await db.joinGroup([result[0].group_id, login_id])
+      return res.status(200).send(result[0])
+
+    } catch (err) {
+      return res.status(409).send(`Join code conflict`)
+    }
+  },
+
+  joinGroup: async (req, res) => {
+    const db = req.app.get('db')
+    const { joincode, login_id } = req.body
+
+    try {
+      let existingGroups = await db.groupCheck(login_id)
+
+      let check = existingGroups.filter(group => {
+        return group.joincode === joincode
+      })
+
+      if(check.length !== 0) {
+        return res.status(409).send(`User already in group`)
+      }
+      
+      let group_id = await db.getGroupByCode([joincode])
+
+
+      if(group_id.length === 0){
+        return res.status(500).send('Incorrect group code')
+      }
+
+      let result = await db.joinGroup([group_id[0].group_id, login_id])
+
+      res.status(200).send(result[0])
+
+    } catch (err) {
+      return res.sendStatus(500)
+    }
+  },
+
+  getGroups: async (req, res) => {
+    const db = req.app.get('db')
+    const { login_id } = req.body
+    let groups = await db.getGroups(login_id)
+    res.status(200).send(groups)
+  }
+}
