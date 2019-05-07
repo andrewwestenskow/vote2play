@@ -32,7 +32,7 @@ class Dashboard extends Component {
       return <Link to={`/group/${group.joincode}`}><div className='Group-Card' key={group.group_id}>
       <p>{group.name}</p>
 
-      <img className='card-image' src={group.group_image} alt={group.name}/>
+      <img className='card-image' src={group.group_image} alt={group.name} onError={console.log(`Img error`)}/>
 
       <p>{group.joincode}</p>
       </div></Link>
