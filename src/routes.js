@@ -13,10 +13,10 @@ export default(
     <Route path='/:login_id' component={() => (
       <Sidebar>
         <Switch>
-          <Route path ='/dashboard' component={Dashboard}/>
-          <Route path='/profile' component={Profile}/>
-          <Route path='/creategroup' component={CreateGroup}/>
-          <Route path='/joingroup' component={JoinGroup}/>
+          <Route path ='/:login_id/dashboard' component={Dashboard}/>
+          <Route path='/:login_id/profile' component={Profile}/>
+          <Route path='/:login_id/creategroup' component={CreateGroup}/>
+          <Route path='/:login_id/joingroup' component={JoinGroup}/>
         </Switch>
       </Sidebar>
     )}/>

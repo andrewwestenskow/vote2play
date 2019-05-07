@@ -22,6 +22,10 @@ class Sidebar extends Component {
       this.props.history.push('/')
     })
 
+    if(this.props.login_id === null){
+      this.props.history.push('/')
+    }
+
   }
 
   handleLogout = async () => {
@@ -31,19 +35,21 @@ class Sidebar extends Component {
   }
 
   render() {
+
+    const {login_id: id} = this.props
     return (
       <div className='Sidebar'>
 
         <div className="sidebar-menu-hold">
           Welcome, {this.state.firstname}
           <ul>
-            <Link to='/profile'>
+            <Link to={`/${id}/profile`}>
               <li>My Profile</li>
             </Link>
-            <Link to='/creategroup'>
+            <Link to={`/${id}/creategroup`}>
               <li>Create Group</li>
             </Link>
-            <Link to='/joingroup'>
+            <Link to={`/${id}/joingroup`}>
               <li>Join Group</li>
             </Link>
             <li onClick={this.handleLogout}>Logout</li>
@@ -59,9 +65,10 @@ class Sidebar extends Component {
 }
 
 const mapStateToProps = (reduxState) => {
-  const { isAuthenticated } = reduxState
+  const { isAuthenticated, login_id } = reduxState
   return {
-    isAuthenticated
+    isAuthenticated,
+    login_id
   }
 }
 
