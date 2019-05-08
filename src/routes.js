@@ -6,7 +6,7 @@ import Dashboard from './Components/Post-Login/Dashboard/Dashboard'
 import Profile from './Components/Post-Login/Profile/Profile'
 import CreateGroup from './Components/Post-Login/CreateGroup/CreateGroup'
 import JoinGroup from './Components/Post-Login/JoinGroup/JoinGroup'
-import Playlist from './Components/Post-Login/Playlist/Playlist/Playlist'
+import Playlist from './Components/Post-Login/Playlist/Playlist'
 
 export default(
   <Switch>

@@ -70,5 +70,16 @@ module.exports = {
     } catch (error) {
       res.status(500).send(`User is not in group`)
     }
+  },
+
+  getGroupById: async (req, res) => {
+    const db = req.app.get('db')
+
+    try {
+      let groupInfo = await db.getGroupById([req.body.group_id])
+      res.status(200).send(groupInfo[0])
+    } catch (error) {
+      res.sendStatus(500)
+    }
   }
 }

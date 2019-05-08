@@ -26,6 +26,7 @@ time, mark, audio, video, button {
 	font: inherit;
 	vertical-align: baseline;
 	font-family: 'Montserrat', sans-serif;
+	
 }
 /* HTML5 display-role reset for older browsers */
 article, aside, details, figcaption, figure, 
@@ -34,6 +35,7 @@ footer, header, hgroup, menu, nav, section {
 }
 body {
 	line-height: 1;
+	overflow-x: hidden;
 }
 ol, ul {
 	list-style: none;
@@ -61,7 +63,6 @@ table {
 @import './Components/Post-Login/Sidebar/Sidebar';
 @import './Components/Post-Login/CreateGroup/CreateGroup';
 @import './Components/Post-Login/JoinGroup/JoinGroup';
-@import './Components/Post-Login/Playlist/Playlist/Playlist';
+@import './Components/Post-Login/Playlist/Playlist';
 @import './Components/Post-Login/Profile/Profile';
-@import './Components//Post-Login/Playlist/HostPlaylist/HostPlaylist';
-@import './Components/Post-Login/Playlist/UserPlaylist/UserPlaylist';
+

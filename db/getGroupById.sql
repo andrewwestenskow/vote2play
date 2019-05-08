@@ -1,0 +1,1 @@
+select * from "group" where group_id = ($1)
