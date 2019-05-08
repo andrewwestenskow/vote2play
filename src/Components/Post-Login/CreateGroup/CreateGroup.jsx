@@ -55,7 +55,7 @@ class CreateGroup extends Component{
 }
 
 const mapStateToProps = (reduxState) => {
-  const {login_id} = reduxState
+  const {login_id} = reduxState.users
   return{
     login_id
   }

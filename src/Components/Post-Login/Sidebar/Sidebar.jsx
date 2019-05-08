@@ -65,7 +65,7 @@ class Sidebar extends Component {
 }
 
 const mapStateToProps = (reduxState) => {
-  const { isAuthenticated, login_id } = reduxState
+  const { isAuthenticated, login_id } = reduxState.users
   return {
     isAuthenticated,
     login_id

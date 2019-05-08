@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
-import {connect} from 'react-redux'
+import { connect } from 'react-redux'
 import axios from 'axios'
-import {Link} from 'react-router-dom'
+import { updateGroupId } from '../../../ducks/groupReducer'
+import { Link } from 'react-router-dom'
 import JoinGroup from '../JoinGroup/JoinGroup'
 
 class Dashboard extends Component {
@@ -10,8 +11,8 @@ class Dashboard extends Component {
     groups: []
   }
 
-  componentDidMount(){
-    axios.post('/api/group/getgroups', {login_id: this.props.login_id}).then(res => {
+  componentDidMount() {
+    axios.post('/api/group/getgroups', { login_id: this.props.login_id }).then(res => {
       this.setState({
         groups: res.data
       })
@@ -19,7 +20,7 @@ class Dashboard extends Component {
   }
 
   updateGroups = () => {
-    axios.post('/api/group/getgroups', {login_id: this.props.login_id}).then(res => {
+    axios.post('/api/group/getgroups', { login_id: this.props.login_id }).then(res => {
       this.setState({
         groups: res.data
       })
@@ -29,13 +30,18 @@ class Dashboard extends Component {
   render() {
 
     let groups = this.state.groups.map(group => {
-      return <Link to={`/group/${group.joincode}`} key={group.joincode}><div className='Group-Card' key={group.group_id}>
-      <p>{group.name}</p>
+      return <Link to={`/group/${group.joincode}`}
+        key={group.joincode}
+        onClick={() => this.props.updateGroupId(group.group_id)}>
 
-      <img className='card-image' src={group.group_image} alt={group.name}/>
+        <div className='Group-Card' key={group.group_id}>
+          <p>{group.name}</p>
 
-      <p>{group.joincode}</p>
-      </div></Link>
+          <img className='card-image' src={group.group_image} alt={group.name} />
+
+          <p>{group.joincode}</p>
+        </div>
+      </Link>
     })
     return (
       <div className='Dashboard'>
@@ -43,7 +49,7 @@ class Dashboard extends Component {
         <div className="cards-hold">
           {groups}
           <div className="Group-Card Join-Card">
-            <JoinGroup login_id={this.props.login_id} updateGroups={this.updateGroups}/>
+            <JoinGroup login_id={this.props.login_id} updateGroups={this.updateGroups} />
           </div>
         </div>
       </div>
@@ -52,10 +58,10 @@ class Dashboard extends Component {
 }
 
 const mapStateToProps = (reduxState) => {
-  const {login_id} = reduxState
+  const { login_id } = reduxState.users
   return {
     login_id
   }
 }
 
-export default connect(mapStateToProps)(Dashboard)
+export default connect(mapStateToProps, { updateGroupId })(Dashboard)

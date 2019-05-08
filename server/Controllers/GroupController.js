@@ -58,5 +58,17 @@ module.exports = {
     const { login_id } = req.body
     let groups = await db.getGroups(login_id)
     res.status(200).send(groups)
+  },
+
+  checkHost: async (req, res) => {
+    const db = req.app.get('db')
+    const {login_id, group_id} = req.body
+
+    try {
+      let isHost = await db.checkHost([login_id, group_id])
+      res.status(200).send(isHost[0].ishost)
+    } catch (error) {
+      res.status(500).send(`User is not in group`)
+    }
   }
 }

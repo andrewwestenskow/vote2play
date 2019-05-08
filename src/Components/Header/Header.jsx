@@ -61,7 +61,7 @@ class Header extends Component {
 }
 
 const mapStateToProps = (reduxState) => {
-  const { isAuthenticated } = reduxState
+  const { isAuthenticated } = reduxState.users
   return {
     isAuthenticated
   }

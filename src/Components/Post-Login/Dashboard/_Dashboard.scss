@@ -2,7 +2,8 @@
 
 .Dashboard{
   // border: 1px solid green;
-  width: 90vw;
+  min-width: 89vw;
+  max-width: 90vw;
   min-height: 92vh;
   background: $neutral
 }
