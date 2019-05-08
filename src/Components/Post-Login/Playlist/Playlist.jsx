@@ -3,6 +3,8 @@ import { connect } from 'react-redux'
 import axios from 'axios'
 import Song from './Song/Song'
 import YouTube from 'react-youtube'
+import {updateGroupId} from '../../../ducks/groupReducer'
+import {updateLoginId} from '../../../ducks/userReducer'
 
 class Playlist extends Component {
 
@@ -10,17 +12,31 @@ class Playlist extends Component {
     playlist: [],
     isHost: false,
     groupInfo: {},
-    newVideoUrl: ''
+    newVideoUrl: '',
+    loading: true
   }
 
   async componentDidMount() {
     const {joincode} = this.props.match.params
-    const { login_id, group_id } = this.props
-    axios.post('/api/group/checkhost', { login_id, group_id }).then(res => {
-      this.setState({
+
+    let groupId = await axios.post('/api/group/getbycode', {joincode})
+
+    const group_id = groupId.data.group_id
+    //MAKES SURE PLAYLIST LOADS PROPERLY
+    this.props.updateGroupId(group_id)
+
+    let userDetails = await axios.get('/auth/getdetails')
+    const { firstname, login_id, isAuthenticated } = userDetails.data
+    this.setState({
+      firstname
+    })
+    this.props.updateLoginId({login_id, isAuthenticated})
+    //MAKES SURE USER IS ADMIN
+    let res = await axios.post('/api/group/checkhost', { login_id, group_id })
+    this.setState({
         isHost: res.data
       })
-    })
+    //GETS THE PLAYLIST AND SORTS IT
     axios.post('/api/playlist', { group_id }).then(res => {
       let sortedArray = res.data.sort((a,b) => {
         const scoreA = a.score
@@ -32,7 +48,8 @@ class Playlist extends Component {
         }
       })
       this.setState({
-        playlist: sortedArray
+        playlist: sortedArray,
+        loading: false
       })
     })
     axios.post('/api/group/getbyid', { group_id }).then(res => {
@@ -55,13 +72,14 @@ class Playlist extends Component {
         }
       })
       this.setState({
-        playlist: sortedArray
+        playlist: sortedArray,
+        loading: false
       })
     })
   }
 
-  fetchVideo = (url) => {
-
+  nextSong = () => {
+    
   }
 
   handleNewVideoFormChange = (e) => {
@@ -90,6 +108,7 @@ class Playlist extends Component {
     let playlist = this.state.playlist.map(song => {
       return <Song key={song.group_playlist_id} 
       playlistId={song.group_playlist_id}
+      id={song.id}
       songId={song.song_id} 
       songUrl={song.url} 
       score={song.score} 
@@ -98,8 +117,14 @@ class Playlist extends Component {
 
     return (
       <div>
-        <YouTube videoId='nvpKJp6C6pM' opts={{playerVars: {autoplay: 1}}}/>
+        {this.state.loading ? <img src="https://upload.wikimedia.org/wikipedia/commons/6/66/Loadingsome.gif" alt="loading"/> :
+
+        <YouTube videoId={this.state.playlist[0].id} 
+        opts={{playerVars: {autoplay: 1}}} 
+        onEnd={this.nextSong}/>}
+
         {playlist}
+
         <form onSubmit={this.handleAddNewVideoFormSubmit}>
           <input type="text" name='newVideoUrl'
             onChange={this.handleNewVideoFormChange} value={this.state.newVideoUrl} />
@@ -117,4 +142,4 @@ const mapStateToProps = (reduxStore) => {
   }
 }
 
-export default connect(mapStateToProps)(Playlist)
+export default connect(mapStateToProps, {updateGroupId, updateLoginId})(Playlist)

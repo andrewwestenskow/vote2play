@@ -31,6 +31,22 @@ module.exports = {
     const { group_id } = req.body
     try {
       let playlist = await db.getPlaylist([group_id])
+      //EXTRACTS YOUTUBE ID FROM URL
+      function YouTubeGetID(url){
+        var ID = '';
+        url = url.replace(/(>|<)/gi,'').split(/(vi\/|v=|\/v\/|youtu\.be\/|\/embed\/)/);
+        if(url[2] !== undefined) {
+          ID = url[2].split(/[^0-9a-z_\-]/i);
+          ID = ID[0];
+        }
+        else {
+          ID = url;
+        }
+          return ID;
+      }
+      playlist.forEach(song => {
+        song.id = YouTubeGetID(song.url)
+      })
       res.status(200).send(playlist)
     } catch (error) {
       res.sendStatus(500)

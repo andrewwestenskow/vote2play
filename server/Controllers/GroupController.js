@@ -81,5 +81,16 @@ module.exports = {
     } catch (error) {
       res.sendStatus(500)
     }
+  },
+
+  getGroupByCode: async (req, res) => {
+    const db = req.app.get('db')
+
+    try {
+      let groupInfo = await db.getGroupByCode([req.body.joincode])
+      res.status(200).send(groupInfo[0])
+    } catch (error) {
+      res.sendStatus(500)
+    }
   }
 }
