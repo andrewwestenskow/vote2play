@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import axios from 'axios'
 import { updateGroupId } from '../../../ducks/groupReducer'
+import {updateLoginId} from '../../../ducks/userReducer'
 import { Link } from 'react-router-dom'
 import JoinGroup from '../JoinGroup/JoinGroup'
 
@@ -11,7 +12,14 @@ class Dashboard extends Component {
     groups: []
   }
 
-  componentDidMount() {
+  async componentDidMount() {
+    let userDetails = await axios.get('/auth/getdetails')
+    const { firstname, login_id, isAuthenticated } = userDetails.data
+    this.setState({
+      firstname
+    })
+    this.props.updateLoginId({login_id, isAuthenticated})
+
     axios.post('/api/group/getgroups', { login_id: this.props.login_id }).then(res => {
       this.setState({
         groups: res.data
@@ -64,4 +72,4 @@ const mapStateToProps = (reduxState) => {
   }
 }
 
-export default connect(mapStateToProps, { updateGroupId })(Dashboard)
+export default connect(mapStateToProps, { updateGroupId, updateLoginId })(Dashboard)

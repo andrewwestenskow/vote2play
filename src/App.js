@@ -9,11 +9,11 @@ import routes from './routes'
 function App() {
   return (
     <Provider store={store}>
-      <Router>
-        <Header />
-        {routes}
-      </Router>
-    </Provider>
+        <Router>
+          <Header />
+          {routes}
+        </Router>
+      </Provider>
   );
 }
 

@@ -4,6 +4,7 @@ import groupReducer from './ducks/groupReducer'
 import playlistReducer from './ducks/playlistReducer'
 import {devToolsEnhancer} from 'redux-devtools-extension'
 
+
 const rootReducer = combineReducers({
   users: userReducer,
   group: groupReducer,

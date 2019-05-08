@@ -13,7 +13,8 @@ class Playlist extends Component {
     newVideoUrl: ''
   }
 
-  componentDidMount() {
+  async componentDidMount() {
+    const {joincode} = this.props.match.params
     const { login_id, group_id } = this.props
     axios.post('/api/group/checkhost', { login_id, group_id }).then(res => {
       this.setState({
