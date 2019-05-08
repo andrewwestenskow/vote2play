@@ -14,7 +14,7 @@ module.exports = {
 
       let result = await db.createGroup([name, joincode, require_admin_join, require_admin_song, group_image])
 
-      await db.joinGroup([result[0].group_id, login_id])
+      await db.joinGroup([result[0].group_id, login_id, true])
       return res.status(200).send(result[0])
 
     } catch (err) {
@@ -44,7 +44,7 @@ module.exports = {
         return res.status(500).send('Incorrect group code')
       }
 
-      let result = await db.joinGroup([group_id[0].group_id, login_id])
+      let result = await db.joinGroup([group_id[0].group_id, login_id, false])
 
       res.status(200).send(result[0])
 

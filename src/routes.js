@@ -6,6 +6,7 @@ import Dashboard from './Components/Post-Login/Dashboard/Dashboard'
 import Profile from './Components/Post-Login/Profile/Profile'
 import CreateGroup from './Components/Post-Login/CreateGroup/CreateGroup'
 import JoinGroup from './Components/Post-Login/JoinGroup/JoinGroup'
+import Playlist from './Components/Post-Login/Playlist/Playlist/Playlist'
 
 export default(
   <Switch>
@@ -17,6 +18,7 @@ export default(
           <Route path='/:login_id/profile' component={Profile}/>
           <Route path='/:login_id/creategroup' component={CreateGroup}/>
           <Route path='/:login_id/joingroup' component={JoinGroup}/>
+          <Route path='/group/:joincode' component={Playlist}/>
         </Switch>
       </Sidebar>
     )}/>

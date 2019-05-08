@@ -5,7 +5,7 @@ import axios from 'axios'
 class JoinGroup extends Component{
 
   state={
-    joincode: null,
+    joincode: '',
     joinError: false
   }
 
