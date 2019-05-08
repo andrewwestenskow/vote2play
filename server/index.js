@@ -31,10 +31,14 @@ app.post('/auth/login', AuthCtrl.logIn)
 app.get('/auth/getdetails', authMiddleware.isAuthenticated,AuthCtrl.getDetails)
 app.get('/auth/logout', AuthCtrl.logout)
 
-//GROUP ENDPOINT
+//GROUP ENDPOINTS
 app.post('/api/group/create', GroupCtrl.createGroup)
 app.post('/api/group/getgroups', GroupCtrl.getGroups)
 app.post('/api/group/join', GroupCtrl.joinGroup)
+
+//PLAYLIST ENDPOINTS
+app.post('/api/playlist/addsong', PlaylistCtrl.addToPlaylist)
+app.post('/api/playlist', PlaylistCtrl.getPlaylist)
 
 
 //MASSIVE CONNECTION
