@@ -1,7 +1,7 @@
-module.exports ={
+module.exports = {
   addToPlaylist: async (req, res) => {
     const db = req.app.get('db')
-    const {group_id, songUrl: url} = req.body
+    const { group_id, songUrl: url } = req.body
 
     let songId
 
@@ -18,7 +18,7 @@ module.exports ={
       let playlist = await db.getPlaylist([group_id])
 
       res.status(200).send(playlist)
-      
+
     } catch (error) {
       res.status(500).send(`Could not add song`)
     }
@@ -28,7 +28,7 @@ module.exports ={
 
   getPlaylist: async (req, res) => {
     const db = req.app.get('db')
-    const {group_id} = req.body
+    const { group_id } = req.body
     try {
       let playlist = await db.getPlaylist([group_id])
       res.status(200).send(playlist)
@@ -36,5 +36,27 @@ module.exports ={
       res.sendStatus(500)
     }
 
+  },
+
+  vote: async (req, res) => {
+    const db = req.app.get('db')
+    const { playlistId, vote } = req.body
+
+    try {
+      let scores = await db.getScore(playlistId)
+      let score = scores[0].score
+
+      if (vote === 1) {
+        score++
+      } else if (vote === 0) {
+        score--
+      }
+
+      let newScore = await db.vote([score, playlistId])
+
+      res.status(200).send(newScore[0])
+    } catch (err) {
+      res.sendStatus(500)
+    }
   }
 }

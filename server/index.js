@@ -41,6 +41,7 @@ app.post('/api/group/getbyid', GroupCtrl.getGroupById)
 //PLAYLIST ENDPOINTS
 app.post('/api/playlist/addsong', PlaylistCtrl.addToPlaylist)
 app.post('/api/playlist', PlaylistCtrl.getPlaylist)
+app.post('/api/playlist/vote', PlaylistCtrl.vote)
 
 
 //MASSIVE CONNECTION

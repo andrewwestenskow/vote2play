@@ -58,9 +58,9 @@ module.exports = {
   getDetails: async (req, res) => {
     const db = req.app.get('db')
     try {
-      const {login_id: id} = req.session.user
+      const {login_id: id, isAuthenticated} = req.session.user
       let details = await db.getUserDetails({id})
-      res.status(200).send(details[0])
+      res.status(200).send({...details[0], login_id: id, isAuthenticated})
     } catch {
       res.sendStatus(500)
     }

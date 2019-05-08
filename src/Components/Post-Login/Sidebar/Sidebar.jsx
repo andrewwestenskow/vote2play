@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { withRouter, Link } from 'react-router-dom'
 import axios from 'axios'
-import { logoutUser } from '../../../ducks/userReducer'
+import { logoutUser, updateLoginId } from '../../../ducks/userReducer'
 
 
 class Sidebar extends Component {
@@ -11,18 +11,16 @@ class Sidebar extends Component {
     firstname: ''
   }
 
-  componentDidMount() {
-    axios.get('/auth/getdetails').then(res => {
-      const { firstname } = res.data
-      this.setState({
-        firstname
-      })
-    }).catch(err => {
-      console.log(err)
-      this.props.history.push('/')
+  async componentDidMount() {
+    let userDetails = await axios.get('/auth/getdetails')
+    const { firstname, login_id, isAuthenticated } = userDetails.data
+    this.setState({
+      firstname
     })
+    this.props.updateLoginId({login_id, isAuthenticated})
 
-    if(this.props.login_id === null){
+
+    if (this.props.login_id === null) {
       this.props.history.push('/')
     }
 
@@ -36,7 +34,7 @@ class Sidebar extends Component {
 
   render() {
 
-    const {login_id: id} = this.props
+    const { login_id: id } = this.props
     return (
       <div className='Sidebar'>
 
@@ -72,4 +70,4 @@ const mapStateToProps = (reduxState) => {
   }
 }
 
-export default connect(mapStateToProps, { logoutUser })(withRouter(Sidebar))
+export default connect(mapStateToProps, { logoutUser, updateLoginId })(withRouter(Sidebar))

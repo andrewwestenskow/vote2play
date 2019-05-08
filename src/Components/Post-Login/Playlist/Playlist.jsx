@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import axios from 'axios'
 import Song from './Song/Song'
-const key = 'AIzaSyBWmS5GzvTWDsFooqmKLC18JQql8533-ME'
+import YouTube from 'react-youtube'
 
 class Playlist extends Component {
 
@@ -21,13 +21,40 @@ class Playlist extends Component {
       })
     })
     axios.post('/api/playlist', { group_id }).then(res => {
+      let sortedArray = res.data.sort((a,b) => {
+        const scoreA = a.score
+        const scoreB = b.score
+        if(scoreA < scoreB){
+          return 1
+        } else {
+          return -1
+        }
+      })
       this.setState({
-        playlist: res.data
+        playlist: sortedArray
       })
     })
     axios.post('/api/group/getbyid', { group_id }).then(res => {
       this.setState({
         groupInfo: res.data
+      })
+    })
+  }
+
+  updatePlaylist = async () => {
+    const {group_id} = this.props
+    await axios.post('/api/playlist', { group_id }).then(res => {
+      let sortedArray = res.data.sort((a,b) => {
+        const scoreA = a.score
+        const scoreB = b.score
+        if(scoreA < scoreB){
+          return 1
+        } else {
+          return -1
+        }
+      })
+      this.setState({
+        playlist: sortedArray
       })
     })
   }
@@ -58,22 +85,19 @@ class Playlist extends Component {
   }
 
   render() {
-    // var player
-    // function onYouTubeIframeAPIReady() {
-    //   player = new YT.Player('player', {
-    //     height: '390',
-    //     width: '640',
-    //     videoId: 'M7lc1UVf-VE'
-    //   })
-    // }
 
     let playlist = this.state.playlist.map(song => {
-      return <Song key={Math.random()} songId={song.song_id} songUrl={song.url} score={song.score} />
+      return <Song key={song.group_playlist_id} 
+      playlistId={song.group_playlist_id}
+      songId={song.song_id} 
+      songUrl={song.url} 
+      score={song.score} 
+      updatePlaylist={this.updatePlaylist}/>
     })
 
     return (
       <div>
-        {/* {onYouTubeIframeAPIReady()} */}
+        <YouTube videoId='nvpKJp6C6pM' opts={{playerVars: {autoplay: 1}}}/>
         {playlist}
         <form onSubmit={this.handleAddNewVideoFormSubmit}>
           <input type="text" name='newVideoUrl'
