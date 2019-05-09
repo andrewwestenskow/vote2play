@@ -5,6 +5,8 @@ import Song from './Song/Song'
 import YouTube from 'react-youtube'
 import { updateGroupId } from '../../../ducks/groupReducer'
 import { updateLoginId } from '../../../ducks/userReducer'
+require('dotenv').config()
+const {REACT_APP_YOUTUBE_API_KEY} = process.env
 
 class Playlist extends Component {
 
