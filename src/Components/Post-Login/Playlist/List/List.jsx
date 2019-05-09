@@ -10,13 +10,17 @@ class List extends Component {
   state = {
     playlist: [],
     newVideoUrl: '',
-    videoData: [],
-    next: null
   }
 
   async componentWillMount() {
     await this.updatePlaylist()
     
+  }
+
+  componentDidUpdate(prevState, prevProps){
+    if(prevProps.next !==this.props.next){
+      this.updatePlaylist()
+    }
   }
 
   
@@ -58,7 +62,8 @@ class List extends Component {
     })
   }
 
-  handleAddNewVideoFormSubmit = async () => {
+  handleAddNewVideoFormSubmit = async (e) => {
+    e.preventDefault()
     const { group_id } = this.props
     await axios.post('/api/playlist/addsong', { group_id: group_id, songUrl: this.state.newVideoUrl })
 

@@ -16,9 +16,8 @@ class Playlist extends Component {
     noVideos: false,
     currentVideo: '',
     currentSongId: null,
-    playlist: [],
-    next: 0,
-    ready: false
+    ready: false,
+    next: 0
   }
 
   async componentDidMount() {
@@ -112,13 +111,15 @@ class Playlist extends Component {
     }
     return (
 
-      {<div>
+      <div>
 
         {content}
 
+        {this.state.ready && 
         <List group_id={this.props.group_id} 
-        next={this.state.next}/>
-      }</div>
+        next={this.state.next}/>}
+
+      </div>
     )
   }
 }
