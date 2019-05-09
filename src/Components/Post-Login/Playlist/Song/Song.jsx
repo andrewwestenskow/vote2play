@@ -17,11 +17,11 @@ class Song extends Component {
   }
 
   render(){
-    const {songUrl, score, id} = this.props   
+    const {score, id, title} = this.props   
 
     return(
       <div>
-        {songUrl}
+        {title}
         {id}
         Score: {score}
         <button onClick={this.handleUpvote}>up</button>
