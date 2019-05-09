@@ -5,7 +5,6 @@ import YouTube from 'react-youtube'
 import List from './List/List'
 import { updateGroupId } from '../../../ducks/groupReducer'
 import { updateLoginId } from '../../../ducks/userReducer'
-import { tsImportEqualsDeclaration } from '@babel/types';
 require('dotenv').config()
 
 class Playlist extends Component {
@@ -17,7 +16,9 @@ class Playlist extends Component {
     noVideos: false,
     currentVideo: '',
     currentSongId: null,
-    playlist: []
+    playlist: [],
+    next: 0,
+    ready: false
   }
 
   async componentDidMount() {
@@ -48,7 +49,11 @@ class Playlist extends Component {
       })
     })
 
-    this.getPlaylist()
+    await this.getPlaylist()
+
+    this.setState({
+      ready: true
+    })
   }
 
   getPlaylist = async () => {
@@ -63,13 +68,19 @@ class Playlist extends Component {
         return -1
       }
     })
-    let currentSong = sortedArray[0]
-    console.log(sortedArray)
-    this.setState({
-      currentVideo: currentSong.id,
-      currentSongId: currentSong.group_playlist_id,
-      loading: false
-    })
+
+    if(sortedArray.length===0){
+      this.setState({
+        noVideos: true
+      })
+    } else {
+      let currentSong = sortedArray[0]
+      this.setState({
+        currentVideo: currentSong.id,
+        currentSongId: currentSong.group_playlist_id,
+        loading: false
+      })
+    }
 
   }
 
@@ -80,7 +91,8 @@ class Playlist extends Component {
 
   nextSong = async () => {
     this.setState({
-      loading: true
+      loading: true,
+      next: this.state.next += 1
     })
     await this.resetVote()
     await this.getPlaylist()
@@ -100,12 +112,13 @@ class Playlist extends Component {
     }
     return (
 
-      <div>
+      {<div>
 
         {content}
 
-        <List group_id={this.props.group_id} playlist={this.state.playlist} />
-      </div>
+        <List group_id={this.props.group_id} 
+        next={this.state.next}/>
+      }</div>
     )
   }
 }

@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import axios from 'axios'
 import Song from '../Song/Song'
+import {connect} from 'react-redux'
 require('dotenv').config()
 const { REACT_APP_YOUTUBE_API_KEY } = process.env
 
@@ -9,17 +10,17 @@ class List extends Component {
   state = {
     playlist: [],
     newVideoUrl: '',
-    videoData: []
+    videoData: [],
+    next: null
   }
 
   async componentWillMount() {
     await this.updatePlaylist()
-
+    
   }
 
-  componentDidMount() {
-
-  }
+  
+  
 
   updatePlaylist = async () => {
     const { group_id } = this.props
@@ -96,4 +97,10 @@ class List extends Component {
   }
 }
 
-export default List
+const mapStateToProps = (reduxStore) => {
+  return{
+    group_id: reduxStore.group.group_id
+  }
+}
+
+export default connect(mapStateToProps)(List)
