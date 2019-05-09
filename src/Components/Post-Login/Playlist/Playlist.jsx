@@ -5,6 +5,7 @@ import YouTube from 'react-youtube'
 import List from './List/List'
 import { updateGroupId } from '../../../ducks/groupReducer'
 import { updateLoginId } from '../../../ducks/userReducer'
+import { tsImportEqualsDeclaration } from '@babel/types';
 require('dotenv').config()
 
 class Playlist extends Component {
@@ -47,12 +48,11 @@ class Playlist extends Component {
       })
     })
 
-    this.nextSong()
+    this.getPlaylist()
   }
 
-  nextSong = async () => {
+  getPlaylist = async () => {
     const { group_id } = this.props
-    console.log(group_id)
     let res = await axios.post('/api/playlist', { group_id })
     let sortedArray = res.data.sort((a, b) => {
       const scoreA = a.score
@@ -63,12 +63,27 @@ class Playlist extends Component {
         return -1
       }
     })
+    let currentSong = sortedArray[0]
     console.log(sortedArray)
-        this.setState({
-          playlist: sortedArray,
-          loading: false
-        })
+    this.setState({
+      currentVideo: currentSong.id,
+      currentSongId: currentSong.group_playlist_id,
+      loading: false
+    })
 
+  }
+
+  resetVote = async () => {
+    const playlistId = this.state.currentSongId
+    await axios.post('/api/playlist/reset', {playlistId})
+  }
+
+  nextSong = async () => {
+    this.setState({
+      loading: true
+    })
+    await this.resetVote()
+    await this.getPlaylist()
   }
 
   render() {
@@ -79,7 +94,7 @@ class Playlist extends Component {
     } else if (this.state.loading === true) {
       content = <img className='loading' src="https://upload.wikimedia.org/wikipedia/commons/6/66/Loadingsome.gif" alt="loading" />
     } else {
-      content = <YouTube videoId={this.state.playlist[0].id}
+      content = <YouTube videoId={this.state.currentVideo}
         opts={{ playerVars: { autoplay: 1 } }}
         onEnd={this.nextSong} />
     }
