@@ -21,9 +21,9 @@ class Song extends Component {
 
     return(
       <div>
-        {songUrl}|||||||
+        {songUrl}
         {id}
-        {score}
+        Score: {score}
         <button onClick={this.handleUpvote}>up</button>
         <button onClick={this.handleDownvote}>down</button>
       </div>

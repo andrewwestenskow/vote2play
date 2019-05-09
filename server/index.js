@@ -43,6 +43,7 @@ app.post('/api/group/getbycode', GroupCtrl.getGroupByCode)
 app.post('/api/playlist/addsong', PlaylistCtrl.addToPlaylist)
 app.post('/api/playlist', PlaylistCtrl.getPlaylist)
 app.post('/api/playlist/vote', PlaylistCtrl.vote)
+app.post('/api/playlist/reset', PlaylistCtrl.resetVote)
 
 
 //MASSIVE CONNECTION

@@ -3,8 +3,8 @@ import { connect } from 'react-redux'
 import axios from 'axios'
 import Song from './Song/Song'
 import YouTube from 'react-youtube'
-import {updateGroupId} from '../../../ducks/groupReducer'
-import {updateLoginId} from '../../../ducks/userReducer'
+import { updateGroupId } from '../../../ducks/groupReducer'
+import { updateLoginId } from '../../../ducks/userReducer'
 
 class Playlist extends Component {
 
@@ -13,13 +13,14 @@ class Playlist extends Component {
     isHost: false,
     groupInfo: {},
     newVideoUrl: '',
-    loading: true
+    loading: true,
+    noVideos: false
   }
 
   async componentDidMount() {
-    const {joincode} = this.props.match.params
+    const { joincode } = this.props.match.params
 
-    let groupId = await axios.post('/api/group/getbycode', {joincode})
+    let groupId = await axios.post('/api/group/getbycode', { joincode })
 
     const group_id = groupId.data.group_id
     //MAKES SURE PLAYLIST LOADS PROPERLY
@@ -30,28 +31,17 @@ class Playlist extends Component {
     this.setState({
       firstname
     })
-    this.props.updateLoginId({login_id, isAuthenticated})
+    this.props.updateLoginId({ login_id, isAuthenticated })
     //MAKES SURE USER IS ADMIN
     let res = await axios.post('/api/group/checkhost', { login_id, group_id })
     this.setState({
-        isHost: res.data
-      })
-    //GETS THE PLAYLIST AND SORTS IT
-    axios.post('/api/playlist', { group_id }).then(res => {
-      let sortedArray = res.data.sort((a,b) => {
-        const scoreA = a.score
-        const scoreB = b.score
-        if(scoreA < scoreB){
-          return 1
-        } else {
-          return -1
-        }
-      })
-      this.setState({
-        playlist: sortedArray,
-        loading: false
-      })
+      isHost: res.data
     })
+
+
+    this.updatePlaylist()
+
+    //FETCHES GROUP INFO TO DISPLAY
     axios.post('/api/group/getbyid', { group_id }).then(res => {
       this.setState({
         groupInfo: res.data
@@ -60,26 +50,39 @@ class Playlist extends Component {
   }
 
   updatePlaylist = async () => {
-    const {group_id} = this.props
+    const { group_id } = this.props
     await axios.post('/api/playlist', { group_id }).then(res => {
-      let sortedArray = res.data.sort((a,b) => {
+      let sortedArray = res.data.sort((a, b) => {
         const scoreA = a.score
         const scoreB = b.score
-        if(scoreA < scoreB){
+        if (scoreA < scoreB) {
           return 1
         } else {
           return -1
         }
       })
-      this.setState({
-        playlist: sortedArray,
-        loading: false
-      })
+      if (sortedArray.length === 0) {
+        this.setState({
+          noVideos: true,
+          loading: false
+        })
+      } else {
+        this.setState({
+          playlist: sortedArray,
+          loading: false
+        })
+      }
     })
   }
 
-  nextSong = () => {
+  nextSong = async () => {
+    const oldSong = this.state.playlist[0].group_playlist_id
+
     
+    await axios.post('/api/playlist/reset', { playlistId: oldSong })
+
+    this.updatePlaylist()
+
   }
 
   handleNewVideoFormChange = (e) => {
@@ -89,8 +92,8 @@ class Playlist extends Component {
   }
 
   handleAddNewVideoFormSubmit = async () => {
-    const {group_id} = this.props
-    await axios.post('/api/playlist/addsong', {group_id: group_id, songUrl: this.state.newVideoUrl})
+    const { group_id } = this.props
+    await axios.post('/api/playlist/addsong', { group_id: group_id, songUrl: this.state.newVideoUrl })
 
     this.setState({
       newVideoUrl: ''
@@ -106,22 +109,30 @@ class Playlist extends Component {
   render() {
 
     let playlist = this.state.playlist.map(song => {
-      return <Song key={song.group_playlist_id} 
-      playlistId={song.group_playlist_id}
-      id={song.id}
-      songId={song.song_id} 
-      songUrl={song.url} 
-      score={song.score} 
-      updatePlaylist={this.updatePlaylist}/>
+      return <Song key={song.group_playlist_id}
+        playlistId={song.group_playlist_id}
+        id={song.id}
+        songId={song.song_id}
+        songUrl={song.url}
+        score={song.score}
+        updatePlaylist={this.updatePlaylist} />
     })
 
+    let content
+      if(this.state.noVideos === true){
+        content = <div>ADD SOME VIDEOS</div>
+      } else if (this.state.loading === true){
+        content = <img src="https://upload.wikimedia.org/wikipedia/commons/6/66/Loadingsome.gif" alt="loading" /> 
+      } else {
+        content = <YouTube videoId={this.state.playlist[0].id}
+          opts={{ playerVars: { autoplay: 1 } }}
+          onEnd={this.nextSong} />
+      }
     return (
-      <div>
-        {this.state.loading ? <img src="https://upload.wikimedia.org/wikipedia/commons/6/66/Loadingsome.gif" alt="loading"/> :
 
-        <YouTube videoId={this.state.playlist[0].id} 
-        opts={{playerVars: {autoplay: 1}}} 
-        onEnd={this.nextSong}/>}
+      <div>
+        
+        {content}
 
         {playlist}
 
@@ -142,4 +153,4 @@ const mapStateToProps = (reduxStore) => {
   }
 }
 
-export default connect(mapStateToProps, {updateGroupId, updateLoginId})(Playlist)
+export default connect(mapStateToProps, { updateGroupId, updateLoginId })(Playlist)

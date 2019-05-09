@@ -74,5 +74,20 @@ module.exports = {
     } catch (err) {
       res.sendStatus(500)
     }
+  },
+
+  resetVote: async (req, res) => {
+    const db = req.app.get('db')
+    const { playlistId } = req.body
+
+    try {
+      let score = 0
+
+      let newScore = await db.vote([score, playlistId])
+
+      res.status(200).send(newScore[0])
+    } catch (err) {
+      res.sendStatus(500)
+    }
   }
 }
