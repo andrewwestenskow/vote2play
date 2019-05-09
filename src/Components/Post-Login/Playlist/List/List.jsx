@@ -10,6 +10,7 @@ class List extends Component {
   state = {
     playlist: [],
     newVideoUrl: '',
+    prevPlayed: []
   }
 
   async componentWillMount() {
@@ -17,7 +18,7 @@ class List extends Component {
     
   }
 
-  componentDidUpdate(prevState, prevProps){
+  componentDidUpdate(prevProps, prevState){
     if(prevProps.next !==this.props.next){
       this.updatePlaylist()
     }
@@ -39,9 +40,21 @@ class List extends Component {
       }
     })
 
-    let videoIds = sortedArray.map(video => {
+    let findPrev = await axios.post('/api/playlist/prev', {group_id})
+
+    let prevPlayed = findPrev.data
+
+    let videoIds1 = sortedArray.map(video => {
       return video.id
     })
+
+    let videoIds2 = prevPlayed.map(video => {
+      return video.id
+    })
+
+    let videoIds = [...videoIds1, ...videoIds2]
+
+
     let searchString = videoIds.join('%2C')
 
     let videoData = await axios.get(`https://www.googleapis.com/youtube/v3/videos?part=snippet&id=${searchString}&key=${REACT_APP_YOUTUBE_API_KEY}`)
@@ -51,9 +64,16 @@ class List extends Component {
       video.details = details
     })
 
-    this.setState({
-      playlist: sortedArray
+    prevPlayed.forEach(video => {
+      let details = videoData.data.items.find(element => element.id === video.id)
+      video.details = details
     })
+
+    this.setState({
+      playlist: sortedArray,
+      prevPlayed: prevPlayed
+    })
+    
   }
 
   handleNewVideoFormChange = (e) => {
@@ -72,6 +92,10 @@ class List extends Component {
     })
 
     this.updatePlaylist()
+
+    if(this.state.playlist.length === 0){
+      this.props.getPlaylist()
+    }
   }
 
 
@@ -87,6 +111,11 @@ class List extends Component {
       />
     })
 
+    let previouslyPlayed = this.state.prevPlayed.map(song => {
+      let {snippet} = song.details
+      return <div key={song.id}>{snippet.title}</div>
+    })
+
     return (
       <div>
 
@@ -97,6 +126,11 @@ class List extends Component {
             onChange={this.handleNewVideoFormChange} value={this.state.newVideoUrl} />
           <button>Add</button>
         </form>
+      <h1>Previously Played</h1>
+        <div>
+          {previouslyPlayed}
+        </div>
+        
       </div>
     )
   }

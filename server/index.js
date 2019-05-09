@@ -44,6 +44,8 @@ app.post('/api/playlist/addsong', PlaylistCtrl.addToPlaylist)
 app.post('/api/playlist', PlaylistCtrl.getPlaylist)
 app.post('/api/playlist/vote', PlaylistCtrl.vote)
 app.post('/api/playlist/reset', PlaylistCtrl.resetVote)
+app.delete('/api/playlist/:playlistId', PlaylistCtrl.delete)
+app.post('/api/playlist/prev', PlaylistCtrl.getPreviouslyPlayed)
 
 
 //MASSIVE CONNECTION

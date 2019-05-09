@@ -15,9 +15,11 @@ class Playlist extends Component {
     loading: true,
     noVideos: false,
     currentVideo: '',
+    currentGroupPlaylistId: null,
     currentSongId: null,
     ready: false,
-    next: 0
+    next: 0,
+    prevPlayed: []
   }
 
   async componentDidMount() {
@@ -76,16 +78,23 @@ class Playlist extends Component {
       let currentSong = sortedArray[0]
       this.setState({
         currentVideo: currentSong.id,
-        currentSongId: currentSong.group_playlist_id,
-        loading: false
+        currentGroupPlaylistId: currentSong.group_playlist_id,
+        currentSongId: currentSong.song_id,
+        loading: false,
+        noVideos: false
       })
     }
 
   }
 
   resetVote = async () => {
-    const playlistId = this.state.currentSongId
-    await axios.post('/api/playlist/reset', {playlistId})
+    const playlistId = this.state.currentGroupPlaylistId
+    const group_id = this.props.group_id
+    const song_id = this.state.currentSongId
+    await axios.post('/api/playlist/reset', {playlistId, group_id, song_id})
+    this.setState({
+      next: this.state.next += 1
+    })
   }
 
   nextSong = async () => {
@@ -109,6 +118,7 @@ class Playlist extends Component {
         opts={{ playerVars: { autoplay: 1 } }}
         onEnd={this.nextSong} />
     }
+
     return (
 
       <div>
@@ -117,7 +127,9 @@ class Playlist extends Component {
 
         {this.state.ready && 
         <List group_id={this.props.group_id} 
-        next={this.state.next}/>}
+        next={this.state.next}
+        getPlaylist={this.getPlaylist}/>
+        }
 
       </div>
     )

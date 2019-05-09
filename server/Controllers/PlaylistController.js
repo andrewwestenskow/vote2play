@@ -78,15 +78,65 @@ module.exports = {
 
   resetVote: async (req, res) => {
     const db = req.app.get('db')
-    const { playlistId } = req.body
+    const { playlistId, group_id, song_id } = req.body
 
     try {
-      let score = 0
+      let previouslyPlayed = await db.getPreviouslyPlayed([group_id])
 
-      let newScore = await db.vote([score, playlistId])
+      let alreadyExists = previouslyPlayed.some(element => element.song_id === song_id)
 
-      res.status(200).send(newScore[0])
+      if(alreadyExists){
+        await db.deleteSong([playlistId])
+        res.status(200).send(previouslyPlayed)
+      } else {
+
+        let newPrev = await db.nextSong([playlistId, group_id, song_id])
+  
+        res.status(200).send(newPrev)
+      }
+      
     } catch (err) {
+      res.sendStatus(500)
+    }
+  },
+
+  delete: async (req, res) => {
+    const db = req.app.get('db')
+    const {playlistId: id} = req.params
+
+    try {
+      await db.deleteSong([id])
+      res.sendStatus(200)
+    } catch (error) {
+      res.sendStatus(500)
+    }
+  },
+
+  getPreviouslyPlayed: async (req,res) => {
+    const db = req.app.get('db')
+    const {group_id} = req.body
+
+    try {
+      let list = await db.getPreviouslyPlayed([group_id])
+      let playlist = await db.getPlaylist([group_id])
+      //EXTRACTS YOUTUBE ID FROM URL
+      function YouTubeGetID(url){
+        var ID = '';
+        url = url.replace(/(>|<)/gi,'').split(/(vi\/|v=|\/v\/|youtu\.be\/|\/embed\/)/);
+        if(url[2] !== undefined) {
+          ID = url[2].split(/[^0-9a-z_\-]/i);
+          ID = ID[0];
+        }
+        else {
+          ID = url;
+        }
+          return ID;
+      }
+      list.forEach(song => {
+        song.id = YouTubeGetID(song.url)
+      })
+      res.status(200).send(list)
+    } catch (error) {
       res.sendStatus(500)
     }
   }

@@ -16,6 +16,12 @@ class Song extends Component {
     this.props.updatePlaylist()
   }
 
+  handleDelete = async ()=> {
+    const {playlistId} = this.props
+    await (axios.delete(`/api/playlist/${playlistId}`))
+    this.props.updatePlaylist()
+  }
+
   render(){
     const {score, id, title} = this.props   
 
@@ -26,6 +32,7 @@ class Song extends Component {
         Score: {score}
         <button onClick={this.handleUpvote}>up</button>
         <button onClick={this.handleDownvote}>down</button>
+        <button onClick={this.handleDelete}>Delete</button>
       </div>
     )
   }
