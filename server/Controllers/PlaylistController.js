@@ -139,5 +139,25 @@ module.exports = {
     } catch (error) {
       res.sendStatus(500)
     }
+  },
+
+  deletePrev: async (req, res) => {
+    const db = req.app.get('db')
+
+    try {
+      const {previouslyPlayedId: id} = req.params
+      await db.deleteOldSong([id])
+      res.sendStatus(200)
+      
+    } catch (error) {
+      res.sendStatus(500)
+    }
+  },
+
+  addBack: async (req, res) => {
+    const db = req.app.get('db')
+    const {previously_played_id, group_id, song_id} = req.body
+    await db.addSongBack([previously_played_id, group_id, song_id])
+    res.sendStatus(200)
   }
 }

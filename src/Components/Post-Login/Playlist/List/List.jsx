@@ -114,7 +114,7 @@ class List extends Component {
 
     let previouslyPlayed = this.state.prevPlayed.map(song => {
       let {snippet} = song.details
-      return <OldSong key={song.id} title={snippet.title}/>
+      return <OldSong updatePlaylist={this.updatePlaylist} data={song} key={song.id} title={snippet.title}/>
     })
 
     return (
