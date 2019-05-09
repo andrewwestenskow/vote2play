@@ -73,6 +73,10 @@ class List extends Component {
     })
 
     let nowPlaying = sortedArray.splice(0,1)
+    let nowPlayingVote = nowPlaying[0]
+    
+
+    await (axios.post('/api/playlist/vote', {playlistId: nowPlayingVote.group_playlist_id, vote: 99}))
 
     this.setState({
       nowPlaying: nowPlaying,
