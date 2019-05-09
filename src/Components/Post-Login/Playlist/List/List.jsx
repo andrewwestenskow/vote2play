@@ -11,7 +11,9 @@ class List extends Component {
   state = {
     playlist: [],
     newVideoUrl: '',
-    prevPlayed: []
+    prevPlayed: [],
+    nowPlaying: [],
+    ready: false
   }
 
   async componentWillMount() {
@@ -70,9 +72,13 @@ class List extends Component {
       video.details = details
     })
 
+    let nowPlaying = sortedArray.splice(0,1)
+
     this.setState({
+      nowPlaying: nowPlaying,
       playlist: sortedArray,
-      prevPlayed: prevPlayed
+      prevPlayed: prevPlayed,
+      ready: true
     })
     
   }
@@ -99,6 +105,12 @@ class List extends Component {
     }
   }
 
+  getPlaylistConditional = () => {
+    if(this.state.nowPlaying.length === 0) {
+      this.props.getPlaylist()
+    }
+  }
+
 
   render() {
 
@@ -114,12 +126,14 @@ class List extends Component {
 
     let previouslyPlayed = this.state.prevPlayed.map(song => {
       let {snippet} = song.details
-      return <OldSong updatePlaylist={this.updatePlaylist} data={song} key={song.id} title={snippet.title}/>
+      return <OldSong updatePlaylist={this.updatePlaylist} data={song} key={song.id} title={snippet.title} getPlaylistConditional={this.getPlaylistConditional}/>
     })
+
+    let nowPlaying = this.state.nowPlaying[0]
 
     return (
       <div>
-
+        {this.state.ready && <div>NOW PLAYING: {nowPlaying.details.snippet.title}</div>}
         {playlist}
 
         <form onSubmit={this.handleAddNewVideoFormSubmit}>

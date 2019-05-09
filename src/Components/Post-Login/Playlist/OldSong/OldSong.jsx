@@ -20,6 +20,7 @@ class OldSong extends Component {
       await axios.post('/api/playlist/addback', {previously_played_id, group_id, song_id})
 
       this.props.updatePlaylist()
+      this.props.getPlaylistConditional()
     } catch (error) {
       console.log(error)
     }
