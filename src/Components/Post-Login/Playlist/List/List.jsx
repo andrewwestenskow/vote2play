@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import axios from 'axios'
 import Song from '../Song/Song'
+import OldSong from '../OldSong/OldSong'
 import {connect} from 'react-redux'
 require('dotenv').config()
 const { REACT_APP_YOUTUBE_API_KEY } = process.env
@@ -113,7 +114,7 @@ class List extends Component {
 
     let previouslyPlayed = this.state.prevPlayed.map(song => {
       let {snippet} = song.details
-      return <div key={song.id}>{snippet.title}</div>
+      return <OldSong key={song.id} title={snippet.title}/>
     })
 
     return (
