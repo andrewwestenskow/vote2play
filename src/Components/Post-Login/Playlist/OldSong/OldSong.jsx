@@ -8,6 +8,7 @@ class OldSong extends Component {
     try {
       await axios.delete(`/api/playlist/prev/${previously_played_id}`)
       this.props.updatePlaylist()
+      this.props.broadcast()
     } catch (error) {
       console.log(error)
     }
@@ -21,6 +22,7 @@ class OldSong extends Component {
 
       this.props.updatePlaylist()
       this.props.getPlaylistConditional()
+      this.props.broadcast()
     } catch (error) {
       console.log(error)
     }

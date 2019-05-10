@@ -8,18 +8,21 @@ class Song extends Component {
     const {playlistId } = this.props
     await (axios.post('/api/playlist/vote', {playlistId, vote: 1}))
     this.props.updatePlaylist()
+    this.props.broadcast()
   }
 
   handleDownvote = async () => {
     const {playlistId} = this.props
     await (axios.post('/api/playlist/vote', {playlistId, vote: 0}))
     this.props.updatePlaylist()
+    this.props.broadcast()
   }
 
   handleDelete = async ()=> {
     const {playlistId} = this.props
     await (axios.delete(`/api/playlist/${playlistId}`))
     this.props.updatePlaylist()
+    this.props.broadcast()
   }
 
   render(){

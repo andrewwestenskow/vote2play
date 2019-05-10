@@ -3,6 +3,7 @@ require('dotenv').config()
 const app = express()
 const massive = require('massive')
 const session = require('express-session')
+const socket = require('socket.io')
 const UsersCtrl = require('./Controllers/UsersController')
 const GroupCtrl = require('./Controllers/GroupController')
 const AuthCtrl = require('./Controllers/AuthController')
@@ -22,6 +23,29 @@ app.use(session({
     maxAge: 1000 * 60 * 60 * 24
   }
 }))
+const server = app.listen(SERVER_PORT, () => console.log(`Listening on port ${SERVER_PORT}`))
+const io = socket(server)
+
+io.on('connection', socket => {
+  console.log(`Socket connected`)
+
+  socket.on('disconnect', () => {
+    console.log(`Socket disconnected`)
+  })
+
+  socket.on('broadcast to group socket', data => {
+    console.log(`broadcast to room ${data.group_id}`)
+    socket.to(data.group_id).broadcast.emit('room response', data)
+  })
+
+
+  //ROOM SOCKETS
+
+  socket.on('join group', data => {
+    console.log(`Join group ${data.group_id}`)
+    socket.join(data.group_id)
+  })
+})
 
 
 
@@ -55,5 +79,4 @@ massive(CONNECTION_STRING).then(db => {
   app.set('db', db)
   console.log(`DB Set`)
   // console.log(`TABLES: ${db.listTables()}`)
-  app.listen(SERVER_PORT, () => console.log(`Listening on port ${SERVER_PORT}`))
 })

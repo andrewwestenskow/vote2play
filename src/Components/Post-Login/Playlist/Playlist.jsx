@@ -5,22 +5,30 @@ import YouTube from 'react-youtube'
 import List from './List/List'
 import { updateGroupId } from '../../../ducks/groupReducer'
 import { updateLoginId } from '../../../ducks/userReducer'
-require('dotenv').config()
 
 class Playlist extends Component {
 
-  state = {
-    isHost: false,
-    groupInfo: {},
-    loading: true,
-    noVideos: false,
-    currentVideo: '',
-    currentGroupPlaylistId: null,
-    currentSongId: null,
-    ready: false,
-    next: 0,
-    prevPlayed: []
+  constructor(props) {
+    super(props)
+    this.state = {
+      isHost: false,
+      groupInfo: {},
+      loading: true,
+      noVideos: false,
+      currentVideo: '',
+      currentGroupPlaylistId: null,
+      currentSongId: null,
+      ready: false,
+      next: 0,
+      prevPlayed: []
+    }
+
+    
   }
+
+  
+
+  //LOCAL FUNCTIONS
 
   async componentDidMount() {
     const { joincode } = this.props.match.params

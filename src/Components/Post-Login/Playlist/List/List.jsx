@@ -3,18 +3,41 @@ import axios from 'axios'
 import Song from '../Song/Song'
 import OldSong from '../OldSong/OldSong'
 import {connect} from 'react-redux'
+import io from 'socket.io-client'
 require('dotenv').config()
 const { REACT_APP_YOUTUBE_API_KEY } = process.env
 
 class List extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      playlist: [],
+      newVideoUrl: '',
+      prevPlayed: [],
+      nowPlaying: [],
+      ready: false
+    }
+    this.socket = io.connect(':7777')
+    this.socket.on('room response', data => {
+      console.log('room response')
+      this.updatePlaylist()
+    })
 
-  state = {
-    playlist: [],
-    newVideoUrl: '',
-    prevPlayed: [],
-    nowPlaying: [],
-    ready: false
   }
+
+  //SOCKETS
+
+  broadcast = () => {
+    this.socket.emit('broadcast to group socket', {
+      group_id: this.props.group_id
+    })
+  }
+
+  componentWillUnmount(){
+    this.socket.disconnect()
+  }
+
+  //LOCAL METHODS
 
   async componentWillMount() {
     await this.updatePlaylist()
@@ -96,6 +119,10 @@ class List extends Component {
         })
       }
     }
+
+    this.socket.emit('join group', {
+      group_id
+    })
     
 
     
@@ -139,12 +166,18 @@ class List extends Component {
         score={song.score}
         updatePlaylist={this.updatePlaylist}
         title={song.details.snippet.localized.title}
+        broadcast={this.broadcast}
       />
     })
 
     let previouslyPlayed = this.state.prevPlayed.map(song => {
       let {snippet} = song.details
-      return <OldSong updatePlaylist={this.updatePlaylist} data={song} key={song.id} title={snippet.title} getPlaylistConditional={this.getPlaylistConditional}/>
+      return <OldSong updatePlaylist={this.updatePlaylist} 
+      data={song} 
+      key={song.id} 
+      title={snippet.title} 
+      getPlaylistConditional={this.getPlaylistConditional}
+      broadcast={this.broadcast}/>
     })
 
     let nowPlaying = this.state.nowPlaying[0]
