@@ -4,7 +4,7 @@ import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import Dropzone from 'react-dropzone'
 import { GridLoader } from 'react-spinners'
-import randomString from 'random-string'
+import {v4 as randomString} from 'uuid'
 
 class CreateGroup extends Component {
 
@@ -100,7 +100,7 @@ class CreateGroup extends Component {
           <p>Group Name</p>
           <input type="text" name='groupName' onChange={this.handleCreateGroupFormUpdate} />
           <p>Group Image</p>
-          <input type="text" name='groupImage' onChange={this.handleCreateGroupFormUpdate} />
+          <input type="text" name='groupImage' onChange={this.handleCreateGroupFormUpdate} value={this.state.groupImage} />
 
           <Dropzone
             onDropAccepted={this.getSignedRequest}
