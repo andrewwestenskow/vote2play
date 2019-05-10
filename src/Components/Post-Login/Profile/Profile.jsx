@@ -68,12 +68,24 @@ class Profile extends Component {
         image: newInfo.image
       })
     })
+    window.location.reload()
+  }
+
+  leaveGroup = async (group_id) => {
+
+    console.log(group_id)
+    await axios.delete(`/api/group/leave/${group_id}`)
+    window.location.reload()
   }
 
   render() {
 
     let groups = this.state.userGroups.map(group => {
-      return <div key={group.group_id}>{group.name}</div>
+      return <div key={group.group_id}>
+      <img className='Group-Image' src={group.group_image} alt={group.name}/>
+      {group.name}
+      <button onClick={() => this.leaveGroup(group.group_id)}>Leave Group</button>
+      </div>
     })
 
     let { firstname, lastname, image } = this.state
@@ -83,11 +95,12 @@ class Profile extends Component {
         {!this.state.loading &&
           <div>
             <button onClick={this.toggleEdit}>Edit info</button>
-            {this.state.edit && <EditForm editToggle={this.editToggle} sendForm={this.sendForm}
+            {this.state.edit && 
+            <EditForm editToggle={this.editToggle} sendForm={this.sendForm}
             userInfo={this.state}/>}
             <div>
               {firstname}{lastname}
-              <img src={image} alt={firstname} />
+              <img className='Profile-Image' src={image} alt={firstname} />
               <h1>Favorite Song: </h1>
               <YouTube videoId={this.state.favoritesongid}/>
             </div>

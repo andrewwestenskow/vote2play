@@ -62,6 +62,7 @@ app.post('/api/group/join', GroupCtrl.joinGroup)
 app.post('/api/group/checkhost', GroupCtrl.checkHost)
 app.post('/api/group/getbyid', GroupCtrl.getGroupById)
 app.post('/api/group/getbycode', GroupCtrl.getGroupByCode)
+app.delete('/api/group/leave/:group_id', GroupCtrl.leaveGroup)
 
 //PLAYLIST ENDPOINTS
 app.post('/api/playlist/addsong', PlaylistCtrl.addToPlaylist)

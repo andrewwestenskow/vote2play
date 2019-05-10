@@ -96,5 +96,15 @@ module.exports = {
     } catch (error) {
       res.sendStatus(500)
     }
+  },
+
+  leaveGroup: async (req, res) => {
+    const db = req.app.get('db')
+    const{group_id} = req.params
+    const{login_id} = req.session.user
+
+    await db.leaveGroup([login_id, +group_id])
+
+    res.sendStatus(200)
   }
 }
