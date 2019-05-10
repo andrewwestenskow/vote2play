@@ -117,7 +117,7 @@ class CreateGroup extends Component {
                     width: 200,
                     height: 200,
                     borderWidth: 7,
-                    marginTop: 100,
+                    // marginTop: 100,
                     borderColor: 'rgb(102, 102, 102)',
                     borderStyle: 'dashed',
                     borderRadius: 5,
