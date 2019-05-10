@@ -57,7 +57,7 @@ app.get('/auth/logout', AuthCtrl.logout)
 
 //GROUP ENDPOINTS
 app.post('/api/group/create', GroupCtrl.createGroup)
-app.post('/api/group/getgroups', GroupCtrl.getGroups)
+app.get('/api/group/getgroups', GroupCtrl.getGroups)
 app.post('/api/group/join', GroupCtrl.joinGroup)
 app.post('/api/group/checkhost', GroupCtrl.checkHost)
 app.post('/api/group/getbyid', GroupCtrl.getGroupById)
@@ -72,6 +72,9 @@ app.delete('/api/playlist/:playlistId', PlaylistCtrl.delete)
 app.post('/api/playlist/prev', PlaylistCtrl.getPreviouslyPlayed)
 app.delete('/api/playlist/prev/:previouslyPlayedId', PlaylistCtrl.deletePrev)
 app.post('/api/playlist/addback', PlaylistCtrl.addBack)
+
+//USERS ENDPOINTS
+app.get('/api/users/info', UsersCtrl.getUserInfo)
 
 
 //MASSIVE CONNECTION

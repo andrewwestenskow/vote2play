@@ -12,15 +12,15 @@ class Sidebar extends Component {
   }
 
   async componentDidMount() {
-    let userDetails = await axios.get('/auth/getdetails')
+    try {
+      let userDetails = await axios.get('/auth/getdetails')
     const { firstname, login_id, isAuthenticated } = userDetails.data
     this.setState({
       firstname
     })
     this.props.updateLoginId({login_id, isAuthenticated})
-
-
-    if (this.props.login_id === null) {
+    } catch (error) {
+      // console.log(error)
       this.props.history.push('/')
     }
 

@@ -55,9 +55,13 @@ module.exports = {
 
   getGroups: async (req, res) => {
     const db = req.app.get('db')
-    const { login_id } = req.body
-    let groups = await db.getGroups(login_id)
-    res.status(200).send(groups)
+    try {
+      const { login_id } = req.session.user
+      let groups = await db.getGroups(login_id)
+      res.status(200).send(groups)
+    } catch (error) {
+      res.redirect('/')
+    }
   },
 
   checkHost: async (req, res) => {

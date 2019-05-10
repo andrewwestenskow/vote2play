@@ -113,6 +113,7 @@ class Playlist extends Component {
     await this.getPlaylist()
   }
 
+
   render() {
 
     let content
@@ -133,9 +134,14 @@ class Playlist extends Component {
       toShow = <div>Host has player</div>
     }
 
+    const {groupInfo} = this.state
+
     return (
 
       <div>
+        <img src={groupInfo.group_image} alt=""/>
+        <h1>{groupInfo.name}</h1>
+        <h3>{groupInfo.joincode}</h3>
 
         {toShow}
 

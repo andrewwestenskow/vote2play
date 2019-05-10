@@ -20,7 +20,7 @@ class Dashboard extends Component {
     })
     this.props.updateLoginId({login_id, isAuthenticated})
 
-    axios.post('/api/group/getgroups', { login_id: this.props.login_id }).then(res => {
+    axios.get('/api/group/getgroups', { login_id: this.props.login_id }).then(res => {
       this.setState({
         groups: res.data
       })
