@@ -148,6 +148,8 @@ class List extends Component {
     if(this.state.playlist.length === 0){
       this.props.getPlaylist()
     }
+
+    this.broadcast()
   }
 
   getPlaylistConditional = () => {

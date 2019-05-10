@@ -117,6 +117,7 @@ class Playlist extends Component {
   render() {
 
     let content
+    let toShow
     if (this.state.noVideos === true) {
       content = <div>ADD SOME VIDEOS</div>
     } else if (this.state.loading === true) {
@@ -127,11 +128,17 @@ class Playlist extends Component {
         onEnd={this.nextSong} />
     }
 
+    if(this.state.isHost) {
+      toShow = content
+    } else {
+      toShow = <div>Host has player</div>
+    }
+
     return (
 
       <div>
 
-        {content}
+        {toShow}
 
         {this.state.ready && 
         <List group_id={this.props.group_id} 
