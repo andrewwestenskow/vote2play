@@ -79,8 +79,8 @@ class Home extends Component {
             <p>{`Favorite Song (YouTube URL)`}</p>
             <input type="text" name='favoritesong' onChange={this.handleRegisterFormUpdate} />
 
-            <p>Profile Image</p>
-            <input type="text" name='image' onChange={this.handleRegisterFormUpdate} />
+            {/* <p>Profile Image</p>
+            <input type="text" name='image' onChange={this.handleRegisterFormUpdate} /> */}
 
             <button disabled={this.state.formdisable}>Sign up</button>
           </form>

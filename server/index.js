@@ -75,6 +75,7 @@ app.post('/api/playlist/addback', PlaylistCtrl.addBack)
 
 //USERS ENDPOINTS
 app.get('/api/users/info', UsersCtrl.getUserInfo)
+app.put('/api/users/info', UsersCtrl.updateInfo)
 
 
 //MASSIVE CONNECTION
