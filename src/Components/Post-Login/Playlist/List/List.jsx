@@ -19,7 +19,7 @@ class List extends Component {
     }
     this.socket = io.connect(':7777')
     this.socket.on('room response', data => {
-      console.log('room response')
+      // console.log('room response')
       this.updatePlaylist()
     })
 
@@ -171,6 +171,7 @@ class List extends Component {
         title={song.details.snippet.localized.title}
         broadcast={this.broadcast}
         isHost={this.props.isHost}
+        login_id={this.props.login_id}
       />
     })
 
@@ -213,7 +214,8 @@ class List extends Component {
 
 const mapStateToProps = (reduxStore) => {
   return{
-    group_id: reduxStore.group.group_id
+    group_id: reduxStore.group.group_id,
+    login_id: reduxStore.users.login_id
   }
 }
 

@@ -3,10 +3,18 @@ import axios from 'axios'
 
 class Song extends Component {
 
+  state = {
+    hasUpvote: false,
+    hasDownvote: false
+  }
+
 
   handleUpvote = async () => {
     const {playlistId } = this.props
     await (axios.post('/api/playlist/vote', {playlistId, vote: 1}))
+    this.setState({
+      hasUpvote: true
+    })
     this.props.updatePlaylist()
     this.props.broadcast()
   }
@@ -14,6 +22,9 @@ class Song extends Component {
   handleDownvote = async () => {
     const {playlistId} = this.props
     await (axios.post('/api/playlist/vote', {playlistId, vote: 0}))
+    this.setState({
+      hasDownvote: true
+    })
     this.props.updatePlaylist()
     this.props.broadcast()
   }
@@ -33,8 +44,11 @@ class Song extends Component {
         {title}
         {id}
         Score: {score}
-        <button onClick={this.handleUpvote}>up</button>
-        <button onClick={this.handleDownvote}>down</button>
+        <button onClick={this.handleUpvote} 
+        disabled={this.state.hasUpvote}>up</button>
+
+        <button onClick={this.handleDownvote}
+        disabled={this.state.hasDownvote}>down</button>
 
         {this.props.isHost && <button onClick={this.handleDelete}>Delete</button>}
       </div>

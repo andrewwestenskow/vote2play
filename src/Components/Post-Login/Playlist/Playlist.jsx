@@ -19,8 +19,7 @@ class Playlist extends Component {
       currentGroupPlaylistId: null,
       currentSongId: null,
       ready: false,
-      next: 0,
-      prevPlayed: []
+      next: 0
     }
 
     
