@@ -46,6 +46,7 @@ class List extends Component {
 
   componentDidUpdate(prevProps, prevState){
     if(prevProps.next !==this.props.next){
+      this.broadcast()
       this.updatePlaylist()
     }
   }
