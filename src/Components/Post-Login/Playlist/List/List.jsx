@@ -73,17 +73,31 @@ class List extends Component {
     })
 
     let nowPlaying = sortedArray.splice(0,1)
-    let nowPlayingVote = nowPlaying[0]
+
+    if(nowPlaying !== this.state.nowPlaying){
+
+      let nowPlayingVote = nowPlaying[0]
+  
+      if(nowPlayingVote){
+        await (axios.post('/api/playlist/vote', {playlistId: nowPlayingVote.group_playlist_id, vote: 9999}))
+    
+        this.setState({
+          nowPlaying: nowPlaying,
+          playlist: sortedArray,
+          prevPlayed: prevPlayed,
+          ready: true
+        })
+  
+      } else {
+        this.setState({
+          ready: false,
+          prevPlayed: prevPlayed,
+          nowPlaying: [],
+        })
+      }
+    }
     
 
-    await (axios.post('/api/playlist/vote', {playlistId: nowPlayingVote.group_playlist_id, vote: 99}))
-
-    this.setState({
-      nowPlaying: nowPlaying,
-      playlist: sortedArray,
-      prevPlayed: prevPlayed,
-      ready: true
-    })
     
   }
 

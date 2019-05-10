@@ -58,11 +58,14 @@ module.exports = {
     const db = req.app.get('db')
     const { playlistId, vote } = req.body
 
-    // try {
+    try {
       let scores = await db.getScore(playlistId)
-      console.log(scores)
+      if(scores.length === 0){
+        //ACCOUNTS FOR LIST RERENDER AFTER ITEM HAS CHANGED LISTS
+        return res.sendStatus(200)
+      }
+
       let score = scores[0].score
-      console.log(playlistId)
 
       if (vote === 1) {
         score++
@@ -71,14 +74,14 @@ module.exports = {
       } else {
         score = vote
       }
-      console.log(score)
 
       let newScore = await db.vote([score, playlistId])
 
       res.status(200).send(newScore[0])
-    // } catch (err) {
-    //   res.sendStatus(500)
-    // }
+    } catch (err) {
+      
+      res.sendStatus(500)
+    }
   },
 
   resetVote: async (req, res) => {
