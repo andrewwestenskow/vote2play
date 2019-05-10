@@ -35,7 +35,8 @@ class Song extends Component {
         Score: {score}
         <button onClick={this.handleUpvote}>up</button>
         <button onClick={this.handleDownvote}>down</button>
-        <button onClick={this.handleDelete}>Delete</button>
+
+        {this.props.isHost && <button onClick={this.handleDelete}>Delete</button>}
       </div>
     )
   }

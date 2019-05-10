@@ -34,7 +34,7 @@ class OldSong extends Component {
       <div>
       {this.props.title}
       <button onClick={this.handleAddBack}>Add Again</button>
-      <button onClick={this.handleDelete}>Delete</button>
+      {this.props.isHost && <button onClick={this.handleDelete}>Delete</button>}
       </div>
     )
   }

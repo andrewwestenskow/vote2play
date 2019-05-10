@@ -170,6 +170,7 @@ class List extends Component {
         updatePlaylist={this.updatePlaylist}
         title={song.details.snippet.localized.title}
         broadcast={this.broadcast}
+        isHost={this.props.isHost}
       />
     })
 
@@ -180,14 +181,19 @@ class List extends Component {
       key={song.id} 
       title={snippet.title} 
       getPlaylistConditional={this.getPlaylistConditional}
-      broadcast={this.broadcast}/>
+      broadcast={this.broadcast}
+      isHost={this.props.isHost}/>
     })
 
     let nowPlaying = this.state.nowPlaying[0]
 
     return (
       <div>
-        {this.state.ready && <div>NOW PLAYING: {nowPlaying.details.snippet.title}</div>}
+        {this.state.ready && <div><h1>
+          NOW PLAYING:
+        </h1>{nowPlaying.details.snippet.title}</div>}
+
+        <h1>UP NEXT:</h1>
         {playlist}
 
         <form onSubmit={this.handleAddNewVideoFormSubmit}>

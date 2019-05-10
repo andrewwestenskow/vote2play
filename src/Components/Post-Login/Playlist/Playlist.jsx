@@ -143,7 +143,8 @@ class Playlist extends Component {
         {this.state.ready && 
         <List group_id={this.props.group_id} 
         next={this.state.next}
-        getPlaylist={this.getPlaylist}/>
+        getPlaylist={this.getPlaylist}
+        isHost={this.state.isHost}/>
         }
 
       </div>
