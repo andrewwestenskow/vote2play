@@ -42,7 +42,6 @@ class List extends Component {
 
   async componentWillMount() {
     await this.updatePlaylist()
-    
   }
 
   componentDidUpdate(prevProps, prevState){
@@ -127,7 +126,7 @@ class List extends Component {
     })
     
 
-    
+    document.title = `Playing: ${this.state.nowPlaying[0].details.snippet.title}`
   }
 
   handleNewVideoFormChange = (e) => {
