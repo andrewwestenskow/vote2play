@@ -3,6 +3,7 @@ import axios from 'axios'
 import EditForm from './EditForm/EditForm'
 import YouTube from 'react-youtube'
 
+
 class Profile extends Component {
 
   state = {
@@ -12,7 +13,7 @@ class Profile extends Component {
     lastname: '',
     image: '',
     favoritesong: '',
-    edit: false
+    edit: false,
   }
 
   async componentDidMount() {
@@ -77,6 +78,8 @@ class Profile extends Component {
     await axios.delete(`/api/group/leave/${group_id}`)
     window.location.reload()
   }
+
+  
 
   render() {
 

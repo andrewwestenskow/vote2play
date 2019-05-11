@@ -161,8 +161,7 @@ class CreateGroup extends Component {
             src={this.state.groupImage} 
             alt='Group' 
             onError={this.toggleLoad}/> : 
-            <img src='https://upload.wikimedia.org/wikipedia/commons/4/4c/Android_style_loader.gif'
-            alt='loading'/>}
+            <GridLoader/>}
           </div>}
 
           <button>Create Group</button>
