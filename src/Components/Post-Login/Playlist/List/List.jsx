@@ -15,7 +15,8 @@ class List extends Component {
       newVideoUrl: '',
       prevPlayed: [],
       nowPlaying: [],
-      ready: false
+      ready: false,
+      urlError: false
     }
     this.socket = io.connect(':7777')
     this.socket.on('room response', data => {
@@ -162,7 +163,14 @@ class List extends Component {
 
   render() {
 
-    let playlist = this.state.playlist.map(song => {
+    let playlist = this.state.playlist.filter(song => {
+      if(song.details !== undefined) {
+        return true
+      } else {
+        axios.delete(`/api/playlist/${song.group_playlist_id}`)
+        return false
+      }
+    }).map(song => {
       return <Song key={song.group_playlist_id}
         playlistId={song.group_playlist_id}
         songId={song.song_id}
@@ -202,6 +210,7 @@ class List extends Component {
             onChange={this.handleNewVideoFormChange} value={this.state.newVideoUrl} />
           <button>Add</button>
         </form>
+        {this.state.urlError && <p>Error adding song, please try again</p>}
       <h1>Previously Played</h1>
         <div>
           {previouslyPlayed}

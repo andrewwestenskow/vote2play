@@ -23,26 +23,31 @@ class Home extends Component {
       [e.target.name]: e.target.value
     })
 
-    if(this.state.password !== '' && this.state.password !== this.state.confirmpassword) {
-      this.setState({
-        passwordnomatch: true
-      })
-    }
   }
 
   handleRegisterFormSubmit = async (e) => {
     e.preventDefault()
     const { firstname, lastname, email, password, favoritesong, image } = this.state
 
-    try {
-      let response = await axios.post('/auth/register', { firstname, lastname, email, favoritesong, image, password })
-
-      let login_id = response.data.login_id
-      this.props.updateLoginId(response.data)
-      this.props.history.push(`/${login_id}/dashboard`)
-    } catch (err) {
-      console.log(err)
+    if(this.state.password !== '' && this.state.password !== this.state.confirmpassword) {
+      this.setState({
+        passwordnomatch: true
+      })
+    } else {
+      this.setState({
+        passwordnomatch: false
+      })
+      try {
+        let response = await axios.post('/auth/register', { firstname, lastname, email, favoritesong, image, password })
+  
+        let login_id = response.data.login_id
+        this.props.updateLoginId(response.data)
+        this.props.history.push(`/${login_id}/dashboard`)
+      } catch (err) {
+        console.log(err)
+      }
     }
+
     
   }
 
@@ -61,26 +66,24 @@ class Home extends Component {
           <form onSubmit={this.handleRegisterFormSubmit}>
 
             <p>First Name</p>
-            <input type="text" name='firstname' onChange={this.handleRegisterFormUpdate} />
+            <input type="text" name='firstname' onChange={this.handleRegisterFormUpdate} required/>
 
             <p>Last Name</p>
-            <input type="text" name='lastname' onChange={this.handleRegisterFormUpdate} />
+            <input type="text" name='lastname' onChange={this.handleRegisterFormUpdate} required/>
 
             <p>Email</p>
-            <input type="text" name='email' onChange={this.handleRegisterFormUpdate} />
+            <input type="text" name='email' onChange={this.handleRegisterFormUpdate} required/>
 
             <p>Password</p>
-            <input type="password" name='password' onChange={this.handleRegisterFormUpdate} />
+            <input type="password" name='password' onChange={this.handleRegisterFormUpdate} required/>
 
             <p>Confirm Password</p>
-            <input type="password" name='confirmpassword' onChange={this.handleRegisterFormUpdate} />
+            <input type="password" name='confirmpassword' onChange={this.handleRegisterFormUpdate} required />
             {this.state.passwordnomatch && <p>Passwords must match</p>}
 
             <p>{`Favorite Song (YouTube URL)`}</p>
-            <input type="text" name='favoritesong' onChange={this.handleRegisterFormUpdate} />
+            <input type="text" name='favoritesong' onChange={this.handleRegisterFormUpdate} required/>
 
-            {/* <p>Profile Image</p>
-            <input type="text" name='image' onChange={this.handleRegisterFormUpdate} /> */}
 
             <button disabled={this.state.formdisable}>Sign up</button>
           </form>
