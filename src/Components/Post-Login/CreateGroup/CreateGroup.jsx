@@ -4,7 +4,7 @@ import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import Dropzone from 'react-dropzone'
 import { GridLoader } from 'react-spinners'
-import {v4 as randomString} from 'uuid'
+import { v4 as randomString } from 'uuid'
 
 class CreateGroup extends Component {
 
@@ -14,7 +14,7 @@ class CreateGroup extends Component {
     isUploading: false,
     showImageInput: true,
     showUploadImage: false,
-    loading:false
+    loading: false
   }
 
   uploadFile = (file, signedRequest, url) => {
@@ -56,17 +56,37 @@ class CreateGroup extends Component {
       require_admin_join: false,
       require_admin_song: false,
       login_id,
-      group_image: groupImage
+      group_image: groupImage,
+      noName: false,
+      noImage: false
     }
 
-    try {
-      await axios.post('/api/group/create', body)
-      this.props.history.push(`/${login_id}/dashboard`)
+    if (!body.name) {
+      this.setState({
+        noName: true
+      })
+    } else if (!body.group_image) {
+      this.setState({
+        noImage: true
+      })
+    } else {
 
-    } catch (error) {
-      alert(`Error, please try again`)
+      try {
+        this.setState({
+          noName: false,
+          noImage: false
+        })
+        await axios.post('/api/group/create', body)
+        this.props.history.push(`/${login_id}/dashboard`)
+
+      } catch (error) {
+        alert(`Error, please try again`)
+      }
     }
+
   }
+
+  //IMAGE UPLOAD
 
   handleCreateGroupFormUpdate = (e) => {
     this.setState({
@@ -113,16 +133,18 @@ class CreateGroup extends Component {
       <div className='Create-Group'>Create GROUP
 
         <form onSubmit={this.handleCreateGroup}>
-          <p>Group Name</p>
+          <p>Group Name*</p>
           <input type="text" name='groupName' onChange={this.handleCreateGroupFormUpdate} />
-          <p>Group Image</p>
+          {this.state.noName && <p>Group Name Required</p>}
+          <p>Group Image*</p>
           {this.state.showImageInput && <div><input type="text" name='groupImage' onChange={this.handleCreateGroupFormUpdate} value={this.state.groupImage} placeholder='Paste image url' />
-          <p>--or--</p></div>}
+          {this.state.noImage && <p>Group image required</p>}
+            <p>--or--</p></div>}
 
           {!this.state.showUploadImage ? <Dropzone
             onDropAccepted={this.getSignedRequest}
             accept='image/*'
-            multiple={false} 
+            multiple={false}
             className='Dropzone'>
 
             {({ getRootProps, getInputProps }) => (
@@ -154,15 +176,15 @@ class CreateGroup extends Component {
 
             )}
 
-          </Dropzone> : 
-          <div> 
-            {!this.state.loading ? 
-            <img 
-            src={this.state.groupImage} 
-            alt='Group' 
-            onError={this.toggleLoad}/> : 
-            <GridLoader/>}
-          </div>}
+          </Dropzone> :
+            <div>
+              {!this.state.loading ?
+                <img
+                  src={this.state.groupImage}
+                  alt='Group'
+                  onError={this.toggleLoad} /> :
+                <GridLoader />}
+            </div>}
 
           <button>Create Group</button>
         </form>
