@@ -41,6 +41,7 @@ class Song extends Component {
 
     return(
       <div>
+        <img src={this.props.data.thumbnails.default.url} alt={title}/>
         {title}
         {id}
         Score: {score}

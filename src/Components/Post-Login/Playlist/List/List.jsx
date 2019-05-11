@@ -174,6 +174,7 @@ class List extends Component {
       }
     }).map(song => {
       return <Song key={song.group_playlist_id}
+        data={song.details.snippet}
         playlistId={song.group_playlist_id}
         songId={song.song_id}
         score={song.score}
