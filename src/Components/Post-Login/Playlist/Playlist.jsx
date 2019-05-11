@@ -123,8 +123,11 @@ class Playlist extends Component {
     } else if (this.state.loading === true) {
       content = <img className='loading' src="https://upload.wikimedia.org/wikipedia/commons/6/66/Loadingsome.gif" alt="loading" />
     } else {
-      content = <YouTube videoId={this.state.currentVideo}
+      content = 
+      <YouTube 
+        videoId={this.state.currentVideo}
         opts={{ playerVars: { autoplay: 1 } }}
+        onReady={(e) => e.target.playVideo()}
         onEnd={this.nextSong} />
     }
 

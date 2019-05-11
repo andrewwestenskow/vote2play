@@ -125,8 +125,11 @@ class List extends Component {
       group_id
     })
     
-
-    document.title = `Playing: ${this.state.nowPlaying[0].details.snippet.title}`
+    if(this.state.nowPlaying[0]) {
+      document.title = `Playing: ${this.state.nowPlaying[0].details.snippet.title}`
+    } else {
+      document.title = `Social Playlists`
+    }
   }
 
   handleNewVideoFormChange = (e) => {
