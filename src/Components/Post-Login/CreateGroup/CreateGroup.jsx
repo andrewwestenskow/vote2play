@@ -11,7 +11,10 @@ class CreateGroup extends Component {
   state = {
     groupName: '',
     groupImage: '',
-    isUploading: false
+    isUploading: false,
+    showImageInput: true,
+    showUploadImage: false,
+    loading:false
   }
 
   uploadFile = (file, signedRequest, url) => {
@@ -85,11 +88,24 @@ class CreateGroup extends Component {
       const { signedRequest, url } = response.data
       this.uploadFile(file, signedRequest, url)
       this.setState({
-        groupImage: url
+        groupImage: url,
+        showImageInput: false,
+        showUploadImage: true
       })
     }).catch(err => {
       console.log(err)
     })
+  }
+
+  toggleLoad = () => {
+    this.setState({
+      loading: true
+    })
+    setTimeout(() => {
+      this.setState({
+        loading: false
+      })
+    }, 500);
   }
 
   render() {
@@ -100,12 +116,14 @@ class CreateGroup extends Component {
           <p>Group Name</p>
           <input type="text" name='groupName' onChange={this.handleCreateGroupFormUpdate} />
           <p>Group Image</p>
-          <input type="text" name='groupImage' onChange={this.handleCreateGroupFormUpdate} value={this.state.groupImage} />
+          {this.state.showImageInput && <div><input type="text" name='groupImage' onChange={this.handleCreateGroupFormUpdate} value={this.state.groupImage} placeholder='Paste image url' />
+          <p>--or--</p></div>}
 
-          <Dropzone
+          {!this.state.showUploadImage ? <Dropzone
             onDropAccepted={this.getSignedRequest}
             accept='image/*'
-            multiple={false} >
+            multiple={false} 
+            className='Dropzone'>
 
             {({ getRootProps, getInputProps }) => (
 
@@ -136,7 +154,16 @@ class CreateGroup extends Component {
 
             )}
 
-          </Dropzone>
+          </Dropzone> : 
+          <div> 
+            {!this.state.loading ? 
+            <img 
+            src={this.state.groupImage} 
+            alt='Group' 
+            onError={this.toggleLoad}/> : 
+            <img src='https://upload.wikimedia.org/wikipedia/commons/4/4c/Android_style_loader.gif'
+            alt='loading'/>}
+          </div>}
 
           <button>Create Group</button>
         </form>
