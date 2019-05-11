@@ -161,6 +161,7 @@ class List extends Component {
   }
 
 
+
   render() {
 
     let playlist = this.state.playlist.filter(song => {
@@ -168,6 +169,7 @@ class List extends Component {
         return true
       } else {
         axios.delete(`/api/playlist/${song.group_playlist_id}`)
+        axios.delete(`/api/playlist/song/${song.song_id}`)
         return false
       }
     }).map(song => {

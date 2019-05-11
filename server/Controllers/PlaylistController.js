@@ -120,6 +120,18 @@ module.exports = {
     }
   },
 
+  deleteSong: async (req, res) => {
+    const db = req.app.get('db')
+    const {song_id: id} = req.params
+
+    try {
+      await db.deleteFromSong([id])
+      res.sendStatus(200)
+    } catch (error) {
+      res.sendStatus(500)
+    }
+  },
+
   getPreviouslyPlayed: async (req,res) => {
     const db = req.app.get('db')
     const {group_id} = req.body
