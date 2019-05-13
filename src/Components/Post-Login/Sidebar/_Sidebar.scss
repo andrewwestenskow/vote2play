@@ -44,4 +44,15 @@ li{
 
 .sidebar-nav-link:hover{
   color: $primary;
+  // text-decoration: underline $primary;
 }
+
+.sidebar-nav-text{
+  padding-left: 5%;
+}
+
+.logout-text{
+  margin-top: 15%;
+}
+
+

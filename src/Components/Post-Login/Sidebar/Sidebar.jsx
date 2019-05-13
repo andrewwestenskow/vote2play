@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { withRouter, Link } from 'react-router-dom'
 import axios from 'axios'
 import { logoutUser, updateLoginId } from '../../../ducks/userReducer'
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 
 class Sidebar extends Component {
@@ -48,21 +48,30 @@ class Sidebar extends Component {
             <ul className='sidebar-nav'>
               <Link to={`/${this.props.login_id}/dashboard`} className='link'>
                 <li className='sidebar-nav-link'>
-                  My Groups
+                  <FontAwesomeIcon icon="users" />
+                  <span className="sidebar-nav-text">
+                    My Groups
+                  </span>
                 </li>
               </Link>
               <Link to={`/${this.props.login_id}/profile`} className='link'>
                 <li className='sidebar-nav-link'>
-                  My Profile
+                  <FontAwesomeIcon icon='user' />
+                  <span className="sidebar-nav-text">
+                    My Profile
+                  </span>
                 </li>
               </Link>
               <Link to={`/${this.props.login_id}/creategroup`} className='link'>
                 <li className='sidebar-nav-link'>
-                  Create Group
+                  <FontAwesomeIcon icon='plus-square' />
+                  <span className="sidebar-nav-text">
+                    Create Group
+                  </span>
                 </li>
               </Link>
               <li className='sidebar-nav-link' onClick={this.handleLogout}>
-                Logout
+                <span className="logout-text">Logout</span>
               </li>
             </ul>
           </nav>
