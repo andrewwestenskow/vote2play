@@ -51,6 +51,7 @@ justify-content: flex-end;
 .login-input{
   @include input-reset;
   border-bottom: 1px solid white;
+  color: white;
   margin: 0 5%;
   @media screen and (max-width: $break-large) {
     margin: 0;

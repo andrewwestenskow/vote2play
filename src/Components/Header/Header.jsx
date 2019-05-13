@@ -60,7 +60,7 @@ class Header extends Component {
             className='login-input' />
             
             <input placeholder='Password' 
-            type="text" 
+            type="password" 
             name='loginPassword' 
             value={this.state.loginPassword} 
             onChange={e => this.handleFormUpdate(e)} 
