@@ -126,8 +126,8 @@ class Playlist extends Component {
       content = 
       <YouTube 
         videoId={this.state.currentVideo}
-        opts={{ playerVars: { autoplay: 1 } }}
-        onReady={(e) => e.target.playVideo()}
+        opts={{ playerVars: { autoplay: 0 } }}
+        // onReady={(e) => e.target.playVideo()}
         onEnd={this.nextSong} />
     }
 
@@ -141,7 +141,7 @@ class Playlist extends Component {
 
     return (
 
-      <div>
+      <div className='Playlist'>
         <img src={groupInfo.group_image} alt=""/>
         <h1>{groupInfo.name}</h1>
         <h3>{groupInfo.joincode}</h3>

@@ -1,3 +1,9 @@
+@import '../../../variables.scss';
+
 .loading{
   height: 100px;
+}
+
+.Playlist{
+  @include background-reset
 }

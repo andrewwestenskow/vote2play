@@ -24,3 +24,10 @@ $break-large: 900px;
   border-radius: 500px;
   cursor: pointer;
 }
+
+@mixin background-reset{
+  width: 85vw;
+  min-height: 100vh;
+  background: rgb(53,66,85);
+  background: linear-gradient(180deg, rgba(53,66,85,1) 0%, rgba(96,114,139,1) 50%, rgba(53,66,85,1) 100%);
+}

@@ -1,12 +1,14 @@
 import React, {Component} from 'react'
 import axios from 'axios'
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 
 
 class JoinGroup extends Component{
 
   state={
     joincode: '',
-    joinError: false
+    joinError: false,
+    showForm: false
   }
 
   handleJoinFormUpdate = (e) => {
@@ -36,11 +38,16 @@ class JoinGroup extends Component{
 
   render(){
     return(
-      <div className='Join-Group'>JOIN GROUP
-      <form onSubmit={this.handleJoinGroup}>
-      <input type="text" name='joincode' onChange={this.handleJoinFormUpdate} value={this.state.joincode}/>
-      <button>Join</button>
-      </form>
+      <div className='Join-Group'>
+  <div className='Plus-Hold'>
+    <p>Join New Group</p>
+      <FontAwesomeIcon icon='plus' className='icon'/>
+    </div>
+      <form onSubmit={this.handleJoinGroup} className='Join-Form'>
+      <input className='Join-Input' type="text" name='joincode' onChange={this.handleJoinFormUpdate} value={this.state.joincode}/>
+      <button className='Join-Button'>Join</button>
+      </form> 
+    
       {this.state.joinError && <p>Could not join group</p>}
       </div>
     )
