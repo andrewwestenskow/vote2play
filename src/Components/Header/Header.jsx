@@ -44,14 +44,28 @@ class Header extends Component {
     return (
       <header className='Header'>
         <div className="logo-hold">
-          <h1 className='logo'>Social Playlists</h1>
+          <img src='https://s3-us-west-1.amazonaws.com/socialplaylists/Hero+Images/v2p+logo+text.png' alt="Vote 2 Play" className='logo-image'/>
+          {/* <h1 className='logo'>Social Playlists</h1> */}
         </div>
+
+
         <div className="login-form-hold">{!this.props.isAuthenticated &&
-          <form onSubmit={this.handleLoginFormSubmit}>
-            <input placeholder='Email' type="text" name='loginEmail' value={this.state.loginEmail} onChange={e => this.handleFormUpdate(e)} />
+          <form onSubmit={this.handleLoginFormSubmit} className='login-form'>
+
+            <input placeholder='Email' 
+            type="text" 
+            name='loginEmail' 
+            value={this.state.loginEmail} 
+            onChange={e => this.handleFormUpdate(e)}
+            className='login-input' />
             
-            <input placeholder='Password' type="text" name='loginPassword' value={this.state.loginPassword} onChange={e => this.handleFormUpdate(e)} />
-            <button>Log In</button>
+            <input placeholder='Password' 
+            type="text" 
+            name='loginPassword' 
+            value={this.state.loginPassword} 
+            onChange={e => this.handleFormUpdate(e)} 
+            className='login-input'/>
+            <button className='login-button'>Log In</button>
             {this.state.loginError && <h3>{this.state.loginErrorMessage}</h3>}
           </form>}
         </div>

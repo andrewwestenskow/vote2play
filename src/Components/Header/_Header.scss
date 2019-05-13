@@ -1,11 +1,11 @@
 @import '../../variables.scss';
 
 .Header {
-  background-color: $primary;
+  background-color: $secondary;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 8vh;
+  height: 10vh;
   position: fixed;
   width: 100vw;
 }
@@ -13,6 +13,18 @@
 .logo-hold{
   font-size: 2em;
   margin-left: 5%;
+  display: flex;
+  align-items: center;
+}
+
+.Header{
+  display: flex;
+  align-items: center;
+}
+
+.logo-image{
+  height: 80%;
+  padding-top: 7%;
 }
 
 .logo{
@@ -21,4 +33,32 @@
 
 .login-form-hold{
   margin-right: 5%;
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.login-form{
+display: flex;
+width: 100%;
+justify-content: flex-end;
+@media screen and (max-width: $break-large) {
+  flex-wrap: wrap;
+  width: 40%;
+}
+}
+
+.login-input{
+  @include input-reset;
+  margin: 0 5%;
+  @media screen and (max-width: $break-large) {
+    margin: 0;
+  }
+}
+
+.login-button{
+  padding: 10px 25px;
+  color: white;
+  background: $primary;
+  border-radius: 500px;
 }

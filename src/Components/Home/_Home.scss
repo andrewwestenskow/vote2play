@@ -19,11 +19,24 @@
   flex-direction: column;
 }
 
-#register{
+.register{
   background: $neutral;
+  height: 50vh;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.register-form-hold{
+  border: 2px solid $secondary
 }
 
 .instructions-hold{
   background: $secondaryneutral;
   height: 40vh;
+}
+
+.register-input{
+  @include input-reset;
+  margin-bottom: 5%;
 }

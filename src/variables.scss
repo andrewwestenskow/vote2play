@@ -3,4 +3,15 @@ $secondary: #354255;
 $tertiary: #1F2123;
 $neutral: #D1C5C5;
 $secondaryneutral: #798080;
-$green: #4b5b3d
+$green: #4b5b3d;
+
+$break-large: 900px;
+
+@mixin input-reset {
+  background: transparent;
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  color: white;
+  font-size: 16px;
+}
