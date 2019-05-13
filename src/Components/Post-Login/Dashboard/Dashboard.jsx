@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import axios from 'axios'
 import { updateGroupId } from '../../../ducks/groupReducer'
-import {updateLoginId} from '../../../ducks/userReducer'
+import { updateLoginId } from '../../../ducks/userReducer'
 import { Link } from 'react-router-dom'
 import JoinGroup from '../JoinGroup/JoinGroup'
 
@@ -18,7 +18,7 @@ class Dashboard extends Component {
     this.setState({
       firstname
     })
-    this.props.updateLoginId({login_id, isAuthenticated})
+    this.props.updateLoginId({ login_id, isAuthenticated })
 
     axios.get('/api/group/getgroups', { login_id: this.props.login_id }).then(res => {
       this.setState({
@@ -38,28 +38,34 @@ class Dashboard extends Component {
   render() {
 
     let groups = this.state.groups.map(group => {
-      return <Link to={`/group/${group.joincode}`}
-        key={group.joincode}
-        onClick={() => this.props.updateGroupId(group.group_id)}>
+      return <div className='Group-Card' key={group.group_id}>
 
-        <div className='Group-Card' key={group.group_id}>
-          <p>{group.name}</p>
+        <Link to={`/group/${group.joincode}`}
+          onClick={() => this.props.updateGroupId(group.group_id)} className='card-image'>
 
-          <img className='card-image' src={group.group_image} alt={group.name} />
+        <img className='card-image'
+        src={group.group_image} 
+        alt={group.name} />
 
+        </Link>
+
+        <div className="Group-Card-Bottom">
+          <p className='group-name'>{group.name}</p>
+          <p>Join Code:</p>
           <p>{group.joincode}</p>
         </div>
-      </Link>
-    })
-    return (
-      <div className='Dashboard'>
-        DASHBOARD
-        <div className="cards-hold">
-          {groups}
-          <div className="Group-Card Join-Card">
-            <JoinGroup login_id={this.props.login_id} updateGroups={this.updateGroups} />
-          </div>
+
         </div>
+
+    })
+  return(
+      <div className = 'Dashboard' >
+      <div className="cards-hold">
+        {groups}
+        <div className="Group-Card Join-Card">
+          <JoinGroup login_id={this.props.login_id} updateGroups={this.updateGroups} />
+        </div>
+      </div>
       </div>
     )
   }

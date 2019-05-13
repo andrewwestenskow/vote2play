@@ -3,8 +3,8 @@
 .Dashboard{
   // border: 1px solid green;
   width: 85vw;
-  min-height: 92vh;
-  background: $neutral
+  min-height: 100vh;
+  background: $secondary
 }
 
 .cards-hold{
@@ -15,22 +15,44 @@
 }
 
 .Group-Card{
-  border: 1px solid black;
-  height: 20rem;
+  // border: 1px solid black;
+  height: 15rem;
   width: 15rem;
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: flex-end;
   margin-left: 3rem;
-  background: $secondaryneutral;
+  // background: $secondaryneutral;
   margin-top: 2rem;
+  position: relative;
+  // border: 1px solid black;
 }
+
+.Group-Card-Bottom{
+  background: rgba(255, 255, 255, 0.85);
+  z-index: 1;
+  width: 100%;
+  height: 33%;
+  text-align: center;
+  font-size: 1rem;
+  // border: 1px solid black;
+}
+
+.group-name{
+  font-size: 1.25rem;
+  text-decoration: underline;
+  margin-bottom: 5%;
+  font-weight: 700;
+}
+
 
 .Join-Card{
   margin-right: 2rem;
 }
 
 .card-image{
-  width: 80%;
-  height: 45%;
+  width: 15rem;
+  height: 15rem;
+  position: absolute;
 }

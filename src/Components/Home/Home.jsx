@@ -3,6 +3,7 @@ import axios from 'axios'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { updateLoginId } from '../../ducks/userReducer'
+import Header from '../Header/Header'
 
 class Home extends Component {
 
@@ -63,7 +64,7 @@ class Home extends Component {
     return (
       <div>
 
-
+      <Header/>
         <section id='hero-hold' className='hero-hold'>
           <div className="white-box">
             <h1 className="hero-head">MAKE MUSIC SOCIAL AGAIN</h1>
