@@ -1,0 +1,22 @@
+@import '../../../../variables.scss';
+
+.List{
+  margin-left: 5%;
+  margin-top: 1%;
+}
+
+.now-playing-text{
+  font-size: 2.5rem;
+  color: $primary
+}
+
+.now-playing-title{
+  font-size: 2rem;
+  font-style: italic;
+}
+
+.white-line-playlist{
+  border: 1px solid white;
+  width: 60%;
+  margin: 1% 0
+}

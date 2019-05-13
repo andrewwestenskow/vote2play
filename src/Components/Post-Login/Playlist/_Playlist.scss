@@ -1,7 +1,15 @@
 @import '../../../variables.scss';
 
+@mixin video-hold-reset{
+  margin-left: 5%;
+  margin-top: 1%;
+  box-shadow: black 0 0 10px; 
+  width: 640px;
+  height: 360px;
+}
+
 .loading{
-  height: 100px;
+  height: 360px;
 }
 
 .Playlist{
@@ -26,7 +34,7 @@
 }
 
 .Playlist-Head-Image{
-  height: 100%;
+  height: 6rem;
   width: 6rem;
   margin-left: 10px;
 }
@@ -54,3 +62,37 @@
   right: 50%;
   transform: translate(50%, 0%)
 }
+
+.YouTube-Player{
+@include video-hold-reset
+}
+
+.not-host-div{
+  @include video-hold-reset;
+  background: $primary;
+  position: relative;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 100% 135%;
+
+  .white-box-thumb{
+    z-index: 1;
+    position: absolute;
+    background: rgba(255, 255, 255, 0.698);
+    width: 100%;
+    height: 100%;
+    bottom: 0%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    .white-box-thumb-text{
+      color: black;
+      font-size: 2rem;
+    }
+  }
+}
+
+
+
+
+

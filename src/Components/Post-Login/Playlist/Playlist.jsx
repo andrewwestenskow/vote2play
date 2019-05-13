@@ -125,6 +125,7 @@ class Playlist extends Component {
     } else {
       content = 
       <YouTube 
+      className='YouTube-Player'
         videoId={this.state.currentVideo}
         opts={{ playerVars: { autoplay: 0 } }}
         // onReady={(e) => e.target.playVideo()}
@@ -134,7 +135,13 @@ class Playlist extends Component {
     if(this.state.isHost) {
       toShow = content
     } else {
-      toShow = <div>Host has player</div>
+      toShow = <div className='not-host-div'
+      style={{backgroundImage: `url(https://img.youtube.com/vi/${this.state.currentVideo}/0.jpg)`}}>
+      
+      <div className="white-box-thumb">
+        <p className="white-box-thumb-text">Content will play on host device</p>
+      </div>
+      </div>
     }
 
     const {groupInfo} = this.state
@@ -143,7 +150,7 @@ class Playlist extends Component {
 
       <div className='Playlist'>
         <div className="Playlist-Head">
-        <img className='hero-logo' src='https://s3-us-west-1.amazonaws.com/socialplaylists/Hero+Images/v2p+logo.png' alt=""/>
+        <img className='hero-logo' src='https://s3-us-west-1.amazonaws.com/socialplaylists/Hero+Images/v2p+logo.png' alt="Vote 2 play"/>
         
         <div className="Playlist-Head-Text-Hold">
         <h1 className='Playlist-Head-Group-Name'>{groupInfo.name}</h1>

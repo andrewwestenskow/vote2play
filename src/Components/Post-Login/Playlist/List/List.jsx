@@ -202,12 +202,14 @@ class List extends Component {
     let nowPlaying = this.state.nowPlaying[0]
 
     return (
-      <div>
+      <div className='List'>
         {this.state.ready && <div><h1>
-          NOW PLAYING:
-        </h1>{nowPlaying.details.snippet.title}</div>}
-
-        <h1>UP NEXT:</h1>
+          <span className="now-playing-text">
+            NOW PLAYING:
+          </span>
+        </h1><span className='now-playing-title'>{nowPlaying.details.snippet.title}</span></div>}
+          <div className="white-line-playlist"></div>
+        <h1 className='now-playing-text'>UP NEXT:</h1>
         {playlist}
 
         <form onSubmit={this.handleAddNewVideoFormSubmit}>
