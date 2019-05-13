@@ -1,5 +1,7 @@
 @import '../../variables.scss';
 
+// HERO
+
 .hero-hold{
   background: $neutral;
   height: 80vh;
@@ -12,11 +14,38 @@
 .white-box{
   height: 100%;
   width: 100%;
-  background-color: rgba(255, 255, 255, 0.555);
+  background-color: rgba(255, 255, 255, 0.87);
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  text-align: center;
+}
+
+.hero-head{
+  color: black;
+  font-size: 5rem;
+}
+
+.hero-detail{
+  font-size: 1.5rem;
+  margin: 2% 0;
+}
+
+.to-register{
+  @include button-reset;
+  font-size: 2rem;
+}
+
+// REGISTER
+
+.register-form{
+  display: flex;
+  flex-direction: column;
+}
+
+.register-instructions{
+  width: 33%;
 }
 
 .register{
@@ -28,8 +57,15 @@
 }
 
 .register-form-hold{
-  border: 2px solid $secondary
+  // border: 2px solid $secondary;
+  width: 33%;
+  
 }
+
+.register-form{
+  padding: 14%;
+}
+
 
 .instructions-hold{
   background: $secondaryneutral;
@@ -39,4 +75,14 @@
 .register-input{
   @include input-reset;
   margin-bottom: 5%;
+  color: black;
+  border-bottom: 2px solid black;
 }
+
+.register-button{
+  @include button-reset;
+  width: 40%;
+  margin-top: 5%;
+}
+
+// INSTRUCTIONS

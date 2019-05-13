@@ -67,6 +67,7 @@ class Home extends Component {
         <section id='hero-hold' className='hero-hold'>
           <div className="white-box">
             <h1 className="hero-head">MAKE MUSIC SOCIAL AGAIN</h1>
+            <p className="hero-detail">Your friends.  Your playlists.  Your choice.</p>
             <button onClick={this.scrollToRegister} className="to-register">Sign Up Now</button>
           </div>
         </section>
@@ -77,29 +78,24 @@ class Home extends Component {
             How to register
           </div>
           <div className="register-form-hold">
-            <form onSubmit={this.handleRegisterFormSubmit}>
+            <form onSubmit={this.handleRegisterFormSubmit} className='register-form'>
 
-              <p>First Name</p>
-              <input type="text" name='firstname' onChange={this.handleRegisterFormUpdate} className='register-input' required />
+              <input type="text" name='firstname' onChange={this.handleRegisterFormUpdate} className='register-input' placeholder='First Name' required />
 
-              <p>Last Name</p>
-              <input type="text" name='lastname' onChange={this.handleRegisterFormUpdate} className='register-input' required />
+              <input type="text" placeholder='Last Name' name='lastname' onChange={this.handleRegisterFormUpdate} className='register-input' required />
 
-              <p>Email</p>
-              <input type="text" name='email' onChange={this.handleRegisterFormUpdate} className='register-input' required />
+              
+              <input placeholder='Email' type="text" name='email' onChange={this.handleRegisterFormUpdate} className='register-input' required />
 
-              <p>Password</p>
-              <input type="password" name='password' onChange={this.handleRegisterFormUpdate} className='register-input' required />
+              <input placeholder='Password' type="password" name='password' onChange={this.handleRegisterFormUpdate} className='register-input' required />
 
-              <p>Confirm Password</p>
-              <input type="password" name='confirmpassword' onChange={this.handleRegisterFormUpdate} className='register-input' required />
+              <input placeholder='Confirm Password' type="password" name='confirmpassword' onChange={this.handleRegisterFormUpdate} className='register-input' required />
               {this.state.passwordnomatch && <p>Passwords must match</p>}
 
-              <p>{`Favorite Song (YouTube URL)`}</p>
-              <input type="text" name='favoritesong' onChange={this.handleRegisterFormUpdate} className='register-input' required />
+              <input placeholder='Favorite Song (YouTube url)' type="text" name='favoritesong' onChange={this.handleRegisterFormUpdate} className='register-input' required />
 
 
-              <button disabled={this.state.formdisable}>Sign up</button>
+              <button disabled={this.state.formdisable} className='register-button'>Sign up</button>
             </form>
           </div>
         </section>

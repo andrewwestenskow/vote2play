@@ -12,6 +12,15 @@ $break-large: 900px;
   border-top: none;
   border-left: none;
   border-right: none;
-  color: white;
+  border-bottom: none;
+  // color: white;
   font-size: 16px;
+}
+
+@mixin button-reset{
+  padding: 10px 25px;
+  color: white;
+  background: $primary;
+  border-radius: 500px;
+  cursor: pointer;
 }

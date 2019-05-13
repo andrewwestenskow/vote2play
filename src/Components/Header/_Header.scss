@@ -50,6 +50,7 @@ justify-content: flex-end;
 
 .login-input{
   @include input-reset;
+  border-bottom: 1px solid white;
   margin: 0 5%;
   @media screen and (max-width: $break-large) {
     margin: 0;
@@ -57,8 +58,5 @@ justify-content: flex-end;
 }
 
 .login-button{
-  padding: 10px 25px;
-  color: white;
-  background: $primary;
-  border-radius: 500px;
+  @include button-reset
 }
