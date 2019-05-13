@@ -5,5 +5,52 @@
 }
 
 .Playlist{
-  @include background-reset
+  @include background-reset;
+  color: white;
+}
+
+.Playlist-Head{
+  height: 10vh;
+  // background: #efeeee;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  text-align: right;
+  color: white;
+}
+
+.white-line-head{
+  border: 1px solid white;
+  width: 80%;
+  margin: 5% 0;
+}
+
+.Playlist-Head-Image{
+  height: 100%;
+  width: 6rem;
+  margin-left: 10px;
+}
+
+.Playlist-Head-Text-Hold{
+  // color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-left: 2.5%;
+  align-items: flex-end
+}
+
+.Playlist-Head-Group-Name{
+  font-size: 2rem;
+}
+
+.Playlist-Head-Joincode{
+  font-size: 1.2rem;
+}
+
+.hero-logo{
+  position: absolute;
+  height: 5.5rem;
+  right: 50%;
+  transform: translate(50%, 0%)
 }

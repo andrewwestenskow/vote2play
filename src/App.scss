@@ -54,10 +54,13 @@ table {
 }
 
 
+
+
 *{
 	box-sizing: border-box;
 }
 
+@import './variables.scss';
 @import './Components/Header/Header';
 @import './Components/Home/Home';
 @import './Components/Post-Login/Dashboard/Dashboard';
@@ -69,4 +72,8 @@ table {
 @import './Components/Post-Login/Playlist/Song/Song';
 @import './Components/Post-Login/Playlist/List/List';
 @import './Components/Post-Login/Playlist/OldSong/OldSong';
+
+button{
+	@include button-reset
+}
 

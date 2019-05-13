@@ -60,7 +60,7 @@ class Dashboard extends Component {
     })
   return(
       <div className = 'Dashboard' >
-      <h1 className="group-text">MY GROUPS: </h1>
+      <h1 className="group-text">GROUPS </h1>
       {/* <div className="white-line-dash"></div> */}
       <div className="cards-hold">
         {groups}

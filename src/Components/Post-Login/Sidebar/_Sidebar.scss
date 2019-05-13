@@ -47,6 +47,12 @@ li{
   // text-decoration: underline $primary;
 }
 
+.sidebar-nav-link{
+  svg{
+    width: 25px !important;
+  }
+}
+
 .sidebar-nav-text{
   padding-left: 5%;
 }

@@ -142,9 +142,15 @@ class Playlist extends Component {
     return (
 
       <div className='Playlist'>
-        <img src={groupInfo.group_image} alt=""/>
-        <h1>{groupInfo.name}</h1>
-        <h3>{groupInfo.joincode}</h3>
+        <div className="Playlist-Head">
+        <img className='hero-logo' src='https://s3-us-west-1.amazonaws.com/socialplaylists/Hero+Images/v2p+logo.png' alt=""/>
+        
+        <div className="Playlist-Head-Text-Hold">
+        <h1 className='Playlist-Head-Group-Name'>{groupInfo.name}</h1>
+        <div className='white-line-head'></div>
+        <h3 className='Playlist-Head-Joincode'>Join Code: {groupInfo.joincode}</h3></div>
+        <img className='Playlist-Head-Image' src={groupInfo.group_image} alt=""/>
+        </div>
 
         {toShow}
 

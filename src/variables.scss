@@ -1,5 +1,5 @@
 $primary: #8B3F41;
-$secondary: #354255;
+$secondary: #477998;
 $tertiary: #1F2123;
 $neutral: #D1C5C5;
 $secondaryneutral: #798080;
@@ -28,6 +28,6 @@ $break-large: 900px;
 @mixin background-reset{
   width: 85vw;
   min-height: 100vh;
-  background: rgb(53,66,85);
-  background: linear-gradient(180deg, rgba(53,66,85,1) 0%, rgba(96,114,139,1) 50%, rgba(53,66,85,1) 100%);
+  background: rgb(18,23,31);
+  background-image: linear-gradient(to top, rgba(18,23,31,1) 0%, rgba(21,45,84,1) 40%, rgb(47, 62, 82) 100%);
 }
