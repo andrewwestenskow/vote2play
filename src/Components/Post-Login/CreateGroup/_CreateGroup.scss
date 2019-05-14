@@ -1,9 +1,7 @@
 @import '../../../variables.scss';
 
 .Create-Group{
-  background: $neutral;
-  width: 90vw;
-  height: 92vh;
+  @include background-reset;
 }
 
 .File-Drop{

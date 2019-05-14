@@ -1,4 +1,4 @@
-
+@import '../../../variables.scss';
 
 .Profile-Image{
   height: 250px;
@@ -7,4 +7,8 @@
 .Group-Image{
   height: 120px;
   width: 180px;
+}
+
+.Profile{
+  @include background-reset;
 }

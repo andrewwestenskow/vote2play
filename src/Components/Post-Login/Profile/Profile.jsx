@@ -93,7 +93,7 @@ class Profile extends Component {
 
     let { firstname, lastname, image } = this.state
     return (
-      <div>Profile
+      <div className='Profile'>Profile
 
         {!this.state.loading &&
           <div>
