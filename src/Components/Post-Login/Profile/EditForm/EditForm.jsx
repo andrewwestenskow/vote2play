@@ -1,10 +1,10 @@
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 import Dropzone from 'react-dropzone'
-import {GridLoader} from 'react-spinners'
-import {v4 as randomString} from 'uuid'
+import { GridLoader } from 'react-spinners'
+import { v4 as randomString } from 'uuid'
 import axios from 'axios'
 
-class EditForm extends Component{
+class EditForm extends Component {
 
   state = {
     firstname: this.props.userInfo.firstname,
@@ -25,7 +25,7 @@ class EditForm extends Component{
 
   handleEditFormSubmit = (e) => {
     e.preventDefault()
-    const {firstname, lastname, favoritesong, image} = this.state
+    const { firstname, lastname, favoritesong, image } = this.state
     const body = {
       firstname,
       lastname,
@@ -36,7 +36,7 @@ class EditForm extends Component{
     this.props.sendForm(body)
   }
 
-  //IMAGE UPLOAD
+  //IMAGE UPLOAD MORE DETAILED COMMENTS IN CREATE GROUP COMPONENT
 
   getSignedRequest = ([file]) => {
     this.setState({ isUploading: true })
@@ -66,11 +66,12 @@ class EditForm extends Component{
     axios
       .put(signedRequest, file, options)
       .then(response => {
-        this.setState({ 
-          isUploading: false, 
+        this.setState({
+          isUploading: false,
           image: url,
           showImageInput: false,
-          showUploadImage: true });
+          showUploadImage: true
+        });
       })
       .catch(err => {
         this.setState({
@@ -100,81 +101,79 @@ class EditForm extends Component{
     }, 500);
   }
 
-  render(){
+  render() {
 
-    return(
-      <div>
-        <form>
-              <input type="text" 
-              name='firstname' 
-              value={this.state.firstname} 
-              onChange={this.handleEditFormInput}/>
+    return (
+      <div className='edit-form-hold'>
+        <form className='edit-form'>
+          <div>
+            <h1 className="edit-form-head">First Name</h1>
+            <input type="text"
+              name='firstname'
+              value={this.state.firstname}
+              onChange={this.handleEditFormInput}
+              className='edit-form-input' />
 
-              <input type="text" 
-              name='lastname' 
-              value={this.state.lastname} 
-              onChange={this.handleEditFormInput} />
+            <h1 className="edit-form-head">Last Name</h1>
+            <input type="text"
+              name='lastname'
+              value={this.state.lastname}
+              onChange={this.handleEditFormInput}
+              className='edit-form-input' />
 
-              <input type="text" 
-              name='favoritesong' 
-              value={this.state.favoritesong} 
-              onChange={this.handleEditFormInput}/>
+            <h1 className="edit-form-head">Favorite Song</h1>
+            <input type="text"
+              name='favoritesong'
+              value={this.state.favoritesong}
+              onChange={this.handleEditFormInput}
+              className='edit-form-input' />
+          </div>
 
-              <input type="text" 
-              name='image' 
-              value={this.state.image} 
-              onChange={this.handleEditFormInput}/>
-              
-              <p>--or--</p>
+          <div className='profile-edit-hold'>
+            <h1 className="edit-form-head">Profile Image</h1>
+            <input type="text"
+              name='image'
+              value={this.state.image}
+              onChange={this.handleEditFormInput}
+              className='edit-form-input' />
 
-{!this.state.showUploadImage ? <Dropzone
-  onDropAccepted={this.getSignedRequest}
-  accept='image/*'
-  multiple={false} 
-  className='Dropzone'>
+            <p style={{color: 'white', marginBottom: '15px'}}>--or--</p>
 
-  {({ getRootProps, getInputProps }) => (
+            {!this.state.showUploadImage ? <Dropzone
+              onDropAccepted={this.getSignedRequest}
+              accept='image/*'
+              multiple={false}
+              className='Dropzone'>
 
-    <section className="container">
-      <div {...getRootProps({ className: 'dropzone' })}>
-        <input {...getInputProps()} />
-        <div style={{
-          position: 'relative',
-          width: 200,
-          height: 200,
-          borderWidth: 7,
-          // marginTop: 100,
-          borderColor: 'rgb(102, 102, 102)',
-          borderStyle: 'dashed',
-          borderRadius: 5,
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          fontSize: 28,
-        }} className='File-Drop'>
-          {this.state.isUploading
-            ? <GridLoader />
-            : <p>Drop File or Click Here</p>
-          }
-        </div>
-      </div>
-    </section>
+              {({ getRootProps, getInputProps }) => (
 
-  )}
+                <section className="container">
+                  <div {...getRootProps({ className: 'dropzone' })}>
+                    <input {...getInputProps()} />
+                    <div>
+                      {this.state.isUploading
+                        ? <GridLoader />
+                        : <p>Drop File or Click Here</p>
+                      }
+                    </div>
+                  </div>
+                </section>
 
-</Dropzone> : 
-<div> 
-  {!this.state.loading ? 
-  <img 
-  src={this.state.image} 
-  alt='Profile' 
-  onError={this.toggleLoad}/> : 
-  <GridLoader/>}
-</div>}
+              )}
 
-              <button onClick={this.props.toggleEdit}>Cancel</button>
-              <button onClick={this.handleEditFormSubmit}>Save</button>
-            </form>
+            </Dropzone> :
+              <div>
+                {!this.state.loading ?
+                  <img
+                    src={this.state.image}
+                    alt='Profile'
+                    onError={this.toggleLoad} /> :
+                  <GridLoader />}
+              </div>}</div>
+
+          <button onClick={this.props.toggleEdit}>Cancel</button>
+          <button onClick={this.handleEditFormSubmit}>Save</button>
+        </form>
       </div>
     )
   }

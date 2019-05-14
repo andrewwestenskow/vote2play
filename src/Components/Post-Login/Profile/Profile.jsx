@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import axios from 'axios'
 import EditForm from './EditForm/EditForm'
 import YouTube from 'react-youtube'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 
 class Profile extends Component {
@@ -21,10 +22,10 @@ class Profile extends Component {
     axios.get('/api/users/info').then(res => {
       let userInfo = res.data[0]
 
-      function YouTubeGetID(url){
+      function YouTubeGetID(url) {
         var ID = '';
-        url = url.replace(/(>|<)/gi,'').split(/(vi\/|v=|\/v\/|youtu\.be\/|\/embed\/)/);
-        if(url[2] !== undefined) {
+        url = url.replace(/(>|<)/gi, '').split(/(vi\/|v=|\/v\/|youtu\.be\/|\/embed\/)/);
+        if (url[2] !== undefined) {
           //eslint-disable-next-line
           ID = url[2].split(/[^0-9a-z_\-]/i);
           ID = ID[0];
@@ -32,7 +33,7 @@ class Profile extends Component {
         else {
           ID = url;
         }
-          return ID;
+        return ID;
       }
 
       let faveSong = YouTubeGetID(userInfo.favoritesong)
@@ -79,41 +80,60 @@ class Profile extends Component {
     window.location.reload()
   }
 
-  
+
 
   render() {
 
     let groups = this.state.userGroups.map(group => {
-      return <div key={group.group_id}>
-      <img className='Group-Image' src={group.group_image} alt={group.name}/>
-      {group.name}
-      <button onClick={() => this.leaveGroup(group.group_id)}>Leave Group</button>
+      return <div key={group.group_id} className='profile-group-card'>
+        <img className='Group-Image' src={group.group_image} alt={group.name} />
+
+        <div className="button-text-hold">
+          <h1 className="group-card-name">
+            {group.name}
+          </h1>
+          <button className='leave-button' onClick={() => this.leaveGroup(group.group_id)}>Leave Group
+        <FontAwesomeIcon className='leave-icon' icon='sign-out-alt' />
+          </button></div>
       </div>
     })
 
     let { firstname, lastname, image } = this.state
+
+
     return (
-      <div className='Profile'>Profile
+      <div className='Profile'>
 
-        {!this.state.loading &&
-          <div>
+        <div className="Profile-Head">
+
+          <div className="Profile-Head-Text-Hold">
+            <h1 className='Profile-Head-Group-Name'>{`${firstname} ${lastname}`}</h1>
+            <div className='white-line-head'></div>
             <button onClick={this.toggleEdit}>Edit info</button>
-            {this.state.edit && 
-            <EditForm editToggle={this.editToggle} sendForm={this.sendForm}
-            userInfo={this.state}/>}
-            <div>
-              {firstname}{lastname}
-              <img className='Profile-Image' src={image} alt={firstname} />
-              <h1>Favorite Song: </h1>
-              <YouTube videoId={this.state.favoritesongid}/>
-            </div>
-            
+          </div>
+          <img className='Profile-Image'
+            src={image} alt="Profile" />
+        </div>
 
-            <div>
-              <h1>GROUPS:</h1>
-              {groups}
+        <div className="video-group-hold">
+          <div className='groups-hold'>
+            <h1 className='header-text'>GROUPS:</h1>
+            {groups}
+          </div>
+
+          <div className="song-form-hold">
+            <div className='favorite-song-hold'>
+              <h1 className='header-text'>Favorite Song: </h1>
+              <YouTube className='favorite-video' videoId={this.state.favoritesongid} />
             </div>
-          </div>}
+
+            {this.state.edit &&
+              <EditForm editToggle={this.editToggle} sendForm={this.sendForm}
+                userInfo={this.state} />}
+          </div>
+
+
+        </div>
       </div>
     )
   }

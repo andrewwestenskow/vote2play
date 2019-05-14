@@ -72,6 +72,7 @@ table {
 @import './Components/Post-Login/Playlist/Song/Song';
 @import './Components/Post-Login/Playlist/List/List';
 @import './Components/Post-Login/Playlist/OldSong/OldSong';
+@import './Components/Post-Login/Profile/EditForm/EditForm';
 
 button{
 	@include button-reset

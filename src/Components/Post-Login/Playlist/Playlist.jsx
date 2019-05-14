@@ -150,7 +150,6 @@ class Playlist extends Component {
 
       <div className='Playlist'>
         <div className="Playlist-Head">
-          <img className='hero-logo' src='https://s3-us-west-1.amazonaws.com/socialplaylists/Hero+Images/v2p.png' alt="Vote 2 play" />
 
           <div className="Playlist-Head-Text-Hold">
             <h1 className='Playlist-Head-Group-Name'>{groupInfo.name}</h1>

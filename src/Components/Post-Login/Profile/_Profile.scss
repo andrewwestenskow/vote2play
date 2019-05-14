@@ -1,14 +1,112 @@
 @import '../../../variables.scss';
 
-.Profile-Image{
-  height: 250px;
-}
-
 .Group-Image{
-  height: 120px;
-  width: 180px;
+  height: 100px;
+  width: 100px;
 }
 
 .Profile{
   @include background-reset;
 }
+
+.Profile-Head{
+  height: 15vh;
+  // background: #efeeee;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  text-align: right;
+  color: white;
+}
+
+.Profile-Image{
+  height: 6rem;
+  width: 6rem;
+  margin-left: 10px;
+}
+
+.Profile-Head-Text-Hold{
+  // color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-left: 2.5%;
+  align-items: flex-end
+}
+
+.Profile-Head-Group-Name{
+  font-size: 2rem;
+}
+
+.video-group-hold{
+  display: flex;
+  width: 100%;
+  justify-content: space-around;
+@media screen and (max-width: 900px) {
+  flex-direction: column-reverse;
+  margin-left: 25px;
+}
+}
+
+.favorite-video{
+  width: 480px;
+  height: 270px;
+}
+
+.header-text{
+  font-size: 2rem;
+  color: $primary;
+  margin-bottom: 15px;
+}
+
+.groups-hold{
+  width: 33.33vw;
+  @media screen and (max-width: 900px) {
+    width: 80%;
+  }
+}
+
+.profile-group-card{
+  display: flex;
+  padding: 10px 0;
+  border-top: 1px solid black;
+  border-bottom: 1px solid black;
+}
+
+.button-text-hold{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: flex-start;
+  margin-left: 15px;
+}
+
+.group-card-name{
+  font-size: 2rem;
+  color: white;
+  max-width: 350px;
+  @include ellipse
+}
+
+.leave-button{
+  background: transparent;
+  font-size: 1rem;
+  padding: 0;
+  
+}
+
+.leave-button:hover{
+  color: $primary
+}
+
+.leave-icon{
+  margin-left: 10px;
+}
+
+.song-form-hold{
+  width: 33.33vw;
+  display: flex;
+  flex-direction: column;
+}
+
+

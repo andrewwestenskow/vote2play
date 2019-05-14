@@ -40,11 +40,15 @@ class Sidebar extends Component {
       <div className='Sidebar'>
 
         <div className="sidebar-menu-hold">
+          <img src="https://s3-us-west-1.amazonaws.com/socialplaylists/Hero+Images/v2p.png" alt="vote 2 play" className='hero-logo'/>
+
+
           <h1 className="welcome-message">
             Welcome, {this.state.firstname}
           </h1>
           <div className="white-line"></div>
           <nav>
+            
             <ul className='sidebar-nav'>
               <Link to={`/${this.props.login_id}/dashboard`} className='link'>
                 <li className='sidebar-nav-link'>
