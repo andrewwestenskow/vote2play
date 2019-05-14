@@ -60,7 +60,7 @@ class Dashboard extends Component {
     })
   return(
       <div className = 'Dashboard' >
-      <img className='hero-logo' src='https://s3-us-west-1.amazonaws.com/socialplaylists/Hero+Images/v2p+logo.png' alt="Vote 2 play"/>
+      <img className='hero-logo' src='https://s3-us-west-1.amazonaws.com/socialplaylists/Hero+Images/v2p.png' alt="Vote 2 play"/>
       <h1 className="group-text">GROUPS </h1>
       {/* <div className="white-line-dash"></div> */}
       <div className="cards-hold">

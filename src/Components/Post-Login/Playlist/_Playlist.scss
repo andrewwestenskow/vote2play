@@ -15,6 +15,7 @@
 .Playlist{
   @include background-reset;
   color: white;
+  position: relative;
 }
 
 .Playlist-Head{

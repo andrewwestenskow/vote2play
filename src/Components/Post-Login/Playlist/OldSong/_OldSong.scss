@@ -1,0 +1,19 @@
+@import '../../../../variables.scss';
+
+.Old-Song{
+  display: flex;
+  border-top: 1px solid black;
+  border-bottom: 1px solid black;
+}
+
+.old-song-button{
+  background: transparent;
+  padding: 0 5px;
+}
+
+.old-song-title{
+  font-size: 1.2rem;
+  max-width: 80%;
+  @include ellipse;
+  padding: 10px 0;
+}

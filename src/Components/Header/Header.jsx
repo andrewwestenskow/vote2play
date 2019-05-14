@@ -44,7 +44,7 @@ class Header extends Component {
     return (
       <header className='Header'>
         <div className="logo-hold">
-          <img src='https://s3-us-west-1.amazonaws.com/socialplaylists/Hero+Images/v2p+logo+text.png' alt="Vote 2 Play" className='logo-image'/>
+          <img src='https://s3-us-west-1.amazonaws.com/socialplaylists/Hero+Images/v2ptext.png' alt="Vote 2 Play" className='logo-image'/>
           {/* <h1 className='logo'>Social Playlists</h1> */}
         </div>
 

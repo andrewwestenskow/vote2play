@@ -3,6 +3,7 @@
 .List{
   margin-left: 5%;
   margin-top: 1%;
+  
 }
 
 .now-playing-text{
@@ -29,7 +30,29 @@
   display: flex;
 }
 
+.previously-played{
+  width: 30vw;
+  // border: 1px solid yellow;
+  height: 360px;
+  overflow-y: auto;
+  position: absolute;
+  bottom: 50.3vh;
+  left: 48vw;
+}
+
 .previously-played-text{
   font-size: 2.5rem;
-  color: $primary
+  color: $primary;
+  margin-bottom: 10px;
+}
+
+.add-song-input{
+  border-bottom: 1px solid black;
+  font-size: 1.5rem;
+}
+
+.add-song-button{
+  font-size: 1.5rem;
+  background: transparent;
+  padding: 5px;
 }

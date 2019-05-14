@@ -121,7 +121,7 @@ class Playlist extends Component {
     if (this.state.noVideos === true) {
       content = <div>ADD SOME VIDEOS</div>
     } else if (this.state.loading === true) {
-      content = <img className='loading' src="https://upload.wikimedia.org/wikipedia/commons/6/66/Loadingsome.gif" alt="loading" />
+      content = <img className='loading' src="https://upload.wikimedia.org/wikipedia/commons/a/ad/YouTube_loading_symbol_3_%28transparent%29.gif" alt='loading gif' />
     } else {
       content = 
       <YouTube 
@@ -150,7 +150,7 @@ class Playlist extends Component {
 
       <div className='Playlist'>
         <div className="Playlist-Head">
-        <img className='hero-logo' src='https://s3-us-west-1.amazonaws.com/socialplaylists/Hero+Images/v2p+logo.png' alt="Vote 2 play"/>
+        <img className='hero-logo' src='https://s3-us-west-1.amazonaws.com/socialplaylists/Hero+Images/v2p.png' alt="Vote 2 play"/>
         
         <div className="Playlist-Head-Text-Hold">
         <h1 className='Playlist-Head-Group-Name'>{groupInfo.name}</h1>

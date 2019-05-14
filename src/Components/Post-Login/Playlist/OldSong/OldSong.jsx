@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
 import axios from 'axios'
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 
 class OldSong extends Component {
 
@@ -31,10 +32,21 @@ class OldSong extends Component {
 
   render(){
     return(
-      <div>
-      {this.props.title}
-      <button onClick={this.handleAddBack}>Add Again</button>
-      {this.props.isHost && <button onClick={this.handleDelete}>Delete</button>}
+      <div className='Old-Song'>
+      <button onClick={this.handleAddBack}
+      className='old-song-button'>
+      <FontAwesomeIcon icon='plus-circle'/>
+      </button>
+
+      {this.props.isHost && 
+
+      <button onClick={this.handleDelete}
+      className='old-song-button'>
+      <FontAwesomeIcon icon='trash-alt'/>
+      </button>}
+      <h1 className="old-song-title">
+        {this.props.title}
+      </h1>
       </div>
     )
   }
