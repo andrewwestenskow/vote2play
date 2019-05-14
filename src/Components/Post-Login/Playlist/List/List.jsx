@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import axios from 'axios'
 import Song from '../Song/Song'
 import OldSong from '../OldSong/OldSong'
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { connect } from 'react-redux'
 import io from 'socket.io-client'
 require('dotenv').config()
@@ -204,46 +204,50 @@ class List extends Component {
 
     return (
       <div className='List'>
-        {this.state.ready && <div><h1>
-          <span className="now-playing-text">
-            NOW PLAYING:
+        {this.state.ready &&
+          <div className='now-playing-hold'><h1>
+            <span className="now-playing-text">
+              NOW PLAYING:
           </span>
 
-        </h1>
-          <h1 className='now-playing-title'>{nowPlaying.details.snippet.title}</h1>
-        </div>}
+          </h1>
+            <h1 className='now-playing-title'>{nowPlaying.details.snippet.title}</h1>
+          </div>}
         <div className="white-line-playlist"></div>
 
-        {this.state.ready ? <div className='playlist'>
+        {this.state.ready ? 
+        <div className='playlist'>
           <div>
             <h1 className='now-playing-text'>UP NEXT:</h1>
 
             {playlist}
 
+          </div>
+
+          <div className="previously-played">
+            <div>
+              <h1 className='previously-played-text'>Previously Played: </h1>
+              {previouslyPlayed}
+            </div>
             <form onSubmit={this.handleAddNewVideoFormSubmit}>
               <input type="url"
                 name='newVideoUrl'
                 onChange={this.handleNewVideoFormChange}
-                value={this.state.newVideoUrl} 
+                value={this.state.newVideoUrl}
                 placeholder='Add new song'
-                className='add-song-input'/>
+                className='add-song-input' />
 
               <button className='add-song-button'>
-              
-              <FontAwesomeIcon icon='plus-circle'/>
-              
+
+                <FontAwesomeIcon icon='plus-circle' />
+
               </button>
             </form>
 
-            {this.state.urlError && <p>Error adding song, please try again</p>}</div>
-
-          <div className="previously-played">
-            <h1 className='previously-played-text'>Previously Played: </h1>
-            <div>
-              {previouslyPlayed}
-            </div>
-
-          </div></div> : <img src='https://upload.wikimedia.org/wikipedia/commons/a/ad/YouTube_loading_symbol_3_%28transparent%29.gif' alt='loading gif'/>}</div>
+            {this.state.urlError && <p>Error adding song, please try again</p>}
+          </div>
+        </div> : <img src='https://upload.wikimedia.org/wikipedia/commons/a/ad/YouTube_loading_symbol_3_%28transparent%29.gif' alt='loading gif' />}
+      </div>
     )
   }
 }

@@ -3,6 +3,7 @@
 .Dashboard{
   // border: 1px solid green;
   @include background-reset;
+  position: relative;
 }
 
 .cards-hold{

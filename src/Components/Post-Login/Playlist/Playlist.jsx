@@ -22,10 +22,10 @@ class Playlist extends Component {
       next: 0
     }
 
-    
+
   }
 
-  
+
 
   //LOCAL FUNCTIONS
 
@@ -77,7 +77,7 @@ class Playlist extends Component {
       }
     })
 
-    if(sortedArray.length===0){
+    if (sortedArray.length === 0) {
       this.setState({
         noVideos: true
       })
@@ -98,7 +98,7 @@ class Playlist extends Component {
     const playlistId = this.state.currentGroupPlaylistId
     const group_id = this.props.group_id
     const song_id = this.state.currentSongId
-    await axios.post('/api/playlist/reset', {playlistId, group_id, song_id})
+    await axios.post('/api/playlist/reset', { playlistId, group_id, song_id })
     this.setState({
       next: this.state.next += 1
     })
@@ -123,49 +123,50 @@ class Playlist extends Component {
     } else if (this.state.loading === true) {
       content = <img className='loading' src="https://upload.wikimedia.org/wikipedia/commons/a/ad/YouTube_loading_symbol_3_%28transparent%29.gif" alt='loading gif' />
     } else {
-      content = 
-      <YouTube 
-      className='YouTube-Player'
-        videoId={this.state.currentVideo}
-        opts={{ playerVars: { autoplay: 0 } }}
-        // onReady={(e) => e.target.playVideo()}
-        onEnd={this.nextSong} />
+      content =
+        <YouTube
+          className='YouTube-Player'
+          videoId={this.state.currentVideo}
+          opts={{ playerVars: { autoplay: 0 } }}
+          // onReady={(e) => e.target.playVideo()}
+          onEnd={this.nextSong} />
     }
 
-    if(this.state.isHost) {
+    if (this.state.isHost) {
       toShow = content
     } else {
       toShow = <div className='not-host-div'
-      style={{backgroundImage: `url(https://img.youtube.com/vi/${this.state.currentVideo}/0.jpg)`}}>
-      
-      <div className="white-box-thumb">
-        <p className="white-box-thumb-text">Content will play on host device</p>
-      </div>
+        style={{ backgroundImage: `url(https://img.youtube.com/vi/${this.state.currentVideo}/0.jpg)` }}>
+
+        <div className="white-box-thumb">
+          <p className="white-box-thumb-text">Content will play on host device</p>
+        </div>
       </div>
     }
 
-    const {groupInfo} = this.state
+    const { groupInfo } = this.state
 
     return (
 
       <div className='Playlist'>
         <div className="Playlist-Head">
-        <img className='hero-logo' src='https://s3-us-west-1.amazonaws.com/socialplaylists/Hero+Images/v2p.png' alt="Vote 2 play"/>
-        
-        <div className="Playlist-Head-Text-Hold">
-        <h1 className='Playlist-Head-Group-Name'>{groupInfo.name}</h1>
-        <div className='white-line-head'></div>
-        <h3 className='Playlist-Head-Joincode'>Join Code: {groupInfo.joincode}</h3></div>
-        <img className='Playlist-Head-Image' src={groupInfo.group_image} alt=""/>
+          <img className='hero-logo' src='https://s3-us-west-1.amazonaws.com/socialplaylists/Hero+Images/v2p.png' alt="Vote 2 play" />
+
+          <div className="Playlist-Head-Text-Hold">
+            <h1 className='Playlist-Head-Group-Name'>{groupInfo.name}</h1>
+            <div className='white-line-head'></div>
+            <h3 className='Playlist-Head-Joincode'>Join Code: {groupInfo.joincode}</h3>
+          </div>
+          <img className='Playlist-Head-Image' src={groupInfo.group_image} alt="" />
         </div>
 
         {toShow}
 
-        {this.state.ready && 
-        <List group_id={this.props.group_id} 
-        next={this.state.next}
-        getPlaylist={this.getPlaylist}
-        isHost={this.state.isHost}/>
+        {this.state.ready &&
+          <List group_id={this.props.group_id}
+            next={this.state.next}
+            getPlaylist={this.getPlaylist}
+            isHost={this.state.isHost} />
         }
 
       </div>

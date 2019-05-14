@@ -14,7 +14,7 @@
 .now-playing-title{
   font-size: 2rem;
   font-style: italic;
-  max-width: 49vw;
+  max-width: 640px;
   @include ellipse;
   // border: 2px solid green;
   
@@ -22,22 +22,38 @@
 
 .white-line-playlist{
   border: 1px solid white;
-  width: 60%;
+  width: 640px;
   margin: 1% 0
 }
 
 .playlist{
-  display: flex;
+  // display: flex;
 }
 
 .previously-played{
   width: 30vw;
+  margin-right: 10vw;
   // border: 1px solid yellow;
   height: 360px;
   overflow-y: auto;
   position: absolute;
-  bottom: 50.3vh;
-  left: 48vw;
+  top: 10.7vh;
+  right: 50px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  @media screen and (max-width: 1737px) {
+    margin-right: 5vw;
+    right: 25px;
+  }
+  @media screen and (max-width: 1500px) {
+    margin-right: 0;
+  }
+  @media screen and (max-width:1330px) {
+    position: static;
+    width: 640px;
+    margin-top: 30px;
+  }
 }
 
 .previously-played-text{
