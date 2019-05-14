@@ -12,16 +12,8 @@ module.exports = {
       } else {
         songId = checkSong
       }
-
-      console.log(songId)
       let searchId = songId[0].song_id
-      console.log(group_id, searchId)
-
       let checkPlay = await db.checkPlaylist({group_id, searchId})
-
-      console.log(checkPlay)
-
-      
       if(checkPlay.length === 0){
 
         await db.addToPlaylist([group_id, songId[0].song_id])

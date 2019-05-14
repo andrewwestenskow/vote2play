@@ -9,6 +9,9 @@
 .old-song-button{
   background: transparent;
   padding: 0 5px;
+  :hover{
+    color: $primary;
+  }
 }
 
 .old-song-title{

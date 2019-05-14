@@ -17,7 +17,8 @@ class List extends Component {
       prevPlayed: [],
       nowPlaying: [],
       ready: false,
-      urlError: false
+      urlError: false,
+      songAlready: false
     }
     this.socket = io.connect(':7777')
     this.socket.on('room response', data => {
@@ -56,6 +57,7 @@ class List extends Component {
 
 
   updatePlaylist = async () => {
+    
     const { group_id } = this.props
     let res = await axios.post('/api/playlist', { group_id })
     let sortedArray = res.data.sort((a, b) => {
@@ -141,8 +143,18 @@ class List extends Component {
 
   handleAddNewVideoFormSubmit = async (e) => {
     e.preventDefault()
+    this.setState({
+      urlError: false,
+      songAlready: false
+    })
     const { group_id } = this.props
-    await axios.post('/api/playlist/addsong', { group_id: group_id, songUrl: this.state.newVideoUrl })
+    let res = await axios.post('/api/playlist/addsong', { group_id: group_id, songUrl: this.state.newVideoUrl })
+    // console.log(res.data)
+    if(res.data === 'Song already on playlist'){
+      this.setState({
+        songAlready: true
+      })
+    }
 
     this.setState({
       newVideoUrl: ''
@@ -171,6 +183,11 @@ class List extends Component {
       if (song.details !== undefined) {
         return true
       } else {
+        if(this.state.urlError === false) {
+          this.setState({
+            urlError: true
+          })
+        }
         axios.delete(`/api/playlist/${song.group_playlist_id}`)
         axios.delete(`/api/playlist/song/${song.song_id}`)
         return false
@@ -230,6 +247,8 @@ class List extends Component {
               {previouslyPlayed}
             </div>
             <form onSubmit={this.handleAddNewVideoFormSubmit}>
+            {this.state.songAlready && <p>Song is already on playlist</p>}
+            {this.state.urlError && <p>Error adding song, please try again</p>}
               <input type="url"
                 name='newVideoUrl'
                 onChange={this.handleNewVideoFormChange}
@@ -243,8 +262,6 @@ class List extends Component {
 
               </button>
             </form>
-
-            {this.state.urlError && <p>Error adding song, please try again</p>}
           </div>
         </div> : <img src='https://upload.wikimedia.org/wikipedia/commons/a/ad/YouTube_loading_symbol_3_%28transparent%29.gif' alt='loading gif' />}
       </div>

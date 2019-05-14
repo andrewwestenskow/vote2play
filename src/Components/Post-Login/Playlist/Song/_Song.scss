@@ -38,9 +38,14 @@
   background: transparent;
   font-size: 1.2rem;
   padding: 0 15px;
+  :hover{
+    color: $primary
+  }
 }
 
 .vote-done{
   color: $primary
 }
+
+
 
