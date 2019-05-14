@@ -2,16 +2,45 @@
 
 .Song{
   display: flex;
-  border: 2px solid yellow;
-  width: 60vw;
+  // border: 2px solid yellow;
+  width: 49vw;
+  padding-bottom: 5px;
+  padding-top: 5px;
+  // margin-bottom: 5px;
+  border-bottom: 1px solid black;
+  border-top: 1px solid black;
+  margin-right: 25px;
+}
+
+.thumbnail{
+  height: 80px;
+  width: 106px;
 }
 
 .song-text-hold{
   padding-left: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
 }
 
 .song-title-text{
-  max-width: 50vw;
+  font-size: 1.5rem;
+  max-width: 40vw;
   @include ellipse;
+}
+
+.score-text{
+  font-size: 1.3rem;
+}
+
+.vote-button{
+  background: transparent;
+  font-size: 1.5rem;
+  padding: 0 15px;
+}
+
+.vote-done{
+  color: $primary
 }
 

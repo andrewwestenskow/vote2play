@@ -5,10 +5,10 @@ import store from './store'
 import { HashRouter as Router } from 'react-router-dom'
 import routes from './routes'
 import {library} from '@fortawesome/fontawesome-svg-core'
-import {faUsers, faUser, faPlusSquare, faPlus} from '@fortawesome/free-solid-svg-icons'
+import {faUsers, faUser, faPlusSquare, faPlus, faHandPointUp, faHandPointDown, faTrashAlt} from '@fortawesome/free-solid-svg-icons'
 
 function App() {
-  library.add(faUsers, faUser, faPlusSquare, faPlus)
+  library.add(faUsers, faUser, faPlusSquare, faPlus, faHandPointUp, faHandPointDown, faTrashAlt)
   return (
     <Provider store={store}>
         <Router>

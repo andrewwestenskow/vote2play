@@ -213,23 +213,30 @@ class List extends Component {
         </div>}
         <div className="white-line-playlist"></div>
         
-        <h1 className='now-playing-text'>UP NEXT:</h1>
-        {playlist}
+        <div className='playlist'>
+          <div>
+            <h1 className='now-playing-text'>UP NEXT:</h1>
+          
+          {playlist}
+          
+          <form onSubmit={this.handleAddNewVideoFormSubmit}>
+          <input type="text" 
+          name='newVideoUrl'
+          onChange={this.handleNewVideoFormChange} 
+          value={this.state.newVideoUrl} />
 
-        <form onSubmit={this.handleAddNewVideoFormSubmit}>
-          <input type="text" name='newVideoUrl'
-            onChange={this.handleNewVideoFormChange} value={this.state.newVideoUrl} />
           <button>Add</button>
-        </form>
-
-        {this.state.urlError && <p>Error adding song, please try again</p>}
-
-        <h1>Previously Played</h1>
+          </form>
+          
+          {this.state.urlError && <p>Error adding song, please try again</p>}</div>
+        
+        <div className="previously-played">
+        <h1 className='previously-played-text'>Previously Played: </h1>
         <div>
-          {previouslyPlayed}
+        {previouslyPlayed}
         </div>
-
-      </div>
+        
+        </div></div></div>
     )
   }
 }

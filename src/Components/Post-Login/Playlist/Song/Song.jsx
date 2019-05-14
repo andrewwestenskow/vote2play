@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import axios from 'axios'
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 
 class Song extends Component {
 
@@ -41,22 +42,54 @@ class Song extends Component {
 
     return (
       <div className='Song'>
-        <img src={this.props.data.thumbnails.default.url} alt={title} />
+        <img className='thumbnail' src={this.props.data.thumbnails.default.url} alt={title} />
 
         <div className="song-text-hold">
           <h1 className="song-title-text">
             {title}
           </h1>
           <div className="score-button-hold">
-            Score: {score}
+            <span className="score-text">
+              Score: {score}
+            </span>
 
             <button onClick={this.handleUpvote}
-              disabled={this.state.hasUpvote}>up</button>
+              disabled={this.state.hasUpvote}
+              className='vote-button'>
+
+              {this.state.hasUpvote ? 
+              <FontAwesomeIcon 
+              icon='hand-point-up' 
+              className='vote-done'/> : 
+              <FontAwesomeIcon 
+              icon='hand-point-up' 
+              className='vote-undone'/>}
+              
+              </button>
 
             <button onClick={this.handleDownvote}
-              disabled={this.state.hasDownvote}>down</button>
+              disabled={this.state.hasDownvote}
+              className='vote-button'>
 
-            {this.props.isHost && <button onClick={this.handleDelete}>Delete</button>}
+              {this.state.hasDownvote ? 
+              <FontAwesomeIcon 
+              icon='hand-point-down' 
+              className='vote-done'/> : 
+              <FontAwesomeIcon 
+              icon='hand-point-down' 
+              className='vote-undone'/>}
+
+              </button>
+
+            {this.props.isHost && 
+            <button onClick={this.handleDelete}
+            className='vote-button'>
+
+            <FontAwesomeIcon 
+            icon='trash-alt' 
+            className='vote-undone'/>  
+
+            </button>}
           </div>
         </div>
       </div>
