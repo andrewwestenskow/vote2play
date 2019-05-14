@@ -171,8 +171,8 @@ class EditForm extends Component {
                   <GridLoader />}
               </div>}</div>
 
-          <button onClick={this.props.toggleEdit}>Cancel</button>
-          <button onClick={this.handleEditFormSubmit}>Save</button>
+          <button className='edit-form-button' onClick={this.props.toggleEdit}>Cancel</button>
+          <button className='edit-form-button' onClick={this.handleEditFormSubmit}>Save</button>
         </form>
       </div>
     )

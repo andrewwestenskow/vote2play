@@ -86,13 +86,13 @@ class CreateGroup extends Component {
 
   }
 
-  
+
   handleCreateGroupFormUpdate = (e) => {
     this.setState({
       [e.target.name]: e.target.value
     })
   }
-  
+
   //IMAGE UPLOAD
   getSignedRequest = ([file]) => {
     this.setState({ isUploading: true })
@@ -127,11 +127,12 @@ class CreateGroup extends Component {
     axios
       .put(signedRequest, file, options)
       .then(response => {
-        this.setState({ 
-          isUploading: false, 
+        this.setState({
+          isUploading: false,
           groupImage: url,
           showImageInput: false,
-          showUploadImage: true })
+          showUploadImage: true
+        })
       })
       .catch(err => {
         this.setState({
@@ -162,16 +163,32 @@ class CreateGroup extends Component {
 
   render() {
     return (
-      <div className='Create-Group'>Create GROUP
+      <div className='Create-Group'>
 
         <form onSubmit={this.handleCreateGroup}>
           <p>Group Name*</p>
           <input type="text" name='groupName' onChange={this.handleCreateGroupFormUpdate} />
+
           {this.state.noName && <p>Group Name Required</p>}
+
+
           <p>Group Image*</p>
-          {this.state.showImageInput && <div><input type="text" name='groupImage' onChange={this.handleCreateGroupFormUpdate} value={this.state.groupImage} placeholder='Paste image url' />
-          {this.state.noImage && <p>Group image required</p>}
-            <p>--or--</p></div>}
+
+
+          {this.state.showImageInput && <div>
+
+            <input type="text" 
+            name='groupImage' 
+            onChange={this.handleCreateGroupFormUpdate} 
+            value={this.state.groupImage} 
+            placeholder='Paste image url' />
+
+            {this.state.noImage &&
+              <p>Group image required</p>}
+
+            <p>--or--</p>
+
+          </div>}
 
           {!this.state.showUploadImage ? <Dropzone
             onDropAccepted={this.getSignedRequest}
