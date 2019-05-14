@@ -1,4 +1,4 @@
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 import axios from 'axios'
 
 class Song extends Component {
@@ -10,8 +10,8 @@ class Song extends Component {
 
 
   handleUpvote = async () => {
-    const {playlistId } = this.props
-    await (axios.post('/api/playlist/vote', {playlistId, vote: 1}))
+    const { playlistId } = this.props
+    await (axios.post('/api/playlist/vote', { playlistId, vote: 1 }))
     this.setState({
       hasUpvote: true
     })
@@ -20,8 +20,8 @@ class Song extends Component {
   }
 
   handleDownvote = async () => {
-    const {playlistId} = this.props
-    await (axios.post('/api/playlist/vote', {playlistId, vote: 0}))
+    const { playlistId } = this.props
+    await (axios.post('/api/playlist/vote', { playlistId, vote: 0 }))
     this.setState({
       hasDownvote: true
     })
@@ -29,29 +29,36 @@ class Song extends Component {
     this.props.broadcast()
   }
 
-  handleDelete = async ()=> {
-    const {playlistId} = this.props
+  handleDelete = async () => {
+    const { playlistId } = this.props
     await (axios.delete(`/api/playlist/${playlistId}`))
     this.props.updatePlaylist()
     this.props.broadcast()
   }
 
-  render(){
-    const {score, id, title} = this.props   
+  render() {
+    const { score, title } = this.props
 
-    return(
-      <div>
-        <img src={this.props.data.thumbnails.default.url} alt={title}/>
-        {title}
-        {id}
-        Score: {score}
-        <button onClick={this.handleUpvote} 
-        disabled={this.state.hasUpvote}>up</button>
+    return (
+      <div className='Song'>
+        <img src={this.props.data.thumbnails.default.url} alt={title} />
 
-        <button onClick={this.handleDownvote}
-        disabled={this.state.hasDownvote}>down</button>
+        <div className="song-text-hold">
+          <h1 className="song-title-text">
+            {title}
+          </h1>
+          <div className="score-button-hold">
+            Score: {score}
 
-        {this.props.isHost && <button onClick={this.handleDelete}>Delete</button>}
+            <button onClick={this.handleUpvote}
+              disabled={this.state.hasUpvote}>up</button>
+
+            <button onClick={this.handleDownvote}
+              disabled={this.state.hasDownvote}>down</button>
+
+            {this.props.isHost && <button onClick={this.handleDelete}>Delete</button>}
+          </div>
+        </div>
       </div>
     )
   }

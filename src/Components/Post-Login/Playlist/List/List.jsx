@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import axios from 'axios'
 import Song from '../Song/Song'
 import OldSong from '../OldSong/OldSong'
-import {connect} from 'react-redux'
+import { connect } from 'react-redux'
 import io from 'socket.io-client'
 require('dotenv').config()
 const { REACT_APP_YOUTUBE_API_KEY } = process.env
@@ -34,7 +34,7 @@ class List extends Component {
     })
   }
 
-  componentWillUnmount(){
+  componentWillUnmount() {
     this.socket.disconnect()
   }
 
@@ -44,15 +44,15 @@ class List extends Component {
     await this.updatePlaylist()
   }
 
-  componentDidUpdate(prevProps, prevState){
-    if(prevProps.next !==this.props.next){
+  componentDidUpdate(prevProps, prevState) {
+    if (prevProps.next !== this.props.next) {
       this.broadcast()
       this.updatePlaylist()
     }
   }
 
-  
-  
+
+
 
   updatePlaylist = async () => {
     const { group_id } = this.props
@@ -67,7 +67,7 @@ class List extends Component {
       }
     })
 
-    let findPrev = await axios.post('/api/playlist/prev', {group_id})
+    let findPrev = await axios.post('/api/playlist/prev', { group_id })
 
     let prevPlayed = findPrev.data
 
@@ -96,22 +96,22 @@ class List extends Component {
       video.details = details
     })
 
-    let nowPlaying = sortedArray.splice(0,1)
+    let nowPlaying = sortedArray.splice(0, 1)
 
-    if(nowPlaying !== this.state.nowPlaying){
+    if (nowPlaying !== this.state.nowPlaying) {
 
       let nowPlayingVote = nowPlaying[0]
-  
-      if(nowPlayingVote){
-        await (axios.post('/api/playlist/vote', {playlistId: nowPlayingVote.group_playlist_id, vote: 9999}))
-    
+
+      if (nowPlayingVote) {
+        await (axios.post('/api/playlist/vote', { playlistId: nowPlayingVote.group_playlist_id, vote: 9999 }))
+
         this.setState({
           nowPlaying: nowPlaying,
           playlist: sortedArray,
           prevPlayed: prevPlayed,
           ready: true
         })
-  
+
       } else {
         this.setState({
           ready: false,
@@ -124,8 +124,8 @@ class List extends Component {
     this.socket.emit('join group', {
       group_id
     })
-    
-    if(this.state.nowPlaying[0]) {
+
+    if (this.state.nowPlaying[0]) {
       document.title = `Playing: ${this.state.nowPlaying[0].details.snippet.title}`
     } else {
       document.title = `Social Playlists`
@@ -149,7 +149,7 @@ class List extends Component {
 
     this.updatePlaylist()
 
-    if(this.state.playlist.length === 0){
+    if (this.state.playlist.length === 0) {
       this.props.getPlaylist()
     }
 
@@ -157,7 +157,7 @@ class List extends Component {
   }
 
   getPlaylistConditional = () => {
-    if(this.state.nowPlaying.length === 0) {
+    if (this.state.nowPlaying.length === 0) {
       this.props.getPlaylist()
     }
   }
@@ -167,7 +167,7 @@ class List extends Component {
   render() {
 
     let playlist = this.state.playlist.filter(song => {
-      if(song.details !== undefined) {
+      if (song.details !== undefined) {
         return true
       } else {
         axios.delete(`/api/playlist/${song.group_playlist_id}`)
@@ -189,14 +189,14 @@ class List extends Component {
     })
 
     let previouslyPlayed = this.state.prevPlayed.map(song => {
-      let {snippet} = song.details
-      return <OldSong updatePlaylist={this.updatePlaylist} 
-      data={song} 
-      key={song.id} 
-      title={snippet.title} 
-      getPlaylistConditional={this.getPlaylistConditional}
-      broadcast={this.broadcast}
-      isHost={this.props.isHost}/>
+      let { snippet } = song.details
+      return <OldSong updatePlaylist={this.updatePlaylist}
+        data={song}
+        key={song.id}
+        title={snippet.title}
+        getPlaylistConditional={this.getPlaylistConditional}
+        broadcast={this.broadcast}
+        isHost={this.props.isHost} />
     })
 
     let nowPlaying = this.state.nowPlaying[0]
@@ -207,8 +207,12 @@ class List extends Component {
           <span className="now-playing-text">
             NOW PLAYING:
           </span>
-        </h1><span className='now-playing-title'>{nowPlaying.details.snippet.title}</span></div>}
-          <div className="white-line-playlist"></div>
+
+        </h1>
+        <h1 className='now-playing-title'>{nowPlaying.details.snippet.title}</h1>
+        </div>}
+        <div className="white-line-playlist"></div>
+        
         <h1 className='now-playing-text'>UP NEXT:</h1>
         {playlist}
 
@@ -217,19 +221,21 @@ class List extends Component {
             onChange={this.handleNewVideoFormChange} value={this.state.newVideoUrl} />
           <button>Add</button>
         </form>
+
         {this.state.urlError && <p>Error adding song, please try again</p>}
-      <h1>Previously Played</h1>
+
+        <h1>Previously Played</h1>
         <div>
           {previouslyPlayed}
         </div>
-        
+
       </div>
     )
   }
 }
 
 const mapStateToProps = (reduxStore) => {
-  return{
+  return {
     group_id: reduxStore.group.group_id,
     login_id: reduxStore.users.login_id
   }

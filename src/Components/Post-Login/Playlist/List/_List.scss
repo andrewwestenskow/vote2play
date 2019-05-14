@@ -13,8 +13,10 @@
 .now-playing-title{
   font-size: 2rem;
   font-style: italic;
-  max-width: 75vw;
-  @include ellipse
+  max-width: 60vw;
+  @include ellipse;
+  // border: 2px solid green;
+  
 }
 
 .white-line-playlist{

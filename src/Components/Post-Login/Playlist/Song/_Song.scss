@@ -1,0 +1,17 @@
+@import '../../../../variables.scss';
+
+.Song{
+  display: flex;
+  border: 2px solid yellow;
+  width: 60vw;
+}
+
+.song-text-hold{
+  padding-left: 10px;
+}
+
+.song-title-text{
+  max-width: 50vw;
+  @include ellipse;
+}
+
