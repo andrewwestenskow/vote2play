@@ -8,7 +8,10 @@
   position: fixed;
   width: 100vw;
   z-index: 2;
-  background-color: rgba(255, 255, 255, 0.20);
+  // @include background-color;
+  // color: white;
+  background-color: rgba(255, 255, 255, 0.65);
+  // background: blue;
 }
 
 .logo-hold{

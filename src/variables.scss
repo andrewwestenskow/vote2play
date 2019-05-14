@@ -29,5 +29,16 @@ $break-large: 900px;
   width: 85vw;
   min-height: 100vh;
   background: rgb(18,23,31);
-  background-image: linear-gradient(to top, rgba(18,23,31,1) 0%, rgba(21,45,84,1) 40%, rgb(47, 62, 82) 100%);
+  background-image: linear-gradient(to left top, rgb(0, 0, 0) 10%, rgba(21,45,84,1) 40%, rgb(47, 62, 82) 100%);
+}
+
+@mixin background-color{
+  background: rgb(18,23,31);
+  background-image: linear-gradient(to left top, rgba(18,23,31,1) 0%, rgba(21,45,84,1) 40%, rgb(47, 62, 82) 100%);
+}
+
+@mixin ellipse {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
