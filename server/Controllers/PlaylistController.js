@@ -13,11 +13,26 @@ module.exports = {
         songId = checkSong
       }
 
-      await db.addToPlaylist([group_id, songId[0].song_id])
+      console.log(songId)
+      let searchId = songId[0].song_id
+      console.log(group_id, searchId)
 
-      let playlist = await db.getPlaylist([group_id])
+      let checkPlay = await db.checkPlaylist({group_id, searchId})
 
-      res.status(200).send(playlist)
+      console.log(checkPlay)
+
+      
+      if(checkPlay.length === 0){
+
+        await db.addToPlaylist([group_id, songId[0].song_id])
+  
+        let playlist = await db.getPlaylist([group_id])
+  
+        res.status(200).send(playlist)
+      } else {
+        return res.status(200).send(`Song already on playlist`)
+      }
+
 
     } catch (error) {
       res.status(500).send(`Could not add song`)
