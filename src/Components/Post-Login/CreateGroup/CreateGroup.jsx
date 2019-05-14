@@ -86,36 +86,68 @@ class CreateGroup extends Component {
 
   }
 
-  //IMAGE UPLOAD
-
+  
   handleCreateGroupFormUpdate = (e) => {
     this.setState({
       [e.target.name]: e.target.value
     })
   }
-
+  
+  //IMAGE UPLOAD
   getSignedRequest = ([file]) => {
     this.setState({ isUploading: true })
 
     const fileName = `${randomString()}-${file.name.replace(/\s/g, '-')}`
+
+    //Creates a random filename for the uploaded file
 
     axios.get('/sign-s3', {
       params: {
         'file-name': fileName,
         'file-type': file.type
       }
+      //Sends the file to aws.  The backend associates it with the credentials that we want, defines some parameters for s3, and prepares it to be uploaded.  It also gives us the url where the image will be located.  
     }).then((response) => {
       const { signedRequest, url } = response.data
       this.uploadFile(file, signedRequest, url)
-      this.setState({
-        groupImage: url,
-        showImageInput: false,
-        showUploadImage: true
-      })
+      //Invokes the function to handle the file upload
     }).catch(err => {
       console.log(err)
     })
   }
+
+  uploadFile = (file, signedRequest, url) => {
+    //Takes in the file, the authorization, and the url where to upload.
+    const options = {
+      headers: {
+        'Content-Type': file.type,
+      },
+    };
+
+    axios
+      .put(signedRequest, file, options)
+      .then(response => {
+        this.setState({ 
+          isUploading: false, 
+          groupImage: url,
+          showImageInput: false,
+          showUploadImage: true })
+      })
+      .catch(err => {
+        this.setState({
+          isUploading: false,
+        });
+        if (err.response.status === 403) {
+          alert(
+            `Your request for a signed URL failed with a status 403. Double check the CORS configuration and bucket policy in the README. You also will want to double check your AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY in your .env and ensure that they are the same as the ones that you created in the IAM dashboard. You may need to generate new keys\n${
+            err.stack
+            }`
+          );
+        } else {
+          alert(`ERROR: ${err.status}\n ${err.stack}`);
+        }
+      });
+  };
 
   toggleLoad = () => {
     this.setState({

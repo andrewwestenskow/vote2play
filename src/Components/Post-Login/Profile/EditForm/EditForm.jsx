@@ -38,6 +38,24 @@ class EditForm extends Component{
 
   //IMAGE UPLOAD
 
+  getSignedRequest = ([file]) => {
+    this.setState({ isUploading: true })
+
+    const fileName = `${randomString()}-${file.name.replace(/\s/g, '-')}`
+
+    axios.get('/sign-s3', {
+      params: {
+        'file-name': fileName,
+        'file-type': file.type
+      }
+    }).then((response) => {
+      const { signedRequest, url } = response.data
+      this.uploadFile(file, signedRequest, url)
+    }).catch(err => {
+      console.log(err)
+    })
+  }
+
   uploadFile = (file, signedRequest, url) => {
     const options = {
       headers: {
@@ -48,8 +66,11 @@ class EditForm extends Component{
     axios
       .put(signedRequest, file, options)
       .then(response => {
-        this.setState({ isUploading: false, url });
-        // THEN DO SOMETHING WITH THE URL. SEND TO DB USING POST REQUEST OR SOMETHING
+        this.setState({ 
+          isUploading: false, 
+          image: url,
+          showImageInput: false,
+          showUploadImage: true });
       })
       .catch(err => {
         this.setState({
@@ -67,28 +88,6 @@ class EditForm extends Component{
       });
   };
 
-  getSignedRequest = ([file]) => {
-    this.setState({ isUploading: true })
-
-    const fileName = `${randomString()}-${file.name.replace(/\s/g, '-')}`
-
-    axios.get('/sign-s3', {
-      params: {
-        'file-name': fileName,
-        'file-type': file.type
-      }
-    }).then((response) => {
-      const { signedRequest, url } = response.data
-      this.uploadFile(file, signedRequest, url)
-      this.setState({
-        image: url,
-        showImageInput: false,
-        showUploadImage: true
-      })
-    }).catch(err => {
-      console.log(err)
-    })
-  }
 
   toggleLoad = () => {
     this.setState({

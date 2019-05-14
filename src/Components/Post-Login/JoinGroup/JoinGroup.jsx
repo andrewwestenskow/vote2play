@@ -28,7 +28,8 @@ class JoinGroup extends Component{
       this.setState({
         joincode: ''
       })
-      this.props.updateGroups()
+      // this.props.updateGroups()
+      window.location.reload()
     } catch (error) {
       this.setState({
         joinError: true
