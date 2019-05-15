@@ -19,12 +19,12 @@ class Playlist extends Component {
       currentGroupPlaylistId: null,
       currentSongId: null,
       ready: false,
-      next: 0
+      next: 0,
+      playlist: []
     }
 
 
   }
-
 
 
   //LOCAL FUNCTIONS
@@ -91,6 +91,7 @@ class Playlist extends Component {
         noVideos: false
       })
     }
+    
 
   }
 
@@ -106,11 +107,18 @@ class Playlist extends Component {
 
   nextSong = async () => {
     this.setState({
-      loading: true,
+      // loading: true,
       next: this.state.next += 1
     })
     await this.resetVote()
     await this.getPlaylist()
+  }
+
+  setPlaylist = (videos) => {
+    let playlist = videos.map(video => video.details.id)
+    this.setState({
+      playlist: playlist
+    })
   }
 
 
@@ -119,7 +127,12 @@ class Playlist extends Component {
     let content
     let toShow
     if (this.state.noVideos === true) {
-      content = <div>ADD SOME VIDEOS</div>
+      content = 
+      <div className='no-video-hold'>
+      <h1 className="no-video-text">Add some songs</h1>
+      <></>
+      <button>Add your favorite song</button>
+      </div>
     } else if (this.state.loading === true) {
       content = <img className='loading' src="https://upload.wikimedia.org/wikipedia/commons/a/ad/YouTube_loading_symbol_3_%28transparent%29.gif" alt='loading gif' />
     } else {
@@ -127,9 +140,10 @@ class Playlist extends Component {
         <YouTube
           className='YouTube-Player'
           videoId={this.state.currentVideo}
-          opts={{ playerVars: { autoplay: 0 } }}
-          // onReady={(e) => e.target.playVideo()}
-          onEnd={this.nextSong} />
+          opts={{ playerVars: { autoplay: 1 } }}
+          onEnd={this.nextSong} 
+          onPlay={this.showAlert}
+          onPause={this.hideAlert}/>
     }
 
     if (this.state.isHost) {
@@ -165,7 +179,8 @@ class Playlist extends Component {
           <List group_id={this.props.group_id}
             next={this.state.next}
             getPlaylist={this.getPlaylist}
-            isHost={this.state.isHost} />
+            isHost={this.state.isHost}
+            setPlaylist={this.setPlaylist} />
         }
 
       </div>

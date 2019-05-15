@@ -57,7 +57,7 @@ class List extends Component {
 
 
   updatePlaylist = async () => {
-    
+
     const { group_id } = this.props
     let res = await axios.post('/api/playlist', { group_id })
     let sortedArray = res.data.sort((a, b) => {
@@ -133,6 +133,8 @@ class List extends Component {
     } else {
       document.title = `vote 2 play`
     }
+
+    this.props.setPlaylist(this.state.playlist)
   }
 
   handleNewVideoFormChange = (e) => {
@@ -150,7 +152,7 @@ class List extends Component {
     const { group_id } = this.props
     let res = await axios.post('/api/playlist/addsong', { group_id: group_id, songUrl: this.state.newVideoUrl })
     // console.log(res.data)
-    if(res.data === 'Song already on playlist'){
+    if (res.data === 'Song already on playlist') {
       this.setState({
         songAlready: true
       })
@@ -183,7 +185,7 @@ class List extends Component {
       if (song.details !== undefined) {
         return true
       } else {
-        if(this.state.urlError === false) {
+        if (this.state.urlError === false) {
           this.setState({
             urlError: true
           })
@@ -221,7 +223,7 @@ class List extends Component {
 
     return (
       <div className='List'>
-        {this.state.ready &&
+        {this.state.ready ?
           <div className='now-playing-hold'><h1>
             <span className="now-playing-text">
               NOW PLAYING:
@@ -229,17 +231,41 @@ class List extends Component {
 
           </h1>
             <h1 className='now-playing-title'>{nowPlaying.details.snippet.title}</h1>
-          </div>}
+          </div> : <></>}
         <div className="white-line-playlist"></div>
 
-        {this.state.ready ? 
-        <div className='playlist'>
-          <div>
-            <h1 className='now-playing-text'>UP NEXT:</h1>
+        {this.state.ready ?
+          <div className='playlist'>
+            <div>
+              <h1 className='now-playing-text'>UP NEXT:</h1>
 
-            {playlist}
+              {playlist}
 
-          </div>
+            </div>
+
+            <div className="previously-played">
+              <div>
+                <h1 className='previously-played-text'>Previously Played: </h1>
+                {previouslyPlayed}
+              </div>
+              <form onSubmit={this.handleAddNewVideoFormSubmit}>
+                {this.state.songAlready && <p>Song is already on playlist</p>}
+                {this.state.urlError && <p>Error adding song, please try again</p>}
+                <input type="url"
+                  name='newVideoUrl'
+                  onChange={this.handleNewVideoFormChange}
+                  value={this.state.newVideoUrl}
+                  placeholder='Add new song'
+                  className='add-song-input' />
+
+                <button className='add-song-button'>
+
+                  <FontAwesomeIcon icon='plus-circle' />
+
+                </button>
+              </form>
+            </div>
+          </div> :
 
           <div className="previously-played">
             <div>
@@ -247,8 +273,8 @@ class List extends Component {
               {previouslyPlayed}
             </div>
             <form onSubmit={this.handleAddNewVideoFormSubmit}>
-            {this.state.songAlready && <p>Song is already on playlist</p>}
-            {this.state.urlError && <p>Error adding song, please try again</p>}
+              {this.state.songAlready && <p>Song is already on playlist</p>}
+              {this.state.urlError && <p>Error adding song, please try again</p>}
               <input type="url"
                 name='newVideoUrl'
                 onChange={this.handleNewVideoFormChange}
@@ -262,8 +288,7 @@ class List extends Component {
 
               </button>
             </form>
-          </div>
-        </div> : <img src='https://upload.wikimedia.org/wikipedia/commons/a/ad/YouTube_loading_symbol_3_%28transparent%29.gif' alt='loading gif' />}
+          </div>}
       </div>
     )
   }

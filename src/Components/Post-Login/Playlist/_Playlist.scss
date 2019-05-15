@@ -61,6 +61,21 @@
 @include video-hold-reset
 }
 
+.no-video-hold{
+  @include video-hold-reset;
+  background-image: url('https://s3-us-west-1.amazonaws.com/socialplaylists/Hero+Images/v2ptext.png');
+  background-position: center;
+  background-repeat: no-repeat;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+  .no-video-text{
+    font-size: 1.5rem;
+  }
+
+}
+
 .not-host-div{
   @include video-hold-reset;
   background: $primary;
