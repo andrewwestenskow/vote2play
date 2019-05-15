@@ -148,7 +148,7 @@ class Playlist extends Component {
     this.setState({
       videoState: e.target
     })
-    e.target.seekTo(this.state.timecode + 1)
+    e.target.seekTo(this.state.timecode + 1.35)
   }
 
   tuneInPlayer = (timecode) => {
