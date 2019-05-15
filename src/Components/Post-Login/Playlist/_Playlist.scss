@@ -8,8 +8,30 @@
   height: 360px;
 }
 
+@mixin video-player-responsive{
+@media screen and (max-width: 800px) {
+  width: 480px;
+  height: 270px;
+}
+@media screen and (max-width:600px) {
+  width: 320px;
+  height: 180px;
+  margin-top: 20px;
+}
+@media screen and (max-width: 400px){
+  width: 240px;
+  height: 135px;
+}
+@media screen and (max-width: 340) {
+  width: 180px;
+  height: 101px;
+}
+}
+
 .loading{
-  height: 360px;
+  width: 360px;
+  height: auto;
+  @include video-sizing
 }
 
 .Playlist{
@@ -35,9 +57,19 @@
 }
 
 .Playlist-Head-Image{
-  height: 6rem;
-  width: 6rem;
+  height: 5rem;
+  width: 5rem;
   margin-left: 10px;
+  margin-right: 3%;
+  margin-top: 1%;
+  @media screen and (max-width: 600px) {
+    height: 4rem;
+    width: 4rem;
+  }
+  @media screen and (max-width: 340px) {
+    height: 2rem;
+    width: 2rem;
+  }
 }
 
 .Playlist-Head-Text-Hold{
@@ -51,14 +83,22 @@
 
 .Playlist-Head-Group-Name{
   font-size: 2rem;
+  @include header-sizing;
 }
 
 .Playlist-Head-Joincode{
   font-size: 1.2rem;
+  @media screen and (max-width: 600px) {
+    font-size: 1rem;
+  }
+  @media screen and (max-width: 340px) {
+    font-size: 0.8rem;
+  }
 }
 
 .YouTube-Player{
-@include video-hold-reset
+@include video-hold-reset;
+@include video-player-responsive;
 }
 
 .no-video-hold{
@@ -72,7 +112,12 @@
   align-items: center;
   .no-video-text{
     font-size: 1.5rem;
-  }
+    @media screen and (max-width: 340px) {
+      font-size: 1rem;
+      padding-top: 15px;
+    }
+  };
+  @include video-player-responsive
 
 }
 
@@ -83,6 +128,9 @@
   background-position: center;
   background-repeat: no-repeat;
   background-size: 100% 135%;
+  display: flex; 
+  flex-direction: column;
+  @include video-player-responsive;
 
   .white-box-thumb{
     z-index: 1;
@@ -92,11 +140,16 @@
     height: 100%;
     bottom: 0%;
     display: flex;
+    flex-direction: column;
+    text-align: center;
     justify-content: center;
     align-items: center;
     .white-box-thumb-text{
       color: black;
       font-size: 2rem;
+      @media screen and (max-width:340px) {
+        font-size: 0.8rem;
+      }
     }
   }
 }

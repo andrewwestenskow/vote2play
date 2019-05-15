@@ -181,7 +181,8 @@ class Playlist extends Component {
           videoId={this.state.currentVideo}
           opts={{ playerVars: { autoplay: 1 } }}
           onEnd={this.nextSong} 
-          onReady={(e) => this.setVideoState(e)}/>
+          onReady={(e) => this.setVideoState(e)}
+          onError={this.nextSong}/>
     }
 
     if (this.state.isHost) {
@@ -202,7 +203,7 @@ class Playlist extends Component {
 
         <div className="white-box-thumb">
           <p className="white-box-thumb-text">Content will play on host device</p>
-          <button onClick={this.tuneIn}>Tune In</button>
+          <button style={{marginTop: 15}} onClick={this.tuneIn}>Tune In</button>
         </div>
       </div>
     }

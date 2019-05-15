@@ -8,7 +8,14 @@
 
 .now-playing-text{
   font-size: 2.5rem;
-  color: $primary
+  color: $primary;
+  @media screen and (max-width: 800px) {
+    font-size: 2rem;
+  }
+  @media screen and (max-width: 340px) {
+    font-size: 1rem;
+    padding-top: 15px;
+  }
 }
 
 .now-playing-title{
@@ -17,17 +24,29 @@
   max-width: 640px;
   @include ellipse;
   // border: 2px solid green;
-  
+  @include video-sizing;
+  @media screen and (max-width:800px) {
+    font-size: 1.5rem;
+    padding-top: 10px;
+  }
+  @media screen and (max-width:340px) {
+    font-size: 1rem;
+    padding-top: 10px;
+  }
 }
 
 .white-line-playlist{
   border: 1px solid white;
   width: 640px;
-  margin: 1% 0
+  margin: 1% 0;
+  @include video-sizing;
+  @media screen and (max-width: 800px) {
+    margin-bottom: 10px;
+  }
 }
 
 .playlist{
-  // display: flex;
+  padding-bottom: 25px;
 }
 
 .previously-played{
@@ -56,17 +75,32 @@
     width: 640px;
     margin-top: 30px;
   }
+  @include video-sizing
 }
 
 .previously-played-text{
   font-size: 2.5rem;
   color: $primary;
   margin-bottom: 10px;
+  @media screen and (max-width: 800px) {
+    font-size: 2rem;
+  }
+  @media screen and (max-width: 340px) {
+    font-size: 1rem;
+    padding-top: 15px;
+  }
 }
 
 .add-song-input{
   border-bottom: 1px solid black;
   font-size: 1.5rem;
+  @media screen and (max-width: 600px) {
+    width: 80%;
+  }
+  @media screen and (max-width: 340px) {
+    font-size: 1rem;
+    padding-top: 15px;
+  }
 }
 
 .add-song-button{

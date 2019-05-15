@@ -4,6 +4,7 @@
   display: flex;
   border-top: 1px solid black;
   border-bottom: 1px solid black;
+  @include video-sizing
 }
 
 .old-song-button{
@@ -19,4 +20,8 @@
   max-width: 80%;
   @include ellipse;
   padding: 10px 0;
+  @media screen and (max-width: 340px) {
+    max-width: 220px;
+    font-size: 0.8rem;
+  }
 }

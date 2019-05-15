@@ -10,11 +10,18 @@
   border-bottom: 1px solid black;
   border-top: 1px solid black;
   margin-right: 25px;
+  @include video-sizing;
+  @media screen and (max-width: 600px){
+    height: 80px;
+  }
 }
 
 .thumbnail{
   height: 80px;
   width: 106px !important;
+  @media screen and (max-width: 600px) {
+    display: none;
+  }
 }
 
 .song-text-hold{
@@ -28,6 +35,15 @@
   font-size: 1.2rem;
   max-width: 40vw;
   @include ellipse;
+  @media screen and (max-width: 600px) {
+    max-width: 300px;
+    font-size: 1rem;
+  }
+
+  @media screen and (max-width: 380px) {
+    max-width: 220px;
+    font-size: 0.8rem;
+  }
 }
 
 .score-text{

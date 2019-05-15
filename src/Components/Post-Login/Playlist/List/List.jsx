@@ -324,7 +324,7 @@ class List extends Component {
               <h1 className='previously-played-text'>Previously Played: </h1>
               {previouslyPlayed}
             </div>
-            <form onSubmit={this.handleAddNewVideoFormSubmit}>
+            <form onSubmit={this.handleAddNewVideoFormSubmit} className='add-song-form'>
               {this.state.songAlready && <p>Song is already on playlist</p>}
               {this.state.urlError && <p>Error adding song, please try again</p>}
               <input type="url"
