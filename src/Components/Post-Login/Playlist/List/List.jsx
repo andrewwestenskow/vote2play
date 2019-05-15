@@ -67,7 +67,7 @@ class List extends Component {
     setTimeout(() => {
       this.handleAddNewVideoFormSubmit(e)
       
-    }, 1000);
+    }, 10);
   }
 
 
@@ -131,8 +131,6 @@ class List extends Component {
           prevPlayed: prevPlayed,
           ready: true
         })
-
-        console.log(nowPlaying)
 
       } else {
         this.setState({

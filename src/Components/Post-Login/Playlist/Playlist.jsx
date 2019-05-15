@@ -156,7 +156,9 @@ class Playlist extends Component {
 
     if (this.state.isHost) {
       toShow = content
-    } else {
+    } else if (this.state.noVideos===true){
+      toShow = content
+    }else{
       toShow = <div className='not-host-div'
         style={{ backgroundImage: `url(https://img.youtube.com/vi/${this.state.currentVideo}/0.jpg)` }}>
 
