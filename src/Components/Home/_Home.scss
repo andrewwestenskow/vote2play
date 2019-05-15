@@ -28,16 +28,25 @@
 .hero-head{
   color: black;
   font-size: 5rem;
+  @media screen and (max-height: 600px) {
+    font-size: 3.5rem;
+  }
 }
 
 .hero-detail{
   font-size: 1.5rem;
   margin: 2% 0;
+  @media screen and (max-height: 600px) {
+    font-size: 1.3rem;
+  }
 }
 
 .to-register{
   @include button-reset;
   font-size: 2rem;
+  @media screen and (max-height: 600px) {
+    font-size: 1.3rem;
+  }
 }
 
 // REGISTER
@@ -49,10 +58,27 @@
 
 .register-instructions{
   width: 33%;
+  height: 85%;
+  @include background-color;
+  box-shadow: black 0 0 10px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  flex-direction: column;
+  // border: 1px solid black
+  @media screen and (max-width: 750px) {
+    display: none;
+  }
+}
+
+.register-instructions-text{
+  color: white;
+  font-size: 2rem;
+  text-align: center;
 }
 
 .register{
-  background: $neutral;
+  background: rgb(178, 180, 176);
   // @include background-color;
   height: 50vh;
   display: flex;
@@ -63,18 +89,20 @@
 .register-form-hold{
   // border: 2px solid $secondary;
   width: 33%;
-  
+  @media screen and (max-width: 750px) {
+    width: 80%;
+  }
 }
 
 .register-form{
   padding: 14%;
+  @media screen and (max-width: 750px) {
+    padding: 0
+  }
 }
 
 
-.instructions-hold{
-  background: $secondaryneutral;
-  height: 40vh;
-}
+
 
 .register-input{
   @include input-reset;
@@ -87,6 +115,34 @@
   @include button-reset;
   width: 40%;
   margin-top: 5%;
+  
+}
+
+.Playlist-Example{
+  height: 70%;
+  width: auto;
+  box-shadow: black 0 0 10px;
 }
 
 // INSTRUCTIONS
+
+.instructions{
+  display: flex;
+  height: 40vh;
+  background: #393D3F;
+  align-items: center;
+  justify-content: space-around;
+  @media screen and(max-width:1300px) {
+    display: none;
+  }
+}
+
+.instructions-text-hold{
+  width: 10vw;
+}
+
+.instructions-text{
+  font-size: 1.5rem;
+  color:white;
+  text-align: center;
+}

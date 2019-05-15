@@ -76,7 +76,10 @@ class Home extends Component {
 
         <section className="register" ref={this.registerRef}>
           <div className='register-instructions'>
-            How to register
+            <h1 className="register-instructions-text">Perfect for your workplace, your get-together, or private listening. <br/><br/>
+            
+            Register and unlock your inner dj</h1>
+            
           </div>
           <div className="register-form-hold">
             <form onSubmit={this.handleRegisterFormSubmit} className='register-form'>
@@ -100,8 +103,26 @@ class Home extends Component {
             </form>
           </div>
         </section>
-        <section id="instructions">
-          <div className="instructions-hold">INSTRUCTIONS</div>
+        <section className="instructions">
+
+        <div className="instructions-text-hold">
+        <h1 className="instructions-text">Create your group.  Call it what you want and give it an image</h1>
+        </div>
+
+          <img src="https://s3-us-west-1.amazonaws.com/socialplaylists/Hero+Images/create+group+example.PNG" alt="Create Group Example" className='Playlist-Example'/>
+
+          <div className="instructions-text-hold">
+        <h1 className="instructions-text">See all of your groups in one place and join your friends' groups</h1>
+        </div>
+
+          <img src="https://s3-us-west-1.amazonaws.com/socialplaylists/Hero+Images/groups+example.PNG" alt="Groups example" className='Playlist-Example'/>
+
+          <div className="instructions-text-hold">
+        <h1 className="instructions-text">Make your vote count and decide which songs will come next</h1>
+        </div>
+          
+          <img src='https://s3-us-west-1.amazonaws.com/socialplaylists/Hero+Images/Playlist+example.PNG' alt="Playlist example" className='Playlist-Example'/>
+          
         </section>
       </div>
     )
