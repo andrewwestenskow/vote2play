@@ -111,7 +111,7 @@ class Playlist extends Component {
 
   nextSong = async () => {
     this.setState({
-      // loading: true,
+      currentSong: '',
       next: this.state.next += 1
     })
     await this.resetVote()
@@ -175,6 +175,7 @@ class Playlist extends Component {
       content = <img className='loading' src="https://upload.wikimedia.org/wikipedia/commons/a/ad/YouTube_loading_symbol_3_%28transparent%29.gif" alt='loading gif' />
     } else {
       content =
+      //HOST PLAYER
         <YouTube
           className='YouTube-Player'
           videoId={this.state.currentVideo}
@@ -188,10 +189,11 @@ class Playlist extends Component {
     } else if (this.state.noVideos===true){
       toShow = content
     }else if (this.state.tuneInPlayer === true) {
+      //TUNE IN PLAYER
       toShow = <YouTube
       className='YouTube-Player'
       videoId={this.state.currentVideo}
-      opts={{ playerVars: { autoplay: 1 } }}
+      opts={{ playerVars: { autoplay: 1, controls: 0 } }}
       onEnd={this.nextSong} 
       onReady={(e) => this.setTuneInVideoState(e)}/>
     }else {
@@ -232,7 +234,8 @@ class Playlist extends Component {
             song={this.state.song}
             tuneIn={this.state.tuneIn}
             videoState={this.state.videoState}
-            tuneInPlayer={this.tuneInPlayer}/>
+            tuneInPlayer={this.tuneInPlayer}
+            currentVideo={this.state.currentVideo}/>
         }
 
       </div>

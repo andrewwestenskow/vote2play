@@ -22,8 +22,9 @@ class List extends Component {
     }
     this.socket = io.connect(':7777')
     this.socket.on('room response', data => {
-      // console.log('room response')
+      console.log('room response')
       this.updatePlaylist()
+      this.props.getPlaylist()
     })
 
     this.socket.on('timecode request', data => {

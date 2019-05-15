@@ -51,6 +51,8 @@
   }
   @media screen and (max-width:1330px) {
     position: static;
+    height: auto;
+    max-height: 360px;
     width: 640px;
     margin-top: 30px;
   }
