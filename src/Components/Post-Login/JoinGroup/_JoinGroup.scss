@@ -16,6 +16,9 @@
   color: white;
   border-bottom: 1px solid white;
   margin-bottom: 5%;
+  @media screen and (max-width: 500px) {
+    width: 80%;
+  }
 }
 
 .Join-Form{
@@ -43,5 +46,8 @@
     font-size: 3rem;
     // cursor: pointer;
     margin-top: 10%;
+  }
+  @media screen and (max-width: 500px) {
+   font-size: 1rem;
   }
 }

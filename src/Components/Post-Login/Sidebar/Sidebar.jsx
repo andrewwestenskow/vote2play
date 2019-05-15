@@ -46,6 +46,7 @@ class Sidebar extends Component {
           <h1 className="welcome-message">
             Welcome, {this.state.firstname}
           </h1>
+          <img src="https://s3-us-west-1.amazonaws.com/socialplaylists/Hero+Images/v2p.png" alt="v2p" className='sidebar-logo'/>
           <div className="white-line"></div>
           <nav>
             
@@ -75,7 +76,8 @@ class Sidebar extends Component {
                 </li>
               </Link>
               <li className='sidebar-nav-link' onClick={this.handleLogout}>
-                <span className="logout-text">Logout</span>
+              <FontAwesomeIcon icon='sign-out-alt'/>
+                <span className="sidebar-nav-text">Logout</span>
               </li>
             </ul>
           </nav>

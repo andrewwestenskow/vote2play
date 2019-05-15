@@ -10,6 +10,7 @@
   display: flex;
   flex-wrap: wrap;
   max-width: 90vw;
+  padding-bottom: 2rem;
   // margin-top: 2rem;
 }
 
@@ -25,7 +26,7 @@
   font-size: 2.5rem;
   font-weight: 700;
   padding-top: 1%;
-  padding-right: 1%;
+  padding-right: 3%;
   text-align: right;
 }
 
@@ -42,7 +43,11 @@
   margin-top: 2rem;
   position: relative;
   // border: 1px solid black;
-  box-shadow: black 0 0 10px 
+  box-shadow: black 0 0 10px ;
+  @media screen and (max-width: 500px) {
+    height: 12rem;
+    width: 12rem;
+  }
 }
 
 .Group-Card-Bottom{
@@ -79,4 +84,8 @@
   width: 15rem;
   height: 15rem;
   position: absolute;
+  @media screen and (max-width: 500px) {
+    height: 12rem;
+    width: 12rem;
+  }
 }
