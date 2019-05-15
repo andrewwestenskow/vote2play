@@ -21,6 +21,8 @@ class Playlist extends Component {
       ready: false,
       next: 0,
       song: 0,
+      tuneIn: 0,
+      tuneInPlayer: false,
       playlist: []
     }
 
@@ -129,6 +131,34 @@ class Playlist extends Component {
     })
   }
 
+  tuneIn = () => {
+    let num = this.state.tuneIn
+    this.setState({
+      tuneIn: ++num
+    })
+  }
+
+  setVideoState = (e) => {
+    this.setState({
+      videoState: e.target
+    })
+  }
+
+  setTuneInVideoState = (e) => {
+    this.setState({
+      videoState: e.target
+    })
+    e.target.seekTo(this.state.timecode + 1)
+  }
+
+  tuneInPlayer = (timecode) => {
+    this.setState({
+      tuneInPlayer: true,
+      timecode: timecode
+    })
+    
+  }
+
 
   render() {
 
@@ -150,20 +180,27 @@ class Playlist extends Component {
           videoId={this.state.currentVideo}
           opts={{ playerVars: { autoplay: 1 } }}
           onEnd={this.nextSong} 
-          onPlay={this.showAlert}
-          onPause={this.hideAlert}/>
+          onReady={(e) => this.setVideoState(e)}/>
     }
 
     if (this.state.isHost) {
       toShow = content
     } else if (this.state.noVideos===true){
       toShow = content
-    }else{
+    }else if (this.state.tuneInPlayer === true) {
+      toShow = <YouTube
+      className='YouTube-Player'
+      videoId={this.state.currentVideo}
+      opts={{ playerVars: { autoplay: 1 } }}
+      onEnd={this.nextSong} 
+      onReady={(e) => this.setTuneInVideoState(e)}/>
+    }else {
       toShow = <div className='not-host-div'
         style={{ backgroundImage: `url(https://img.youtube.com/vi/${this.state.currentVideo}/0.jpg)` }}>
 
         <div className="white-box-thumb">
           <p className="white-box-thumb-text">Content will play on host device</p>
+          <button onClick={this.tuneIn}>Tune In</button>
         </div>
       </div>
     }
@@ -192,7 +229,10 @@ class Playlist extends Component {
             isHost={this.state.isHost}
             setPlaylist={this.setPlaylist} 
             favoritesong={this.state.favoritesong}
-            song={this.state.song}/>
+            song={this.state.song}
+            tuneIn={this.state.tuneIn}
+            videoState={this.state.videoState}
+            tuneInPlayer={this.tuneInPlayer}/>
         }
 
       </div>

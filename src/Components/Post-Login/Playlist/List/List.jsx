@@ -26,6 +26,20 @@ class List extends Component {
       this.updatePlaylist()
     })
 
+    this.socket.on('timecode request', data => {
+      if(this.props.isHost === true && this.props.videoState !== undefined) {
+        console.log(`request timecode: ${this.props.videoState.getCurrentTime(data)}`)
+        this.broadcastTimecode(data)
+      }
+    })
+
+    this.socket.on('timecode response', data => {
+      if(this.props.login_id === data.requester){
+        console.log(`requester: ${data.requester} time: ${data.timecode}`)
+        this.props.tuneInPlayer(data.timecode)
+      }
+    })
+
   }
 
   //SOCKETS
@@ -33,6 +47,21 @@ class List extends Component {
   broadcast = () => {
     this.socket.emit('broadcast to group socket', {
       group_id: this.props.group_id
+    })
+  }
+
+  broadcastGetTimeCode = () => {
+    this.socket.emit('broadcast to get timecode', {
+      group_id: this.props.group_id,
+      login_id: this.props.login_id
+    })
+  }
+
+  broadcastTimecode = (data) => {
+    this.socket.emit('broadcast timecode', {
+      group_id: this.props.group_id,
+      timecode: this.props.videoState.getCurrentTime(),
+      requester: data.login_id
     })
   }
 
@@ -55,6 +84,14 @@ class List extends Component {
     if(prevProps.song !== this.props.song) {
       this.addFavorite()
     }
+
+    if(prevProps.tuneIn !== this.props.tuneIn) {
+      this.tuneIn()
+    }
+  }
+
+  tuneIn = () => {
+    this.broadcastGetTimeCode()
   }
 
   addFavorite = async () => {
@@ -69,9 +106,6 @@ class List extends Component {
       
     }, 10);
   }
-
-
-
 
   updatePlaylist = async () => {
 
