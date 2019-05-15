@@ -1,6 +1,7 @@
 const initialState = {
   login_id: null,
   isAuthenticated: false,
+  favoritesong: ''
 }
 
 const UPDATE_LOGIN_ID = "UPDATE_LOGIN_ID"
@@ -29,10 +30,10 @@ export default function userReducer (state=initialState, action){
   const {type, payload} = action
   switch(type){
     case UPDATE_LOGIN_ID:
-      const {login_id, isAuthenticated} = payload
-      return {...state, login_id, isAuthenticated};
+      const {login_id, isAuthenticated, favoritesong} = payload
+      return {...state, login_id, isAuthenticated, favoritesong};
     case LOGOUT_USER: 
-      return{...state, login_id: null, isAuthenticated: false}
+      return{...state, login_id: null, isAuthenticated: false, favoritesong: ''}
     default:
       return state
   }

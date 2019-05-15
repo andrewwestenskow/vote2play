@@ -19,7 +19,7 @@ module.exports = {
     let response = await db.registerUser([firstname, lastname, email, favoritesong, hash])
 
     let login_id = response[0].user_login_id
-
+    
     req.session.user = {
       isAuthenticated: true,
       login_id
@@ -34,17 +34,17 @@ module.exports = {
 
     let users = await db.getUserByEmail([email])
     let user = users [0]
-
+    
     if(!user){
       return res.status(401).send(`Email or Password Incorrect`)
     }
-
+    
     let isAuthenticated = bcrypt.compareSync(req.body.password, user.password)
-
+    
     if(!isAuthenticated) {
       return res.status(401).send(`Email or Password Incorrect`)
     }
-
+    
     const login_id = user.user_login_id
 
     req.session.user = {

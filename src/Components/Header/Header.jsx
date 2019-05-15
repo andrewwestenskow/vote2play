@@ -26,11 +26,6 @@ class Header extends Component {
       const user = await axios.post('/auth/login', { email, password })
       this.props.updateLoginId(user.data)
       this.props.history.push(`/${user.data.login_id}/dashboard`)
-      this.setState({
-        loginEmail: '',
-        loginPassword: '',
-        loginError: false
-      })
     } catch (err) {
       this.setState({
         loginEmail: '',

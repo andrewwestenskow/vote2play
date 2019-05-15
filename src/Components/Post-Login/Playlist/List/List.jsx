@@ -51,6 +51,23 @@ class List extends Component {
       this.broadcast()
       this.updatePlaylist()
     }
+
+    if(prevProps.song !== this.props.song) {
+      this.addFavorite()
+    }
+  }
+
+  addFavorite = async () => {
+    this.setState({
+      newVideoUrl: this.props.favoritesong
+    })
+
+    let e = {preventDefault: () => {return}}
+
+    setTimeout(() => {
+      this.handleAddNewVideoFormSubmit(e)
+      
+    }, 1000);
   }
 
 
@@ -114,6 +131,8 @@ class List extends Component {
           prevPlayed: prevPlayed,
           ready: true
         })
+
+        console.log(nowPlaying)
 
       } else {
         this.setState({

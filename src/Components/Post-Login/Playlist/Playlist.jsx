@@ -20,6 +20,7 @@ class Playlist extends Component {
       currentSongId: null,
       ready: false,
       next: 0,
+      song: 0,
       playlist: []
     }
 
@@ -39,9 +40,10 @@ class Playlist extends Component {
 
     //GETS CURRENT USER DETAILS TO CHECK IF THEY ARE HOST
     let userDetails = await axios.get('/auth/getdetails')
-    const { firstname, login_id, isAuthenticated } = userDetails.data
+    const { firstname, login_id, isAuthenticated, favoritesong } = userDetails.data
     this.setState({
-      firstname
+      firstname,
+      favoritesong
     })
     this.props.updateLoginId({ login_id, isAuthenticated })
     //MAKES SURE USER IS ADMIN
@@ -121,6 +123,12 @@ class Playlist extends Component {
     })
   }
 
+  addFavorite = () => {
+    this.setState({
+      song: 1
+    })
+  }
+
 
   render() {
 
@@ -131,7 +139,7 @@ class Playlist extends Component {
       <div className='no-video-hold'>
       <h1 className="no-video-text">Add some songs</h1>
       <></>
-      <button>Add your favorite song</button>
+      <button onClick={this.addFavorite}>Add your favorite song</button>
       </div>
     } else if (this.state.loading === true) {
       content = <img className='loading' src="https://upload.wikimedia.org/wikipedia/commons/a/ad/YouTube_loading_symbol_3_%28transparent%29.gif" alt='loading gif' />
@@ -180,7 +188,9 @@ class Playlist extends Component {
             next={this.state.next}
             getPlaylist={this.getPlaylist}
             isHost={this.state.isHost}
-            setPlaylist={this.setPlaylist} />
+            setPlaylist={this.setPlaylist} 
+            favoritesong={this.state.favoritesong}
+            song={this.state.song}/>
         }
 
       </div>
