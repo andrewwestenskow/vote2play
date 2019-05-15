@@ -4,6 +4,36 @@
   @include background-reset;
 }
 
+.Create-Group-Head{
+  color: white;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  height: 10vh;
+  .Create-Group-Head-Title{
+    font-size: 2.5rem;
+    padding-right: 15px;
+  }
+}
+
+.Create-Group-Form{
+  margin-left: 30px;
+}
+
+.Create-Group-Title{
+  color: white;
+  font-size: 2rem;
+}
+
+.Create-Group-Input{
+  border-bottom: 1px solid white;
+  color: white;
+  margin: 25px 0;
+  width: 20vw;
+}
+
+
+
 .File-Drop{
   position: relative;
   width: 200px;
@@ -16,10 +46,16 @@
   justify-content: center;
   align-items: center;
   font-size: 28;
+  color: white;
 }
 
 .dropzone{
   height: 200px;
   width: 200px;
   cursor: pointer;
+}
+
+.Uploaded-Image{
+  height: 200px;
+  width: 200px;
 }

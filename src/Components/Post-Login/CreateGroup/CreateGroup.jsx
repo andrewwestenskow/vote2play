@@ -164,29 +164,36 @@ class CreateGroup extends Component {
   render() {
     return (
       <div className='Create-Group'>
+        <div className="Create-Group-Head">
 
-        <form onSubmit={this.handleCreateGroup}>
-          <p>Group Name*</p>
-          <input type="text" name='groupName' onChange={this.handleCreateGroupFormUpdate} />
+          
+            <h1 className='Create-Group-Head-Title'>Create Group</h1>
+        </div>
+
+        <form className='Create-Group-Form' onSubmit={this.handleCreateGroup}>
+          <p className='Create-Group-Title'>Group Name*</p>
+          <input type="text" name='groupName' onChange={this.handleCreateGroupFormUpdate}
+          className='Create-Group-Input' required />
 
           {this.state.noName && <p>Group Name Required</p>}
 
 
-          <p>Group Image*</p>
+          <p className='Create-Group-Title'>Group Image*</p>
 
 
           {this.state.showImageInput && <div>
 
-            <input type="text" 
-            name='groupImage' 
-            onChange={this.handleCreateGroupFormUpdate} 
-            value={this.state.groupImage} 
-            placeholder='Paste image url' />
+            <input type="text"
+              name='groupImage'
+              onChange={this.handleCreateGroupFormUpdate}
+              value={this.state.groupImage}
+              placeholder='Paste image url'
+              className='Create-Group-Input' required />
 
             {this.state.noImage &&
               <p>Group image required</p>}
 
-            <p>--or--</p>
+            <p style={{color: 'white', marginBottom: 25}}>--or--</p>
 
           </div>}
 
@@ -194,27 +201,15 @@ class CreateGroup extends Component {
             onDropAccepted={this.getSignedRequest}
             accept='image/*'
             multiple={false}
-            className='Dropzone'>
+            className='Dropzone'
+            >
 
             {({ getRootProps, getInputProps }) => (
 
               <section className="container">
                 <div {...getRootProps({ className: 'dropzone' })}>
                   <input {...getInputProps()} />
-                  <div style={{
-                    position: 'relative',
-                    width: 200,
-                    height: 200,
-                    borderWidth: 7,
-                    // marginTop: 100,
-                    borderColor: 'rgb(102, 102, 102)',
-                    borderStyle: 'dashed',
-                    borderRadius: 5,
-                    display: 'flex',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    fontSize: 28,
-                  }} className='File-Drop'>
+                  <div className='File-Drop'>
                     {this.state.isUploading
                       ? <GridLoader />
                       : <p>Drop File or Click Here</p>
@@ -231,7 +226,8 @@ class CreateGroup extends Component {
                 <img
                   src={this.state.groupImage}
                   alt='Group'
-                  onError={this.toggleLoad} /> :
+                  onError={this.toggleLoad}
+                  className='Uploaded-Image' /> :
                 <GridLoader />}
             </div>}
 
