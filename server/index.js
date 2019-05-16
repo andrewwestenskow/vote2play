@@ -49,6 +49,22 @@ io.on('connection', socket => {
     socket.to(data.group_id).broadcast.emit('timecode response', data)
   })
 
+  socket.on('broadcast seek', data => {
+    console.log(`Seek on group ${data.group_id} by user ${data.host} to ${data.timecode}`)
+    socket.to(data.group_id).broadcast.emit('seek response',
+    data)
+  })
+
+  socket.on('host pause', data => {
+    console.log(`Host ${data.host} paused group ${data.group_id}`)
+    socket.to(data.group_id).broadcast.emit('host pause', data)
+  })
+
+  socket.on('host play', data => {
+    console.log(`Host ${data.host} played group ${data.groupd_id}`)
+    socket.to(data.group_id).broadcast.emit('host play', data)
+  })
+
 
   //ROOM SOCKETS
 

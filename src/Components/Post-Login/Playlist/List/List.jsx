@@ -41,6 +41,27 @@ class List extends Component {
       }
     })
 
+    this.socket.on('seek response', data => {
+      if(this.props.tuneInState){
+        console.log(`Seek to ${data.timecode}`)
+        this.props.tuneInVideoState.seekTo(data.timecode)
+      }
+    })
+
+    this.socket.on('host pause', data => {
+      if(this.props.tuneInState){
+        console.log(`Host paused`)
+        this.props.tuneInVideoState.pauseVideo()
+      }
+    })
+
+    this.socket.on('host play', data => {
+      if(this.props.tuneInState){
+        console.log(`Host played`)
+        this.props.tuneInVideoState.playVideo()
+      }
+    })
+
   }
 
   //SOCKETS
@@ -66,6 +87,28 @@ class List extends Component {
     })
   }
 
+  broadcastSeek = (timecode) => {
+    this.socket.emit('broadcast seek', {
+      group_id: this.props.group_id,
+      timecode,
+      host: this.props.login_id
+    })
+  }
+
+  broadcastPause = () => {
+    this.socket.emit('host pause', {
+      group_id: this.props.group_id,
+      host: this.props.login_id
+    })
+  }
+
+  broadcastPlay = () => {
+    this.socket.emit('host play', {
+      group_id: this.props.group_id,
+      host: this.props.login_id
+    })
+  }
+
   componentWillUnmount() {
     this.socket.disconnect()
   }
@@ -88,6 +131,14 @@ class List extends Component {
 
     if(prevProps.tuneIn !== this.props.tuneIn) {
       this.tuneIn()
+    }
+    
+    if(prevProps.pause !== this.props.pause) {
+      this.broadcastPause()
+    }
+
+    if(prevProps.play !== this.props.play) {
+      this.broadcastPlay()
     }
   }
 
@@ -272,6 +323,19 @@ class List extends Component {
     })
 
     let nowPlaying = this.state.nowPlaying[0]
+
+    let timestamps = []
+    setInterval(() => {
+      if(this.props.videoState && this.props.isHost){
+        const video = this.props.videoState
+        let currentTime = video.getCurrentTime()
+        let length = timestamps.length
+        timestamps.push(currentTime)
+        if(timestamps[length-1] - timestamps[length-2] > 2 || timestamps[length-1] < timestamps[length-2]){
+          this.broadcastSeek(currentTime)
+        }
+      }
+    }, 1000);
 
     return (
       <div className='List'>

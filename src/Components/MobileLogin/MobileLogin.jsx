@@ -43,7 +43,7 @@ class MobileLogin extends Component {
           <form onSubmit={this.handleLoginFormSubmit} className='mobile-login-form'>
 
             <input placeholder='Email' 
-            type="email" 
+            type="text" 
             name='loginEmail' 
             value={this.state.loginEmail} 
             onChange={e => this.handleFormUpdate(e)}

@@ -22,6 +22,8 @@ class Playlist extends Component {
       next: 0,
       song: 0,
       tuneIn: 0,
+      pause: 0,
+      play: 0,
       tuneInPlayer: false,
       playlist: []
     }
@@ -146,7 +148,7 @@ class Playlist extends Component {
 
   setTuneInVideoState = (e) => {
     this.setState({
-      videoState: e.target
+      tuneInVideoState: e.target
     })
     e.target.seekTo(this.state.timecode + 1.35)
   }
@@ -157,6 +159,20 @@ class Playlist extends Component {
       timecode: timecode
     })
     
+  }
+
+  broadcastPause = () => {
+    let num = this.state.pause
+    this.setState({
+      pause: ++num
+    })
+  }
+
+  broadcastPlay = () => {
+    let num = this.state.play
+    this.setState({
+      play: ++num
+    })
   }
 
 
@@ -182,7 +198,9 @@ class Playlist extends Component {
           opts={{ playerVars: { autoplay: 1 } }}
           onEnd={this.nextSong} 
           onReady={(e) => this.setVideoState(e)}
-          onError={this.nextSong}/>
+          onError={this.nextSong}
+          onPause={this.broadcastPause}
+          onPlay={this.broadcastPlay}/>
     }
 
     if (this.state.isHost) {
@@ -190,13 +208,18 @@ class Playlist extends Component {
     } else if (this.state.noVideos===true){
       toShow = content
     }else if (this.state.tuneInPlayer === true) {
+    
+    
+      
       //TUNE IN PLAYER
-      toShow = <YouTube
+      toShow = 
+      <YouTube
       className='YouTube-Player'
       videoId={this.state.currentVideo}
       opts={{ playerVars: { autoplay: 1, controls: 0 } }}
       onEnd={this.nextSong} 
-      onReady={(e) => this.setTuneInVideoState(e)}/>
+      onReady={(e) => this.setTuneInVideoState(e)}
+      />
     }else {
       toShow = <div className='not-host-div'
         style={{ backgroundImage: `url(https://img.youtube.com/vi/${this.state.currentVideo}/0.jpg)` }}>
@@ -236,7 +259,11 @@ class Playlist extends Component {
             tuneIn={this.state.tuneIn}
             videoState={this.state.videoState}
             tuneInPlayer={this.tuneInPlayer}
-            currentVideo={this.state.currentVideo}/>
+            currentVideo={this.state.currentVideo}
+            tuneInState={this.state.tuneInPlayer}
+            tuneInVideoState={this.state.tuneInVideoState}
+            pause={this.state.pause}
+            play={this.state.play}/>
         }
 
       </div>
