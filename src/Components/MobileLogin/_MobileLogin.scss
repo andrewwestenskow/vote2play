@@ -1,0 +1,9 @@
+@import '../../variables.scss';
+
+.Mobile-Login{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  @include background-color;
+}

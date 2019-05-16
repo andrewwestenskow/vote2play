@@ -9,18 +9,24 @@
   background-repeat: no-repeat;
   background-size: cover;
   padding-top: 10vh;
+  position: relative;
 }
 
 .white-box{
-  height: 80%;
+  height: 100%;
   width: 100%;
   background-color: rgba(255, 255, 255, 0.65);
+  
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
   text-align: center;
   position: absolute;
+  margin-top: -10vh;
+  @media screen and (max-width: 700px) {
+    height: 100%;
+  }
   // bottom: 20%
 
 }
@@ -49,6 +55,13 @@
   }
 }
 
+.mobile-logo{
+  display: none;
+  @media screen and (max-width: 700px){
+    display: inline
+  }
+}
+
 // REGISTER
 
 .register-form{
@@ -57,10 +70,11 @@
 }
 
 .register-instructions{
-  width: 33%;
-  height: 85%;
-  @include background-color;
-  box-shadow: black 0 0 10px;
+  // @include background-color;
+  
+  width: 20%;
+  height: 100%;
+  // box-shadow: black 0 0 10px;
   display: flex;
   justify-content: space-around;
   align-items: center;
@@ -72,7 +86,7 @@
 }
 
 .register-instructions-text{
-  color: white;
+  // color: white;
   font-size: 2rem;
   text-align: center;
 }
@@ -80,22 +94,30 @@
 .register{
   background: rgb(178, 180, 176);
   // @include background-color;
-  height: 50vh;
+  height: 60vh;
   display: flex;
   align-items: center;
-  justify-content: space-around;
+  justify-content: space-between;
+  background-image: url('https://s3-us-west-1.amazonaws.com/socialplaylists/Hero+Images/2girlsheadphones.jpeg');
+  background-position: left;
+  background-size: 100%;
+  background-repeat: no-repeat;
 }
 
 .register-form-hold{
-  // border: 2px solid $secondary;
-  width: 33%;
+  background-image: linear-gradient(to left, rgba(255, 255, 255, 0.80) 80%, transparent);
+  width: 60%;
+  height: 100% !important;
+  
   @media screen and (max-width: 750px) {
     width: 80%;
   }
 }
 
 .register-form{
-  padding: 14%;
+  padding: 5% 14%;
+  margin-left: 10%;
+  max-height: 100% !important;
   @media screen and (max-width: 750px) {
     padding: 0
   }
@@ -113,9 +135,13 @@
 
 .register-button{
   @include button-reset;
-  width: 40%;
-  margin-top: 5%;
+  width: 20%;
   
+}
+
+.register-image{
+  height: 100%;
+  width: 100%;
 }
 
 .Playlist-Example{
@@ -126,15 +152,36 @@
 
 // INSTRUCTIONS
 
-.instructions{
-  display: flex;
-  height: 40vh;
-  background: #393D3F;
-  align-items: center;
-  justify-content: space-around;
+.desktop-show{
+  background-image: linear-gradient(to right, #233653 70%, transparent);
+  height: 100%;
+  width: 60%;
   @media screen and(max-width:1300px) {
     display: none;
   }
+
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: flex-start;
+
+}
+
+.instructions-image{
+  height: 60%;
+  margin-left: 10%;
+  box-shadow: black 0 0 10px;
+}
+
+.instructions{
+  display: flex;
+  height: 60vh;
+  background: $secondary;
+  background-image: url('https://s3-us-west-1.amazonaws.com/socialplaylists/Hero+Images/Vinylfriends.jpeg');
+  background-position: -120% 15%;
+  background-size: 120%;
+  background-repeat: no-repeat;
+  
 }
 
 .instructions-text-hold{
@@ -145,4 +192,6 @@
   font-size: 1.5rem;
   color:white;
   text-align: center;
+  margin-left: 5%;
+  margin-bottom: 25px;
 }

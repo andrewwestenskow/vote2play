@@ -5,12 +5,14 @@
   align-items: center;
   justify-content: space-between;
   height: 10vh;
-  position: fixed;
   width: 100vw;
   z-index: 2;
-  // @include background-color;
-  // color: white;
-  background-color: rgba(255, 255, 255, 0.65);
+  position: fixed;
+  background-color: rgba(255, 255, 255, 0.85);
+  
+  @media screen and (max-width: 700px) {
+    display: none;
+  }
   // background: blue;
 }
 
@@ -21,17 +23,19 @@
   align-items: center;
 }
 
-.Header{
-  display: flex;
-  align-items: center;
-}
+
 
 .logo-image{
   height: 80%;
   padding-top: 7%;
+  @media screen and (max-width: 900px) {
+    width: 150px;
+    height: auto;
+  }
   @media screen and (max-width: 500px) {
     width: 100px;
     height: auto;
+    // padding-top: 75px;
   }
 }
 
@@ -51,9 +55,16 @@ display: flex;
 width: 100%;
 justify-content: flex-end;
 @media screen and (max-width: $break-large) {
-  flex-wrap: wrap;
+  // flex-wrap: wrap;
   margin-top: 5px;
-  width: 40%;
+  // padding-top: 75px;
+  width: 75%;
+  font-size: 1.2rem;
+  align-items: flex-end;
+}
+@media screen and (max-width: 700px) {
+  flex-wrap: wrap;
+  width: 50%;
 }
 @media screen and (max-width: 450px) {
   margin-top: 5px;
@@ -68,7 +79,7 @@ justify-content: flex-end;
   // color: white;
   margin: 0 5%;
   @media screen and (max-width: $break-large) {
-    margin: 0;
+    padding: 15px 0;
   }
 }
 
@@ -77,5 +88,7 @@ justify-content: flex-end;
   @media screen and (max-width: 800px) {
     font-size: 0.5rem;
     margin-top: 5px;
+    max-height: 35px;
+  
   }
 }

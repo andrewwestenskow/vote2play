@@ -7,10 +7,12 @@ import Profile from './Components/Post-Login/Profile/Profile'
 import CreateGroup from './Components/Post-Login/CreateGroup/CreateGroup'
 import JoinGroup from './Components/Post-Login/JoinGroup/JoinGroup'
 import Playlist from './Components/Post-Login/Playlist/Playlist'
+import MobileLogin from './Components/MobileLogin/MobileLogin'
 
 export default(
   <Switch>
     <Route exact path='/' component={Home}/>
+    <Route exact path='/login' component={MobileLogin}/>
     <Route path='/:login_id' component={() => (
       <Sidebar>
         <Switch>

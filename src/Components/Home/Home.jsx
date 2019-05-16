@@ -4,6 +4,7 @@ import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { updateLoginId } from '../../ducks/userReducer'
 import Header from '../Header/Header'
+import {Link} from 'react-router-dom'
 
 class Home extends Component {
 
@@ -67,22 +68,34 @@ class Home extends Component {
       <Header/>
         <section id='hero-hold' className='hero-hold'>
           <div className="white-box">
+          <img src="https://s3-us-west-1.amazonaws.com/socialplaylists/Hero+Images/v2ptext.png" alt="vote 2 play" className='mobile-logo'/>
             <h1 className="hero-head">MAKE MUSIC SOCIAL AGAIN</h1>
             <p className="hero-detail">Your friends.  Your playlists.  Your choice.</p>
             <button onClick={this.scrollToRegister} className="to-register">Sign Up Now</button>
+            <Link to='/login'>
+              <p className="to-mobile-login">Login</p>
+            </Link>
           </div>
         </section>
 
 
+        
+        <section className="instructions">
+
+        <div className="desktop-show">
+        <h1 className="instructions-text">Make your playlists and share with your friends:</h1>
+        <img src="https://s3-us-west-1.amazonaws.com/socialplaylists/Hero+Images/Playlist+example.PNG" alt="vote 2 play example playlist" className='instructions-image'/>
+        </div>
+          
+        </section>
+
         <section className="register" ref={this.registerRef}>
-          <div className='register-instructions'>
-            <h1 className="register-instructions-text">Perfect for your workplace, your get-together, or private listening. <br/><br/>
-            
-            Register and unlock your inner dj</h1>
-            
+          <div className='register-instructions'>    
+                  
           </div>
           <div className="register-form-hold">
             <form onSubmit={this.handleRegisterFormSubmit} className='register-form'>
+            <h1 className="register-instructions-text">Sign up now to get started</h1>  
 
               <input type="text" name='firstname' onChange={this.handleRegisterFormUpdate} className='register-input' placeholder='First Name' required />
 
@@ -102,27 +115,6 @@ class Home extends Component {
               <button disabled={this.state.formdisable} className='register-button'>Sign up</button>
             </form>
           </div>
-        </section>
-        <section className="instructions">
-
-        <div className="instructions-text-hold">
-        <h1 className="instructions-text">Create your group.  Call it what you want and give it an image</h1>
-        </div>
-
-          <img src="https://s3-us-west-1.amazonaws.com/socialplaylists/Hero+Images/create+group+example.PNG" alt="Create Group Example" className='Playlist-Example'/>
-
-          <div className="instructions-text-hold">
-        <h1 className="instructions-text">See all of your groups in one place and join your friends' groups</h1>
-        </div>
-
-          <img src="https://s3-us-west-1.amazonaws.com/socialplaylists/Hero+Images/groups+example.PNG" alt="Groups example" className='Playlist-Example'/>
-
-          <div className="instructions-text-hold">
-        <h1 className="instructions-text">Make your vote count and decide which songs will come next</h1>
-        </div>
-          
-          <img src='https://s3-us-west-1.amazonaws.com/socialplaylists/Hero+Images/Playlist+example.PNG' alt="Playlist example" className='Playlist-Example'/>
-          
         </section>
       </div>
     )
