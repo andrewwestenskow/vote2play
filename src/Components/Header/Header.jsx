@@ -48,7 +48,7 @@ class Header extends Component {
           <form onSubmit={this.handleLoginFormSubmit} className='login-form'>
 
             <input placeholder='Email' 
-            type="text" 
+            type="email" 
             name='loginEmail' 
             value={this.state.loginEmail} 
             onChange={e => this.handleFormUpdate(e)}

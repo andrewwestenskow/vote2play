@@ -39,11 +39,11 @@ class MobileLogin extends Component {
 
     return(
       <div className='Mobile-Login'>
-        <div className="mobile-login-form-hold">
+        <img src="https://s3-us-west-1.amazonaws.com/socialplaylists/Hero+Images/v2ptext.png" alt="Vote 2 Play logo"/>
           <form onSubmit={this.handleLoginFormSubmit} className='mobile-login-form'>
 
             <input placeholder='Email' 
-            type="text" 
+            type="email" 
             name='loginEmail' 
             value={this.state.loginEmail} 
             onChange={e => this.handleFormUpdate(e)}
@@ -58,7 +58,6 @@ class MobileLogin extends Component {
             <button className='login-button'>Log In</button>
             {this.state.loginError && <h3>{this.state.loginErrorMessage}</h3>}
           </form>
-        </div>
       </div>
     )
   }

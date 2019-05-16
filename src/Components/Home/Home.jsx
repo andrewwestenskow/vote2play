@@ -62,6 +62,7 @@ class Home extends Component {
 
 
   render() {
+
     return (
       <div>
 
@@ -80,14 +81,14 @@ class Home extends Component {
 
 
         
-        <section className="instructions">
+        {/* <section className="instructions">
 
         <div className="desktop-show">
         <h1 className="instructions-text">Make your playlists and share with your friends:</h1>
         <img src="https://s3-us-west-1.amazonaws.com/socialplaylists/Hero+Images/Playlist+example.PNG" alt="vote 2 play example playlist" className='instructions-image'/>
         </div>
           
-        </section>
+        </section> */}
 
         <section className="register" ref={this.registerRef}>
           <div className='register-instructions'>    
@@ -102,12 +103,9 @@ class Home extends Component {
               <input type="text" placeholder='Last Name' name='lastname' onChange={this.handleRegisterFormUpdate} className='register-input' required />
 
               
-              <input placeholder='Email' type="text" name='email' onChange={this.handleRegisterFormUpdate} className='register-input' required />
+              <input placeholder='Email' type="email" name='email' onChange={this.handleRegisterFormUpdate} className='register-input' required />
 
               <input placeholder='Password' type="password" name='password' onChange={this.handleRegisterFormUpdate} className='register-input' required />
-
-              <input placeholder='Confirm Password' type="password" name='confirmpassword' onChange={this.handleRegisterFormUpdate} className='register-input' required />
-              {this.state.passwordnomatch && <p>Passwords must match</p>}
 
               <input placeholder='Favorite Song (YouTube url)' type="text" name='favoritesong' onChange={this.handleRegisterFormUpdate} className='register-input' required />
 
@@ -115,6 +113,15 @@ class Home extends Component {
               <button disabled={this.state.formdisable} className='register-button'>Sign up</button>
             </form>
           </div>
+        </section>
+
+        <section className="instructions">
+
+        <div className="desktop-show">
+        <h1 className="instructions-text">Make your playlists and share with your friends:</h1>
+        <img src="https://s3-us-west-1.amazonaws.com/socialplaylists/Hero+Images/Playlist+example.PNG" alt="vote 2 play example playlist" className='instructions-image'/>
+        </div>
+          
         </section>
       </div>
     )
