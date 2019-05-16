@@ -1,5 +1,26 @@
 @import '../../variables.scss';
 
+@mixin background-image-scale{
+  @media screen and (max-width:780px) {
+    background-size: 120%;
+  }
+  @media screen and (max-width: 650px) {
+    background-size: 135%;
+  }
+  @media screen and (max-width: 550px) {
+    background-size: 150%;
+  }
+  @media screen and(max-width: 480px) {
+    background-size: 165%
+  }
+  @media screen and (max-width: 415px) {
+    background-size: 180%
+  }
+  @media screen and (max-width: 400px) {
+    background-size: 200%;
+  }
+}
+
 // HERO
 
 .hero-hold{
@@ -67,6 +88,14 @@
 .register-form{
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
+  padding: 5% 14%;
+  margin-left: 10%;
+  height: 100% !important;
+  @media screen and (max-width:550px){
+    max-width: 100% !important;
+    padding: 5% 5%;
+  }
 }
 
 .register-instructions{
@@ -80,7 +109,7 @@
   align-items: center;
   flex-direction: column;
   // border: 1px solid black
-  @media screen and (max-width: 750px) {
+  @media screen and(max-width:550px) {
     display: none;
   }
 }
@@ -89,6 +118,7 @@
   // color: white;
   font-size: 2rem;
   text-align: center;
+  margin-bottom: 50px;
 }
 
 .register{
@@ -102,6 +132,24 @@
   background-position: left;
   background-size: 100%;
   background-repeat: no-repeat;
+  @include background-image-scale;
+  @media screen and (max-width: 1030px){
+    background-size: 120%
+  }
+  @media screen and (max-width:550px) {
+  background-size: 200%;
+  justify-content:flex-end;
+  height: 80vh;
+  }
+  @media screen and (max-width: 480px) {
+    background-size: 225%;
+  }
+  @media screen and (max-width: 415px) {
+    background-size: 240%
+  }
+  @media screen and (max-width: 380px) {
+    background-size: 260%;
+  }
 }
 
 .register-form-hold{
@@ -112,16 +160,11 @@
   @media screen and (max-width: 750px) {
     width: 80%;
   }
-}
-
-.register-form{
-  padding: 5% 14%;
-  margin-left: 10%;
-  max-height: 100% !important;
-  @media screen and (max-width: 750px) {
-    padding: 0
+  @media screen and (max-width: 550px) {
+    width: 100% !important;
   }
 }
+
 
 
 
@@ -136,7 +179,7 @@
 .register-button{
   @include button-reset;
   width: 20%;
-  
+  min-width: 112px;
 }
 
 .register-image{
@@ -156,9 +199,7 @@
   background-image: linear-gradient(to right, #233653 70%, transparent);
   height: 100%;
   width: 60%;
-  @media screen and(max-width:1300px) {
-    display: none;
-  }
+  
 
   display: flex;
   justify-content: center;
@@ -171,6 +212,9 @@
   height: 60%;
   margin-left: 10%;
   box-shadow: black 0 0 10px;
+  @media screen and (max-width:480px) {
+    height: 40%;
+  }
 }
 
 .instructions{
@@ -181,7 +225,16 @@
   background-position: -120% 15%;
   background-size: 120%;
   background-repeat: no-repeat;
-  
+  @include background-image-scale;
+  @media screen and (max-width: 550px) {
+    background-position: -50% 15%;
+  }
+  @media screen and (max-width: 415px) {
+    background-position: -30% 15%;
+  }
+  @media screen and (max-width: 400px) {
+    background-position: -15% 15%;
+  }
 }
 
 .instructions-text-hold{
