@@ -1,7 +1,7 @@
 @import '../../variables.scss';
 
 @mixin background-image-scale{
-  @media screen and (max-width:780px) {
+  @media screen and (max-width:800px) {
     background-size: 120%;
   }
   @media screen and (max-width: 650px) {
@@ -45,16 +45,26 @@
   text-align: center;
   position: absolute;
   margin-top: -10vh;
-  @media screen and (max-width: 750px) {
+  @media screen and (max-width: 700px) {
   justify-content: flex-start;
   }
   // bottom: 20%
 
 }
 
+.to-mobile-login{
+  display: none;
+  @media screen and (max-width: 700px) {
+    display: inline;
+  }
+}
+
 .hero-head{
   color: black;
   font-size: 5rem;
+  @media screen and (max-width: 500px) {
+    font-size: 3.5rem;
+  }
   @media screen and (max-height: 750px) {
     font-size: 3.5rem;
   }
@@ -131,6 +141,7 @@
   background: rgb(178, 180, 176);
   // @include background-color;
   height: 60vh;
+  min-height: 650px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -142,7 +153,10 @@
   @media screen and (max-width: 1030px){
     background-size: 120%
   }
-  @media screen and (max-width:550px) {
+  @media screen and (max-width: 800px) {
+    background-size: 150%;
+  }
+  @media screen and (max-width:650px) {
   background-size: 200%;
   justify-content:flex-end;
   height: 80vh;
@@ -154,7 +168,7 @@
     background-size: 240%
   }
   @media screen and (max-width: 380px) {
-    background-size: 260%;
+    background-size: 315%;
   }
 }
 
