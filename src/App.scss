@@ -74,6 +74,7 @@ table {
 @import './Components/Post-Login/Playlist/OldSong/OldSong';
 @import './Components/Post-Login/Profile/EditForm/EditForm';
 @import './Components/MobileLogin/MobileLogin';
+@import './Components/Post-Login/Playlist/List/ChatWindow/ChatWindow.scss';
 
 button{
 	@include button-reset

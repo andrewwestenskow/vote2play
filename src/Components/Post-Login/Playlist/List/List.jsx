@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import axios from 'axios'
 import Song from '../Song/Song'
 import OldSong from '../OldSong/OldSong'
+import ChatWindow from './ChatWindow/ChatWindow'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { connect } from 'react-redux'
 import io from 'socket.io-client'
@@ -28,35 +29,35 @@ class List extends Component {
     })
 
     this.socket.on('timecode request', data => {
-      if(this.props.isHost === true && this.props.videoState !== undefined) {
+      if (this.props.isHost === true && this.props.videoState !== undefined) {
         console.log(`request timecode: ${this.props.videoState.getCurrentTime(data)}`)
         this.broadcastTimecode(data)
       }
     })
 
     this.socket.on('timecode response', data => {
-      if(this.props.login_id === data.requester){
+      if (this.props.login_id === data.requester) {
         console.log(`requester: ${data.requester} time: ${data.timecode}`)
         this.props.tuneInPlayer(data.timecode)
       }
     })
 
     this.socket.on('seek response', data => {
-      if(this.props.tuneInState){
+      if (this.props.tuneInState) {
         console.log(`Seek to ${data.timecode}`)
         this.props.tuneInVideoState.seekTo(data.timecode)
       }
     })
 
     this.socket.on('host pause', data => {
-      if(this.props.tuneInState){
+      if (this.props.tuneInState) {
         console.log(`Host paused`)
         this.props.tuneInVideoState.pauseVideo()
       }
     })
 
     this.socket.on('host play', data => {
-      if(this.props.tuneInState){
+      if (this.props.tuneInState) {
         console.log(`Host played`)
         this.props.tuneInVideoState.playVideo()
       }
@@ -125,19 +126,19 @@ class List extends Component {
       this.updatePlaylist()
     }
 
-    if(prevProps.song !== this.props.song) {
+    if (prevProps.song !== this.props.song) {
       this.addFavorite()
     }
 
-    if(prevProps.tuneIn !== this.props.tuneIn) {
+    if (prevProps.tuneIn !== this.props.tuneIn) {
       this.tuneIn()
     }
-    
-    if(prevProps.pause !== this.props.pause) {
+
+    if (prevProps.pause !== this.props.pause) {
       this.broadcastPause()
     }
 
-    if(prevProps.play !== this.props.play) {
+    if (prevProps.play !== this.props.play) {
       this.broadcastPlay()
     }
   }
@@ -151,11 +152,11 @@ class List extends Component {
       newVideoUrl: this.props.favoritesong
     })
 
-    let e = {preventDefault: () => {return}}
+    let e = { preventDefault: () => { return } }
 
     setTimeout(() => {
       this.handleAddNewVideoFormSubmit(e)
-      
+
     }, 10);
   }
 
@@ -326,12 +327,12 @@ class List extends Component {
 
     let timestamps = []
     setInterval(() => {
-      if(this.props.videoState && this.props.isHost){
+      if (this.props.videoState && this.props.isHost) {
         const video = this.props.videoState
         let currentTime = video.getCurrentTime()
         let length = timestamps.length
         timestamps.push(currentTime)
-        if(timestamps[length-1] - timestamps[length-2] > 2 || timestamps[length-1] < timestamps[length-2]){
+        if (timestamps[length - 1] - timestamps[length - 2] > 2 || timestamps[length - 1] < timestamps[length - 2]) {
           this.broadcastSeek(currentTime)
         }
       }
@@ -359,27 +360,30 @@ class List extends Component {
 
             </div>
 
-            <div className="previously-played">
-              <div>
-                <h1 className='previously-played-text'>Previously Played: </h1>
-                {previouslyPlayed}
+            <div className="previous-chat-hold">
+              <div className="previously-played">
+                <div>
+                  <h1 className='previously-played-text'>Previously Played: </h1>
+                  {previouslyPlayed}
+                </div>
+                <form onSubmit={this.handleAddNewVideoFormSubmit}>
+                  {this.state.songAlready && <p>Song is already on playlist</p>}
+                  {this.state.urlError && <p>Error adding song, please try again</p>}
+                  <input type="url"
+                    name='newVideoUrl'
+                    onChange={this.handleNewVideoFormChange}
+                    value={this.state.newVideoUrl}
+                    placeholder='Add new song'
+                    className='add-song-input' />
+
+                  <button className='add-song-button'>
+
+                    <FontAwesomeIcon icon='plus-circle' />
+
+                  </button>
+                </form>
               </div>
-              <form onSubmit={this.handleAddNewVideoFormSubmit}>
-                {this.state.songAlready && <p>Song is already on playlist</p>}
-                {this.state.urlError && <p>Error adding song, please try again</p>}
-                <input type="url"
-                  name='newVideoUrl'
-                  onChange={this.handleNewVideoFormChange}
-                  value={this.state.newVideoUrl}
-                  placeholder='Add new song'
-                  className='add-song-input' />
-
-                <button className='add-song-button'>
-
-                  <FontAwesomeIcon icon='plus-circle' />
-
-                </button>
-              </form>
+              <ChatWindow />
             </div>
           </div> :
 
