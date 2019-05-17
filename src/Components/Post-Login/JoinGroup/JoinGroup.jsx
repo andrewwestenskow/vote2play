@@ -45,7 +45,7 @@ class JoinGroup extends Component{
       <FontAwesomeIcon icon='plus' className='icon'/>
     </div>
       <form onSubmit={this.handleJoinGroup} className='Join-Form'>
-      <input className='Join-Input' type="text" name='joincode' onChange={this.handleJoinFormUpdate} value={this.state.joincode}/>
+      <input className='Join-Input' type="text" name='joincode' onChange={this.handleJoinFormUpdate} value={this.state.joincode} autoComplete='off' />
       <button className='Join-Button'>Join</button>
       </form> 
     
