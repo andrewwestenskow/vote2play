@@ -8,7 +8,7 @@ class ChatWindow extends Component {
   state = {
     chatMessages: [{ name: 'Andrew', message: 'Hello' }],
     chatInput: '',
-    showChat: true
+    showChat: false
   }
 
   messageEnd = React.createRef()
@@ -67,7 +67,7 @@ class ChatWindow extends Component {
         } else {
           return <div key={Math.random()} className='other-message'>
             <img src={message.image} alt={message.name} className='message-image' />
-            <p className='message-text'>{message.name}: {message.message}</p>
+            <span className='message-text'>{message.name}: {message.message}</span>
           </div>
         }
 

@@ -111,6 +111,7 @@
   flex-direction: row-reverse;
   background: #5fc9f8;
   border-radius: 25px;
+  align-self: flex-end;
   .message-text{
     margin-right: 10px;
   }
@@ -123,8 +124,15 @@
   border-radius: 25px;
 }
 
+.message-name{
+  align-self: flex-start;
+  // padding: 5px;
+  margin-top: 8px;
+  font-weight: 700;
+}
+
 .message-text{
-  padding: 5px;
+  padding: 5px 10px;
   margin-top: 2px;
 }
 

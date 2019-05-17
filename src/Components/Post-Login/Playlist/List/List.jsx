@@ -136,8 +136,8 @@ class List extends Component {
 
   async componentWillMount() {
     await this.updatePlaylist()
-    let messages = await axios.post(`/api/messages`, {group_id: this.props.group_id})
-    if(messages.data.length !== 0){
+    let messages = await axios.post(`/api/messages`, { group_id: this.props.group_id })
+    if (messages.data.length !== 0) {
       this.setState({
         chatMessages: messages.data.sendMessage
       })
@@ -372,7 +372,14 @@ class List extends Component {
 
           </h1>
             <h1 className='now-playing-title'>{nowPlaying.details.snippet.title}</h1>
-          </div> : <></>}
+          </div> : <div className='now-playing-hold'><h1>
+            <span className="now-playing-text">
+              NOW PLAYING:
+          </span>
+
+          </h1>
+            <h1 className='now-playing-title'>Nothing</h1>
+          </div>}
         <div className="white-line-playlist"></div>
 
         {this.state.ready ?
@@ -385,61 +392,67 @@ class List extends Component {
             </div>
 
             <div className="previous-chat-hold">
+              <h1 className='previously-played-text'>Previously Played: </h1>
               <div className="previously-played">
                 <div>
-                  <h1 className='previously-played-text'>Previously Played: </h1>
                   {previouslyPlayed}
                 </div>
-                <form onSubmit={this.handleAddNewVideoFormSubmit} className='add-new-form'>
-                  {this.state.songAlready && <p>Song is already on playlist</p>}
-                  {this.state.urlError && <p>Error adding song, please try again</p>}
-                  <input type="url"
-                    name='newVideoUrl'
-                    onChange={this.handleNewVideoFormChange}
-                    value={this.state.newVideoUrl}
-                    placeholder='Add new song'
-                    className='add-song-input' 
-                    autoComplete='off'/>
-
-                  <button className='add-song-button'>
-
-                    <FontAwesomeIcon icon='plus-circle' />
-
-                  </button>
-                </form>
               </div>
-              
+              <form onSubmit={this.handleAddNewVideoFormSubmit} className='add-new-form'>
+                {this.state.songAlready && <p>Song is already on playlist</p>}
+                {this.state.urlError && <p>Error adding song, please try again</p>}
+                <input type="url"
+                  name='newVideoUrl'
+                  onChange={this.handleNewVideoFormChange}
+                  value={this.state.newVideoUrl}
+                  placeholder='Add new song'
+                  className='add-song-input'
+                  autoComplete='off' />
+
+                <button className='add-song-button'>
+
+                  <FontAwesomeIcon icon='plus-circle' />
+
+                </button>
+              </form>
+
             </div>
           </div> :
 
-          <div className="previously-played">
-            <div>
+          <div className='playlist'>
+
+            <div className="previous-chat-hold">
               <h1 className='previously-played-text'>Previously Played: </h1>
-              {previouslyPlayed}
+              <div className="previously-played">
+                <div>
+                  {previouslyPlayed}
+                </div>
+              </div>
+              <form onSubmit={this.handleAddNewVideoFormSubmit} className='add-new-form'>
+                {this.state.songAlready && <p>Song is already on playlist</p>}
+                {this.state.urlError && <p>Error adding song, please try again</p>}
+                <input type="url"
+                  name='newVideoUrl'
+                  onChange={this.handleNewVideoFormChange}
+                  value={this.state.newVideoUrl}
+                  placeholder='Add new song'
+                  className='add-song-input'
+                  autoComplete='off' />
+
+                <button className='add-song-button'>
+
+                  <FontAwesomeIcon icon='plus-circle' />
+
+                </button>
+              </form>
+
             </div>
-            <form onSubmit={this.handleAddNewVideoFormSubmit} className='add-song-form'>
-              {this.state.songAlready && <p>Song is already on playlist</p>}
-              {this.state.urlError && <p>Error adding song, please try again</p>}
-              <input type="url"
-                name='newVideoUrl'
-                onChange={this.handleNewVideoFormChange}
-                value={this.state.newVideoUrl}
-                placeholder='Add new song'
-                className='add-song-input'
-                autoComplete='off' />
-
-              <button className='add-song-button'>
-
-                <FontAwesomeIcon icon='plus-circle' />
-
-              </button>
-            </form>
           </div>}
-          <ChatWindow
-              image={this.props.image} 
-              firstname={this.props.firstname}
-              handleChatSend={this.handleChatSend}
-              chatMessages={this.state.chatMessages}/>
+        <ChatWindow
+          image={this.props.image}
+          firstname={this.props.firstname}
+          handleChatSend={this.handleChatSend}
+          chatMessages={this.state.chatMessages} />
       </div>
     )
   }
