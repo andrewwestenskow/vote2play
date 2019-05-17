@@ -1,0 +1,1 @@
+select * from chat where group_id = ($1)

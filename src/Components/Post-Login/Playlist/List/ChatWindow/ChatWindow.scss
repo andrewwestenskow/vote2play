@@ -1,29 +1,130 @@
 @import '../../../../../variables.scss';
 
 .Chat-Window{
-  border: 1px solid white;
-  height: 360px;
-  margin-top: 15px;
+  // border: 1px solid white;
+  box-shadow: black 0 0 10px; 
+  @include background-color;
+  height: calc(360px + 2.5rem);
+  width: 500px;
+
+  @media screen and (max-width: 615px) {
+    width: 400px
+  }
+  @media screen and (max-width: 500px) {
+    width: 300px
+  }
+  @media screen and (max-width: 380px) {
+    width: 250px;
+  }
+  transition: all 0.5s;
+}
+
+.show-chat{
+  position: fixed;
+  margin-right: 15px;
+  bottom: 0px;
+  right: 0px;
+}
+
+.hide-chat{
+  position: fixed;
+  margin-right: 15px;
+  right: 0px;
+  bottom: -360px;
 }
 
 .messages-hold{
   height: 306px;
-  border: 1px solid yellow;
+  // border: 1px solid white;
+  overflow-y: auto;
+  padding: 10px;
+  color: black;
+  display: flex;
+  flex-direction: column;
+  
+  
+  
+}
+
+.chat-title{
+  // border: 1px solid white;
+  height: 2.5rem;
+  // width: 100%;
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+  font-size: 1.5rem;
+}
+
+.chat-hold{
+  // @include background-color;
+  background: #DFDFDF;
+  width: 100%;
 }
 
 .chat-input-hold{
-  border: 1px solid red;
+  // border: 1px solid white;
+  
   height: 54px;
+}
+
+.chat-icon{
+  cursor: pointer;
 }
 
 .chat-form{
   display: flex;
   align-items: flex-end;
-  justify-content: space-around;
+  justify-content: flex-start;
+  color: white;
+}
+
+.chat-input{
+  border-bottom: 1px solid $primary;
+  width: 70%;
 }
 
 .chat-image{
-  height: 50px;
-  width: auto;
+  height: 40px;
+  width: 40px;
   border-radius: 50px;
+  margin: 5px;
 }
+
+.message-image{
+  height: 25px;
+  width: 25px;
+  border-radius: 50px;
+  margin: 5px;
+}
+
+@mixin message-reset{
+  display: flex;
+  flex: 1 1 auto;
+  max-width: 70%;
+  margin: 2.5px 0;
+  
+}
+
+.user-message{
+  @include message-reset;
+  flex-direction: row-reverse;
+  background: #5fc9f8;
+  border-radius: 25px;
+  .message-text{
+    margin-right: 10px;
+  }
+}
+
+.other-message{
+  @include message-reset;
+  align-items: center;
+  background: #8e8e93;
+  border-radius: 25px;
+}
+
+.message-text{
+  padding: 5px;
+  margin-top: 2px;
+}
+

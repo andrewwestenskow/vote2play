@@ -65,7 +65,6 @@ class List extends Component {
     })
 
     this.socket.on('new message', data => {
-      console.log(`hit`)
       this.setState({
         chatMessages: [...this.state.chatMessages, data]
       })
@@ -137,6 +136,12 @@ class List extends Component {
 
   async componentWillMount() {
     await this.updatePlaylist()
+    let messages = await axios.post(`/api/messages`, {group_id: this.props.group_id})
+    if(messages.data.length !== 0){
+      this.setState({
+        chatMessages: messages.data.sendMessage
+      })
+    }
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -393,7 +398,8 @@ class List extends Component {
                     onChange={this.handleNewVideoFormChange}
                     value={this.state.newVideoUrl}
                     placeholder='Add new song'
-                    className='add-song-input' />
+                    className='add-song-input' 
+                    autoComplete='off'/>
 
                   <button className='add-song-button'>
 
@@ -402,11 +408,7 @@ class List extends Component {
                   </button>
                 </form>
               </div>
-              <ChatWindow
-              image={this.props.image} 
-              firstname={this.props.firstname}
-              handleChatSend={this.handleChatSend}
-              chatMessages={this.state.chatMessages}/>
+              
             </div>
           </div> :
 
@@ -423,7 +425,8 @@ class List extends Component {
                 onChange={this.handleNewVideoFormChange}
                 value={this.state.newVideoUrl}
                 placeholder='Add new song'
-                className='add-song-input' />
+                className='add-song-input'
+                autoComplete='off' />
 
               <button className='add-song-button'>
 
@@ -431,12 +434,12 @@ class List extends Component {
 
               </button>
             </form>
-            <ChatWindow
+          </div>}
+          <ChatWindow
               image={this.props.image} 
               firstname={this.props.firstname}
               handleChatSend={this.handleChatSend}
               chatMessages={this.state.chatMessages}/>
-          </div>}
       </div>
     )
   }

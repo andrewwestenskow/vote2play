@@ -8,8 +8,10 @@ const aws = require('aws-sdk')
 const UsersCtrl = require('./Controllers/UsersController')
 const GroupCtrl = require('./Controllers/GroupController')
 const AuthCtrl = require('./Controllers/AuthController')
+const ChatCtrl = require('./Controllers/ChatController')
 const PlaylistCtrl = require('./Controllers/PlaylistController')
 const authMiddleware = require('./Middlewares/authMiddleware')
+
 
 const{SERVER_PORT, SESSION_SECRET, CONNECTION_STRING, S3_BUCKET, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY} = process.env
 
@@ -29,50 +31,50 @@ const io = socket(server)
 
 io.on('connection', socket => {
   console.log(`Socket connected`)
-
+  
   socket.on('disconnect', () => {
     console.log(`Socket disconnected`)
   })
-
+  
   socket.on('broadcast to group socket', data => {
-    console.log(`broadcast to room ${data.group_id}`)
+    // console.log(`broadcast to room ${data.group_id}`)
     socket.to(data.group_id).broadcast.emit('room response', data)
   })
-
+  
   socket.on('broadcast to get timecode', data => {
-    console.log(`request for timecode room ${data.group_id} from user ${data.login_id}`)
+    // console.log(`request for timecode room ${data.group_id} from user ${data.login_id}`)
     socket.to(data.group_id).broadcast.emit('timecode request', data)
   })
-
+  
   socket.on('broadcast timecode', data => {
-    console.log(`current timecode for group ${data.group_id} from user ${data.requester}: ${data.timecode}`)
+    // console.log(`current timecode for group ${data.group_id} from user ${data.requester}: ${data.timecode}`)
     socket.to(data.group_id).broadcast.emit('timecode response', data)
   })
-
+  
   socket.on('broadcast seek', data => {
-    console.log(`Seek on group ${data.group_id} by user ${data.host} to ${data.timecode}`)
+    // console.log(`Seek on group ${data.group_id} by user ${data.host} to ${data.timecode}`)
     socket.to(data.group_id).broadcast.emit('seek response',
     data)
   })
-
+  
   socket.on('host pause', data => {
-    console.log(`Host ${data.host} paused group ${data.group_id}`)
+    // console.log(`Host ${data.host} paused group ${data.group_id}`)
     socket.to(data.group_id).broadcast.emit('host pause', data)
   })
-
+  
   socket.on('host play', data => {
-    console.log(`Host ${data.host} played group ${data.group_id}`)
+    // console.log(`Host ${data.host} played group ${data.group_id}`)
     socket.to(data.group_id).broadcast.emit('host play', data)
   })
-
+  
   socket.on('message send', data => {
-    console.log (`${data.name} sent ${data.message} to group ${data.group_id}`)
+    // console.log (`${data.name} sent ${data.message} to group ${data.group_id}`)
     io.to(data.group_id).emit('new message', data)
   })
-
-
+  
+  
   //ROOM SOCKETS
-
+  
   socket.on('join group', data => {
     console.log(`Join group ${data.group_id}`)
     socket.join(data.group_id)
@@ -111,9 +113,13 @@ app.post('/api/playlist/addback', PlaylistCtrl.addBack)
 app.get('/api/users/info', UsersCtrl.getUserInfo)
 app.put('/api/users/info', UsersCtrl.updateInfo)
 
+//CHAT ENDPOINTS
+app.post('/api/chat', ChatCtrl.updateMessages)
+app.post('/api/messages', ChatCtrl.getChat)
+
 // AWS S3 ENDPOINTS
 app.get('/sign-s3', (req, res) => {
-
+  
   aws.config = {
     region: 'us-west-1',
     accessKeyId: AWS_ACCESS_KEY_ID,
