@@ -61,8 +61,13 @@ io.on('connection', socket => {
   })
 
   socket.on('host play', data => {
-    console.log(`Host ${data.host} played group ${data.groupd_id}`)
+    console.log(`Host ${data.host} played group ${data.group_id}`)
     socket.to(data.group_id).broadcast.emit('host play', data)
+  })
+
+  socket.on('message send', data => {
+    console.log (`${data.name} sent ${data.message} to group ${data.group_id}`)
+    io.to(data.group_id).emit('new message', data)
   })
 
 

@@ -1,0 +1,29 @@
+@import '../../../../../variables.scss';
+
+.Chat-Window{
+  border: 1px solid white;
+  height: 360px;
+  margin-top: 15px;
+}
+
+.messages-hold{
+  height: 306px;
+  border: 1px solid yellow;
+}
+
+.chat-input-hold{
+  border: 1px solid red;
+  height: 54px;
+}
+
+.chat-form{
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-around;
+}
+
+.chat-image{
+  height: 50px;
+  width: auto;
+  border-radius: 50px;
+}

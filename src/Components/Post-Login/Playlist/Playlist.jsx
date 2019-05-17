@@ -16,6 +16,8 @@ class Playlist extends Component {
       loading: true,
       noVideos: false,
       currentVideo: '',
+      image: '',
+      favoritesong: '',
       currentGroupPlaylistId: null,
       currentSongId: null,
       ready: false,
@@ -44,10 +46,11 @@ class Playlist extends Component {
 
     //GETS CURRENT USER DETAILS TO CHECK IF THEY ARE HOST
     let userDetails = await axios.get('/auth/getdetails')
-    const { firstname, login_id, isAuthenticated, favoritesong } = userDetails.data
+    const { firstname, login_id, isAuthenticated, favoritesong, image } = userDetails.data
     this.setState({
       firstname,
-      favoritesong
+      favoritesong,
+      image
     })
     this.props.updateLoginId({ login_id, isAuthenticated })
     //MAKES SURE USER IS ADMIN
@@ -263,7 +266,9 @@ class Playlist extends Component {
             tuneInState={this.state.tuneInPlayer}
             tuneInVideoState={this.state.tuneInVideoState}
             pause={this.state.pause}
-            play={this.state.play}/>
+            play={this.state.play}
+            image={this.state.image}
+            firstname={this.state.firstname}/>
         }
 
       </div>

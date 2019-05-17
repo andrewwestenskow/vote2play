@@ -17,6 +17,7 @@ class List extends Component {
       newVideoUrl: '',
       prevPlayed: [],
       nowPlaying: [],
+      chatMessages: [],
       ready: false,
       urlError: false,
       songAlready: false
@@ -61,6 +62,13 @@ class List extends Component {
         console.log(`Host played`)
         this.props.tuneInVideoState.playVideo()
       }
+    })
+
+    this.socket.on('new message', data => {
+      console.log(`hit`)
+      this.setState({
+        chatMessages: [...this.state.chatMessages, data]
+      })
     })
 
   }
@@ -112,6 +120,17 @@ class List extends Component {
 
   componentWillUnmount() {
     this.socket.disconnect()
+  }
+
+  //CHAT METHODS
+
+  handleChatSend = (message) => {
+    this.socket.emit('message send', {
+      name: message.name,
+      message: message.message,
+      image: message.image,
+      group_id: this.props.group_id
+    })
   }
 
   //LOCAL METHODS
@@ -366,7 +385,7 @@ class List extends Component {
                   <h1 className='previously-played-text'>Previously Played: </h1>
                   {previouslyPlayed}
                 </div>
-                <form onSubmit={this.handleAddNewVideoFormSubmit}>
+                <form onSubmit={this.handleAddNewVideoFormSubmit} className='add-new-form'>
                   {this.state.songAlready && <p>Song is already on playlist</p>}
                   {this.state.urlError && <p>Error adding song, please try again</p>}
                   <input type="url"
@@ -383,7 +402,11 @@ class List extends Component {
                   </button>
                 </form>
               </div>
-              <ChatWindow />
+              <ChatWindow
+              image={this.props.image} 
+              firstname={this.props.firstname}
+              handleChatSend={this.handleChatSend}
+              chatMessages={this.state.chatMessages}/>
             </div>
           </div> :
 
@@ -408,6 +431,11 @@ class List extends Component {
 
               </button>
             </form>
+            <ChatWindow
+              image={this.props.image} 
+              firstname={this.props.firstname}
+              handleChatSend={this.handleChatSend}
+              chatMessages={this.state.chatMessages}/>
           </div>}
       </div>
     )
