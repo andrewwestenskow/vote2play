@@ -4,6 +4,9 @@ module.exports = {
 
     try {
       const { group_id, messages } = req.body
+      if(messages.length === 0) {
+        return res.sendStatus(200)
+      }
   
       let oldChat = await db.checkChat([group_id])
   
