@@ -70,6 +70,14 @@ class List extends Component {
       })
     })
 
+    this.socket.on(`host join`, () => {
+      this.props.hostJoin()
+    })
+
+    this.socket.on(`host leave`, () => {
+      this.props.hostLeave()
+    })
+
   }
 
   //SOCKETS
@@ -117,7 +125,24 @@ class List extends Component {
     })
   }
 
+  broadcastHostJoin = () => {
+    this.props.hostJoin()
+    this.socket.emit(`host join`, {
+      group_id: this.props.group_id
+    })
+  }
+
+  broadcastHostLeave = () => {
+    this.props.hostLeave()
+    this.socket.emit(`host leave`, {
+      group_id: this.props.group_id
+    })
+  }
+
   componentWillUnmount() {
+    if(this.props.isHost){
+      this.broadcastHostLeave()
+    }
     this.socket.disconnect()
   }
 
@@ -136,6 +161,9 @@ class List extends Component {
 
   async componentWillMount() {
     await this.updatePlaylist()
+    if(this.props.isHost) {
+      this.broadcastHostJoin()
+    }
     let messages = await axios.post(`/api/messages`, { group_id: this.props.group_id })
     if (messages.data.length !== 0) {
       this.setState({
@@ -392,7 +420,7 @@ class List extends Component {
             </div>
 
             <div className="previous-chat-hold">
-              <h1 className='previously-played-text'>Previously Played: </h1>
+              <h1 className='now-playing-text'>Previously Played: </h1>
               <div className="previously-played">
                 <div>
                   {previouslyPlayed}

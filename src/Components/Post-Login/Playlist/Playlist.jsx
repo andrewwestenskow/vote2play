@@ -27,7 +27,8 @@ class Playlist extends Component {
       pause: 0,
       play: 0,
       tuneInPlayer: false,
-      playlist: []
+      playlist: [],
+      hostPresent: false
     }
 
 
@@ -178,6 +179,18 @@ class Playlist extends Component {
     })
   }
 
+  hostJoin = () => {
+    this.setState({
+      hostPresent: true
+    })
+  }
+
+  hostLeave = () => {
+    this.setState({
+      hostPresent: false
+    })
+  }
+
 
   render() {
 
@@ -228,8 +241,8 @@ class Playlist extends Component {
         style={{ backgroundImage: `url(https://img.youtube.com/vi/${this.state.currentVideo}/0.jpg)` }}>
 
         <div className="white-box-thumb">
-          <p className="white-box-thumb-text">Content will play on host device</p>
-          <button style={{marginTop: 15}} onClick={this.tuneIn}>Tune In</button>
+          {this.state.hostPresent ? <><p className="white-box-thumb-text">Content will play on host device</p>
+          <button style={{marginTop: 15}} onClick={this.tuneIn}>Tune In</button></> : <p className='white-box-thumb-text'>Host is not present, content will not play</p>}
         </div>
       </div>
     }
@@ -268,7 +281,9 @@ class Playlist extends Component {
             pause={this.state.pause}
             play={this.state.play}
             image={this.state.image}
-            firstname={this.state.firstname}/>
+            firstname={this.state.firstname}
+            hostJoin={this.hostJoin}
+            hostLeave={this.hostLeave}/>
         }
 
       </div>

@@ -23,6 +23,7 @@ $break-large: 900px;
   background: $primary;
   border-radius: 500px;
   cursor: pointer;
+  outline: none;
 }
 
 @mixin background-reset{

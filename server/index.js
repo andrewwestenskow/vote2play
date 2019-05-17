@@ -71,6 +71,16 @@ io.on('connection', socket => {
     // console.log (`${data.name} sent ${data.message} to group ${data.group_id}`)
     io.to(data.group_id).emit('new message', data)
   })
+
+  socket.on('host join', data => {
+    // console.log(`host joined group ${data.group_id}`)
+    socket.to(data.group_id).broadcast.emit(`host join`)
+  })
+
+  socket.on('host leave', data => {
+    // console.log(`host left group ${data.group_id}`)
+    socket.to(data.group_id).broadcast.emit('host leave')
+  })
   
   
   //ROOM SOCKETS

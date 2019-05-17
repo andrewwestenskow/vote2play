@@ -67,7 +67,7 @@ class ChatWindow extends Component {
         } else {
           return <div key={Math.random()} className='other-message'>
             <img src={message.image} alt={message.name} className='message-image' />
-            <span className='message-text'>{message.name}: {message.message}</span>
+            <span className='message-text'>{message.name}:{message.message}</span>
           </div>
         }
 

@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import axios from 'axios'
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 class Song extends Component {
 
@@ -12,22 +12,43 @@ class Song extends Component {
 
   handleUpvote = async () => {
     const { playlistId } = this.props
-    await (axios.post('/api/playlist/vote', { playlistId, vote: 1 }))
-    this.setState({
-      hasUpvote: true
-    })
-    this.props.updatePlaylist()
-    this.props.broadcast()
+
+    if (!this.state.hasUpvote) {
+      await (axios.post('/api/playlist/vote', { playlistId, vote: 1 }))
+      this.setState({
+        hasUpvote: true
+      })
+      this.props.updatePlaylist()
+      this.props.broadcast()
+    } else {
+      await (axios.post('/api/playlist/vote', { playlistId, vote: 0 }))
+      this.setState({
+        hasUpvote: false
+      })
+      this.props.updatePlaylist()
+      this.props.broadcast()
+    }
+
   }
 
   handleDownvote = async () => {
     const { playlistId } = this.props
-    await (axios.post('/api/playlist/vote', { playlistId, vote: 0 }))
-    this.setState({
-      hasDownvote: true
-    })
-    this.props.updatePlaylist()
-    this.props.broadcast()
+
+    if (!this.state.hasDownvote) {
+      await (axios.post('/api/playlist/vote', { playlistId, vote: 0 }))
+      this.setState({
+        hasDownvote: true
+      })
+      this.props.updatePlaylist()
+      this.props.broadcast()
+    } else {
+      await (axios.post('/api/playlist/vote', { playlistId, vote: 1 }))
+      this.setState({
+        hasDownvote: false
+      })
+      this.props.updatePlaylist()
+      this.props.broadcast()
+    }
   }
 
   handleDelete = async () => {
@@ -54,42 +75,40 @@ class Song extends Component {
             </span>
 
             <button onClick={this.handleUpvote}
-              disabled={this.state.hasUpvote}
               className='vote-button'>
 
-              {this.state.hasUpvote ? 
-              <FontAwesomeIcon 
-              icon='hand-point-up' 
-              className='vote-done'/> : 
-              <FontAwesomeIcon 
-              icon='hand-point-up' 
-              className='vote-undone'/>}
-              
-              </button>
+              {this.state.hasUpvote ?
+                <FontAwesomeIcon
+                  icon='hand-point-up'
+                  className='vote-done' /> :
+                <FontAwesomeIcon
+                  icon='hand-point-up'
+                  className='vote-undone' />}
+
+            </button>
 
             <button onClick={this.handleDownvote}
-              disabled={this.state.hasDownvote}
               className='vote-button'>
 
-              {this.state.hasDownvote ? 
-              <FontAwesomeIcon 
-              icon='hand-point-down' 
-              className='vote-done'/> : 
-              <FontAwesomeIcon 
-              icon='hand-point-down' 
-              className='vote-undone'/>}
+              {this.state.hasDownvote ?
+                <FontAwesomeIcon
+                  icon='hand-point-down'
+                  className='vote-done' /> :
+                <FontAwesomeIcon
+                  icon='hand-point-down'
+                  className='vote-undone' />}
 
-              </button>
+            </button>
 
-            {this.props.isHost && 
-            <button onClick={this.handleDelete}
-            className='vote-button'>
+            {this.props.isHost &&
+              <button onClick={this.handleDelete}
+                className='vote-button'>
 
-            <FontAwesomeIcon 
-            icon='trash-alt' 
-            className='vote-undone'/>  
+                <FontAwesomeIcon
+                  icon='trash-alt'
+                  className='vote-undone' />
 
-            </button>}
+              </button>}
           </div>
         </div>
       </div>
