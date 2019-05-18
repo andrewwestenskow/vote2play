@@ -3,6 +3,7 @@
 .Chat-Window{
   // border: 1px solid white;
   box-shadow: black 0 0 10px; 
+  z-index: 5;
   @include background-color;
   height: calc(360px + 2.5rem);
   width: 500px;
