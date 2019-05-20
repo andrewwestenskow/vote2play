@@ -65,9 +65,15 @@ class List extends Component {
     })
 
     this.socket.on('new message', data => {
-      this.setState({
-        chatMessages: [...this.state.chatMessages, data]
-      })
+      if(!this.state.chatMessages){
+        this.setState({
+          chatMessages: [data]
+        })
+      } else {
+        this.setState({
+          chatMessages: [...this.state.chatMessages, data]
+        })
+      }
     })
 
     this.socket.on(`host join`, () => {
