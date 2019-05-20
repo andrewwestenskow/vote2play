@@ -14,6 +14,8 @@
   // margin-top: 2rem;
 }
 
+
+
 // .white-line-dash{
 //   border: 1px solid white;
 //   width: 80%;
@@ -88,4 +90,10 @@
     height: 12rem;
     width: 12rem;
   }
+}
+
+.loading-card{
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

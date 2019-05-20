@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import axios from 'axios'
 import YouTube from 'react-youtube'
 import List from './List/List'
+import {ScaleLoader} from 'react-spinners'
 import { updateGroupId } from '../../../ducks/groupReducer'
 import { updateLoginId } from '../../../ducks/userReducer'
 
@@ -11,7 +12,7 @@ class Playlist extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      isHost: false,
+      isHost: true,
       groupInfo: {},
       loading: true,
       noVideos: false,
@@ -204,7 +205,9 @@ class Playlist extends Component {
       <button onClick={this.addFavorite}>Add your favorite song</button>
       </div>
     } else if (this.state.loading === true) {
-      content = <img className='loading' src="https://upload.wikimedia.org/wikipedia/commons/a/ad/YouTube_loading_symbol_3_%28transparent%29.gif" alt='loading gif' />
+      content = <div className="no-video-hold">
+        <ScaleLoader color='#FFFFFF'/>
+      </div>
     } else {
       content =
       //HOST PLAYER

@@ -3,13 +3,15 @@ import { connect } from 'react-redux'
 import axios from 'axios'
 import { updateGroupId } from '../../../ducks/groupReducer'
 import { updateLoginId } from '../../../ducks/userReducer'
+import {ScaleLoader} from 'react-spinners'
 import { Link } from 'react-router-dom'
 import JoinGroup from '../JoinGroup/JoinGroup'
 
 class Dashboard extends Component {
 
   state = {
-    groups: []
+    groups: [],
+    loading: true
   }
 
   async componentDidMount() {
@@ -22,7 +24,8 @@ class Dashboard extends Component {
 
     axios.get('/api/group/getgroups', { login_id: this.props.login_id }).then(res => {
       this.setState({
-        groups: res.data
+        groups: res.data,
+        loading: false
       })
     })
   }
@@ -62,12 +65,14 @@ class Dashboard extends Component {
       <div className = 'Dashboard' >
       <h1 className="group-text">GROUPS </h1>
       {/* <div className="white-line-dash"></div> */}
-      <div className="cards-hold">
+      {!this.state.loading ? <div className="cards-hold">
         {groups}
         <div className="Group-Card Join-Card">
           <JoinGroup login_id={this.props.login_id} updateGroups={this.updateGroups} />
         </div>
-      </div>
+      </div>: <div className="Group-Card loading-card">
+        <ScaleLoader color='#FFFFFF'/>
+      </div>}
       </div>
     )
   }
