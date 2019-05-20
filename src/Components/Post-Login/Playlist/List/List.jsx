@@ -24,42 +24,42 @@ class List extends Component {
     }
     this.socket = io.connect(REACT_APP_SOCKET_CONNECT)
     this.socket.on('room response', data => {
-      console.log('room response')
+      // console.log('room response')
       this.updatePlaylist()
       this.props.getPlaylist()
     })
 
     this.socket.on('timecode request', data => {
       if (this.props.isHost === true && this.props.videoState !== undefined) {
-        console.log(`request timecode: ${this.props.videoState.getCurrentTime(data)}`)
+        // console.log(`request timecode: ${this.props.videoState.getCurrentTime(data)}`)
         this.broadcastTimecode(data)
       }
     })
 
     this.socket.on('timecode response', data => {
       if (this.props.login_id === data.requester) {
-        console.log(`requester: ${data.requester} time: ${data.timecode}`)
+        // console.log(`requester: ${data.requester} time: ${data.timecode}`)
         this.props.tuneInPlayer(data.timecode)
       }
     })
 
     this.socket.on('seek response', data => {
       if (this.props.tuneInState) {
-        console.log(`Seek to ${data.timecode}`)
+        // console.log(`Seek to ${data.timecode}`)
         this.props.tuneInVideoState.seekTo(data.timecode)
       }
     })
 
     this.socket.on('host pause', data => {
       if (this.props.tuneInState) {
-        console.log(`Host paused`)
+        // console.log(`Host paused`)
         this.props.tuneInVideoState.pauseVideo()
       }
     })
 
     this.socket.on('host play', data => {
       if (this.props.tuneInState) {
-        console.log(`Host played`)
+        // console.log(`Host played`)
         this.props.tuneInVideoState.playVideo()
       }
     })
@@ -89,7 +89,7 @@ class List extends Component {
   }
 
   broadcastGetTimeCode = () => {
-    console.log(`hit`)
+    // console.log(`hit`)
     this.socket.emit('broadcast to get timecode', {
       group_id: this.props.group_id,
       login_id: this.props.login_id
