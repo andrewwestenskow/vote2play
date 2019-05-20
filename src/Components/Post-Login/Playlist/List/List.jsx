@@ -7,7 +7,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { connect } from 'react-redux'
 import io from 'socket.io-client'
 require('dotenv').config()
-const { REACT_APP_YOUTUBE_API_KEY } = process.env
+const { REACT_APP_YOUTUBE_API_KEY, REACT_APP_SOCKET_CONNECT } = process.env
 
 class List extends Component {
   constructor(props) {
@@ -22,7 +22,7 @@ class List extends Component {
       urlError: false,
       songAlready: false
     }
-    this.socket = io.connect('https://vote2play.com', {secure: true})
+    this.socket = io.connect(REACT_APP_SOCKET_CONNECT)
     this.socket.on('room response', data => {
       console.log('room response')
       this.updatePlaylist()
