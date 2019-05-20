@@ -42,12 +42,12 @@ io.on('connection', socket => {
   })
   
   socket.on('broadcast to get timecode', data => {
-    // console.log(`request for timecode room ${data.group_id} from user ${data.login_id}`)
+    console.log(`request for timecode room ${data.group_id} from user ${data.login_id}`)
     socket.to(data.group_id).broadcast.emit('timecode request', data)
   })
   
   socket.on('broadcast timecode', data => {
-    // console.log(`current timecode for group ${data.group_id} from user ${data.requester}: ${data.timecode}`)
+    console.log(`current timecode for group ${data.group_id} from user ${data.requester}: ${data.timecode}`)
     socket.to(data.group_id).broadcast.emit('timecode response', data)
   })
   

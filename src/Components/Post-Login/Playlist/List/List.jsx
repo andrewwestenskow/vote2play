@@ -89,6 +89,7 @@ class List extends Component {
   }
 
   broadcastGetTimeCode = () => {
+    console.log(`hit`)
     this.socket.emit('broadcast to get timecode', {
       group_id: this.props.group_id,
       login_id: this.props.login_id

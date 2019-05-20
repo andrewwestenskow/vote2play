@@ -28,7 +28,7 @@ class Playlist extends Component {
       play: 0,
       tuneInPlayer: false,
       playlist: [],
-      hostPresent: false
+      hostPresent: true
     }
 
 
