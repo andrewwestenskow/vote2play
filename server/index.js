@@ -5,7 +5,6 @@ const massive = require('massive')
 const session = require('express-session')
 const socket = require('socket.io')
 const aws = require('aws-sdk')
-const path = require('path')
 const UsersCtrl = require('./Controllers/UsersController')
 const GroupCtrl = require('./Controllers/GroupController')
 const AuthCtrl = require('./Controllers/AuthController')
@@ -91,10 +90,6 @@ io.on('connection', socket => {
     console.log(`Join group ${data.group_id}`)
     socket.join(data.group_id)
   })
-})
-
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, '../build/index.html'))
 })
 
 //AUTH ENDPOINTS
