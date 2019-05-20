@@ -22,7 +22,7 @@ class List extends Component {
       urlError: false,
       songAlready: false
     }
-    this.socket = io.connect(':7777')
+    this.socket = io.connect({secure: true})
     this.socket.on('room response', data => {
       console.log('room response')
       this.updatePlaylist()
@@ -145,6 +145,7 @@ class List extends Component {
       this.broadcastHostLeave()
     }
     this.socket.disconnect()
+    document.title='vote 2 play'
   }
 
   //CHAT METHODS
