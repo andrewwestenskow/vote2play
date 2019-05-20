@@ -31,6 +31,8 @@ app.use(express.static(`${__dirname}/../build`))
 
 
 const server = app.listen(SERVER_PORT, () => console.log(`Listening on port ${SERVER_PORT}`))
+
+
 const io = socket(server)
 
 io.on('connection', socket => {
