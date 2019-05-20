@@ -22,7 +22,7 @@ class List extends Component {
       urlError: false,
       songAlready: false
     }
-    this.socket = io.connect('vote2play.com')
+    this.socket = io.connect('https://vote2play.com', {secure: true})
     this.socket.on('room response', data => {
       console.log('room response')
       this.updatePlaylist()
