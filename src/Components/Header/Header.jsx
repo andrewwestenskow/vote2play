@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import axios from 'axios'
 import { updateLoginId } from '../../ducks/userReducer'
+import {ClipLoader} from 'react-spinners'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 
@@ -11,6 +12,7 @@ class Header extends Component {
     loginPassword: '',
     loginError: false,
     loginErrorMessage: 'Email or Password are incorrect',
+    loading: false
   }
 
   handleFormUpdate = (e) => {
@@ -21,6 +23,9 @@ class Header extends Component {
 
   handleLoginFormSubmit = async (e) => {
     e.preventDefault()
+    this.setState({
+      loading: true
+    })
     const { loginEmail: email, loginPassword: password } = this.state
     try {
       const user = await axios.post('/auth/login', { email, password })
@@ -30,7 +35,8 @@ class Header extends Component {
       this.setState({
         loginEmail: '',
         loginPassword: '',
-        loginError: true
+        loginError: true,
+        loading: false
       })
     }
   }
@@ -60,7 +66,8 @@ class Header extends Component {
             value={this.state.loginPassword} 
             onChange={e => this.handleFormUpdate(e)} 
             className='login-input'/>
-            <button className='login-button'>Log In</button>
+            {!this.state.loading ? <button className='login-button'>Log In</button> : 
+          <ClipLoader/>}
             {this.state.loginError && <h3>{this.state.loginErrorMessage}</h3>}
           </form>}
         </div>
