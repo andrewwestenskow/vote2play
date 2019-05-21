@@ -35,6 +35,7 @@ class ChatWindow extends Component {
     e.preventDefault()
     if (this.state.chatInput !== '') {
       let message = {
+        login_id: this.props.login_id,
         name: this.props.firstname,
         message: this.state.chatInput,
         image: this.props.image
@@ -60,7 +61,7 @@ class ChatWindow extends Component {
     let messages
     if (this.props.chatMessages) {
       messages = this.props.chatMessages.map(message => {
-        if (message.name === this.props.firstname) {
+        if (message.login_id === this.props.login_id) {
           return <div key={Math.random()} className='user-message'>
             <span className='message-text'>{message.message}</span>
           </div>
@@ -128,7 +129,8 @@ class ChatWindow extends Component {
 
 const mapStateToProps = (reduxState) => {
   return {
-    group_id: reduxState.group.group_id
+    group_id: reduxState.group.group_id,
+    login_id: reduxState.users.login_id
   }
 }
 

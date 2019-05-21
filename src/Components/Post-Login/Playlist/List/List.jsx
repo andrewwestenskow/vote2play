@@ -164,6 +164,7 @@ class List extends Component {
 
   handleChatSend = (message) => {
     this.socket.emit('message send', {
+      login_id: message.login_id,
       name: message.name,
       message: message.message,
       image: message.image,
