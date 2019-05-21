@@ -11,6 +11,9 @@ class OldSong extends Component {
   }
 
   handleDelete = async () => {
+    this.setState({
+      deleting: true
+    })
     const {previously_played_id} = this.props.data
     try {
       await axios.delete(`/api/playlist/prev/${previously_played_id}`)
