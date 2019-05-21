@@ -16,13 +16,6 @@
   }
 }
 
-.thumbnail{
-  height: 80px;
-  width: 106px !important;
-  @media screen and (max-width: 600px) {
-    display: none;
-  }
-}
 
 .song-text-hold{
   padding-left: 10px;
@@ -39,7 +32,7 @@
     max-width: 300px;
     font-size: 1rem;
   }
-
+  
   @media screen and (max-width: 380px) {
     max-width: 220px;
     font-size: 0.8rem;
@@ -63,5 +56,12 @@
   color: $primary
 }
 
+.thumbnail{
+  height: 80px;
+  width: 106px !important;
+  @media screen and (max-width: 600px) {
+    display: none;
+  }
+}
 
 

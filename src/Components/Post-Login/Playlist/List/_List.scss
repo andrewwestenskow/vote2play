@@ -100,11 +100,13 @@
 
 .add-new-form{
   margin-top: 15px;
+  display: flex;
 }
 
 .add-song-input{
   border-bottom: 1px solid black;
   font-size: 1.35rem;
+  height: 2rem;
   color: white;
   @media screen and (max-width: 600px) {
     width: 80%;
@@ -122,4 +124,14 @@
   :hover{
     color: $primary
   }
+}
+
+.new-load-hold{
+  margin: 5px;
+  max-height: 1.5rem;
+  max-width: 1.5rem;
+}
+
+.lottie{
+  padding: -20px
 }

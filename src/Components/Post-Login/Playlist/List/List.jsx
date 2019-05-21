@@ -3,16 +3,22 @@ import axios from 'axios'
 import Song from '../Song/Song'
 import OldSong from '../OldSong/OldSong'
 import ChatWindow from './ChatWindow/ChatWindow'
+import Lottie from 'react-lottie'
+import animationData from '../../../../Lotties/animation-w80-h80.json'
+import { ClipLoader } from 'react-spinners'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { connect } from 'react-redux'
 import io from 'socket.io-client'
 require('dotenv').config()
 const { REACT_APP_YOUTUBE_API_KEY, REACT_APP_SOCKET_CONNECT } = process.env
 
+
 class List extends Component {
   constructor(props) {
     super(props)
     this.state = {
+      addNewLoad: false,
+      addNewSuccess: false,
       playlist: [],
       newVideoUrl: '',
       prevPlayed: [],
@@ -65,7 +71,7 @@ class List extends Component {
     })
 
     this.socket.on('new message', data => {
-      if(!this.state.chatMessages){
+      if (!this.state.chatMessages) {
         this.setState({
           chatMessages: [data]
         })
@@ -147,11 +153,11 @@ class List extends Component {
   }
 
   componentWillUnmount() {
-    if(this.props.isHost){
+    if (this.props.isHost) {
       this.broadcastHostLeave()
     }
     this.socket.disconnect()
-    document.title='vote 2 play'
+    document.title = 'vote 2 play'
   }
 
   //CHAT METHODS
@@ -169,7 +175,7 @@ class List extends Component {
 
   async componentWillMount() {
     await this.updatePlaylist()
-    if(this.props.isHost) {
+    if (this.props.isHost) {
       this.broadcastHostJoin()
     }
     let messages = await axios.post(`/api/messages`, { group_id: this.props.group_id })
@@ -311,7 +317,8 @@ class List extends Component {
     e.preventDefault()
     this.setState({
       urlError: false,
-      songAlready: false
+      songAlready: false,
+      addNewLoad: true
     })
     const { group_id } = this.props
     let res = await axios.post('/api/playlist/addsong', { group_id: group_id, songUrl: this.state.newVideoUrl })
@@ -333,6 +340,16 @@ class List extends Component {
     }
 
     this.broadcast()
+    this.setState({
+      addNewSuccess: true
+    })
+
+    setTimeout(() => {
+      this.setState({
+        addNewLoad: false,
+        addNewSuccess: false
+      })
+    }, 2500);
   }
 
   getPlaylistConditional = () => {
@@ -398,6 +415,13 @@ class List extends Component {
       }
     }, 1000);
 
+    const defaultOptions = {
+      loop: false,
+      autoplay: true,
+      animationData: animationData,
+      resizeMode: 'cover'
+    }
+
     return (
       <div className='List'>
         {this.state.ready ?
@@ -445,11 +469,17 @@ class List extends Component {
                   className='add-song-input'
                   autoComplete='off' />
 
-                <button className='add-song-button'>
+                {!this.state.addNewLoad ? <button className='add-song-button'>
 
                   <FontAwesomeIcon icon='plus-circle' />
 
-                </button>
+                </button> : <div className="new-load-hold">
+
+                    {!this.state.addNewSuccess ?
+                      <ClipLoader color='#FFFFFF' size={1.5} sizeUnit='em' /> :
+
+                      <Lottie options={defaultOptions}/>}
+                  </div>}
               </form>
 
             </div>
@@ -475,11 +505,19 @@ class List extends Component {
                   className='add-song-input'
                   autoComplete='off' />
 
-                <button className='add-song-button'>
+                {!this.state.addNewLoad ? <button className='add-song-button'>
 
                   <FontAwesomeIcon icon='plus-circle' />
 
-                </button>
+                </button> :
+                  <div className="new-load-hold">
+
+                    {!this.state.addNewSuccess ?
+                      <ClipLoader color='#FFFFFF' size={1.5} sizeUnit='em' /> :
+
+                      <Lottie options={defaultOptions}/>}
+
+                  </div>}
               </form>
 
             </div>

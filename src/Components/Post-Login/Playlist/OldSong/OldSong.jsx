@@ -1,8 +1,13 @@
 import React, {Component} from 'react'
+import {ClipLoader} from 'react-spinners'
 import axios from 'axios'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 
 class OldSong extends Component {
+
+  state={
+    loading: false
+  }
 
   handleDelete = async () => {
     const {previously_played_id} = this.props.data
@@ -16,6 +21,9 @@ class OldSong extends Component {
   }
 
   handleAddBack = async () => {
+    this.setState({
+      loading:true
+    })
     const {previously_played_id, group_id, song_id} = this.props.data
 
     try {
@@ -33,10 +41,12 @@ class OldSong extends Component {
   render(){
     return(
       <div className='Old-Song'>
-      <button onClick={this.handleAddBack}
+      {!this.state.loading ? <button onClick={this.handleAddBack}
       className='old-song-button'>
       <FontAwesomeIcon icon='plus-circle'/>
-      </button>
+      </button> : <div className="old-load-hold">
+        <ClipLoader sizeUnit='em' size={1} color='#FFFFFF'/>
+      </div>}
 
       {this.props.isHost && 
 
