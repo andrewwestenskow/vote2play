@@ -6,7 +6,7 @@ import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 class ChatWindow extends Component {
 
   state = {
-    chatMessages: [{ name: 'Andrew', message: 'Hello' }],
+    chatMessages: [],
     chatInput: '',
     showChat: false
   }
@@ -62,7 +62,7 @@ class ChatWindow extends Component {
       messages = this.props.chatMessages.map(message => {
         if (message.name === this.props.firstname) {
           return <div key={Math.random()} className='user-message'>
-            <p className='message-text'>{message.message}</p>
+            <span className='message-text'>{message.message}</span>
           </div>
         } else {
           return <div key={Math.random()} className='other-message'>

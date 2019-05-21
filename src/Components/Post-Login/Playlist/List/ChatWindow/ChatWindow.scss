@@ -103,7 +103,8 @@
   display: flex;
   max-width: 70%;
   margin: 2.5px 0;
-  
+  word-break: break-word;
+  hyphens: auto;
 }
 
 .user-message{
