@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import axios from 'axios'
 import EditForm from './EditForm/EditForm'
+import {ClipLoader} from 'react-spinners'
 import YouTube from 'react-youtube'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
@@ -9,7 +10,7 @@ class Profile extends Component {
 
   state = {
     userGroups: [],
-    loading: false,
+    loading: true,
     firstname: '',
     lastname: '',
     image: '',
@@ -118,7 +119,7 @@ class Profile extends Component {
         <div className="video-group-hold">
           <div className='groups-hold'>
             <h1 className='header-text'>GROUPS:</h1>
-            {groups}
+            {!this.state.loading ? <>{groups}</> : <ClipLoader color='#FFFFFF'/>}
           </div>
 
           <div className="song-form-hold">
