@@ -3,6 +3,7 @@ import axios from 'axios'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { updateLoginId } from '../../ducks/userReducer'
+import {ScaleLoader} from 'react-spinners'
 import Header from '../Header/Header'
 import {Link} from 'react-router-dom'
 
@@ -13,11 +14,10 @@ class Home extends Component {
     lastname: '',
     email: '',
     password: '',
-    confirmpassword: '',
     passwordnomatch: false,
     favoritesong: '',
     image: '',
-    formdisable: false
+    loading: false
   }
 
   registerRef = React.createRef()
@@ -35,13 +35,12 @@ class Home extends Component {
 
   handleRegisterFormSubmit = async (e) => {
     e.preventDefault()
+    this.setState({
+      loading: true
+    })
     const { firstname, lastname, email, password, favoritesong, image } = this.state
 
-    if (this.state.password !== '' && this.state.password !== this.state.confirmpassword) {
-      this.setState({
-        passwordnomatch: true
-      })
-    } else {
+    
       this.setState({
         passwordnomatch: false
       })
@@ -54,7 +53,7 @@ class Home extends Component {
       } catch (err) {
         console.log(err)
       }
-    }
+    
 
 
   }
@@ -95,7 +94,7 @@ class Home extends Component {
                   
           </div>
           <div className="register-form-hold">
-            <form onSubmit={this.handleRegisterFormSubmit} className='register-form'>
+            {!this.state.loading ? <form onSubmit={this.handleRegisterFormSubmit} className='register-form'>
             <h1 className="register-instructions-text">Sign up now to get started</h1>  
 
               <input type="text" name='firstname' onChange={this.handleRegisterFormUpdate} className='register-input' placeholder='First Name' required />
@@ -110,8 +109,10 @@ class Home extends Component {
               <input placeholder='Favorite Song (YouTube url)' type="text" name='favoritesong' onChange={this.handleRegisterFormUpdate} className='register-input' required />
 
 
-              <button disabled={this.state.formdisable} className='register-button'>Sign up</button>
-            </form>
+              <button className='register-button'>Sign up</button>
+            </form> : <div className="register-form load-hold">
+              <ScaleLoader/>
+            </div>}
           </div>
         </section>
 
