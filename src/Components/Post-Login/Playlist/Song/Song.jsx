@@ -58,6 +58,14 @@ class Song extends Component {
     this.props.broadcast()
   }
 
+  playNow = async () => {
+    const {playlistId} = this.props
+    await axios.post('/api/playlist/vote', {playlistId, vote: 9999})
+    this.props.nextSong()
+    this.props.updatePlaylist()
+    this.props.broadcast()
+  }
+
   render() {
     const { score, title } = this.props
 
@@ -101,14 +109,25 @@ class Song extends Component {
             </button>
 
             {this.props.isHost &&
-              <button onClick={this.handleDelete}
-                className='vote-button'>
+              <>
+                <button onClick={this.playNow}
+                  className='vote-button'>
 
-                <FontAwesomeIcon
-                  icon='trash-alt'
-                  className='vote-undone' />
+                  <FontAwesomeIcon
+                    icon='play'
+                    className='vote-undone' />
 
-              </button>}
+                </button>
+                <button onClick={this.handleDelete}
+                  className='vote-button'>
+
+                  <FontAwesomeIcon
+                    icon='trash-alt'
+                    className='vote-undone' />
+
+                </button>
+              </>}
+
           </div>
         </div>
       </div>

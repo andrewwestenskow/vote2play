@@ -386,6 +386,7 @@ class List extends Component {
         broadcast={this.broadcast}
         isHost={this.props.isHost}
         login_id={this.props.login_id}
+        nextSong={this.props.nextSong}
       />
     })
 
@@ -482,7 +483,9 @@ class List extends Component {
                   </div>}
               </form>
 
+            {/* {this.props.isHost && <button className='next-button' onClick={this.props.nextSong}>Next Song</button>} */}
             </div>
+
           </div> :
 
           <div className='playlist'>
@@ -520,6 +523,7 @@ class List extends Component {
                   </div>}
               </form>
 
+            {/* {this.props.isHost && <button className='next-button' onClick={this.props.nextSong}>Next Song</button>} */}
             </div>
           </div>}
         <ChatWindow

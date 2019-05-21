@@ -266,6 +266,7 @@ class Playlist extends Component {
         </div>
 
         {toShow}
+        
 
         {this.state.ready &&
           <List group_id={this.props.group_id}
@@ -286,7 +287,8 @@ class Playlist extends Component {
             image={this.state.image}
             firstname={this.state.firstname}
             hostJoin={this.hostJoin}
-            hostLeave={this.hostLeave}/>
+            hostLeave={this.hostLeave}
+            nextSong={this.nextSong}/>
         }
 
       </div>
