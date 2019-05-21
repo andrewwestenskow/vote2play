@@ -6,7 +6,8 @@ import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 class OldSong extends Component {
 
   state={
-    loading: false
+    loading: false,
+    deleting: false
   }
 
   handleDelete = async () => {
@@ -50,10 +51,14 @@ class OldSong extends Component {
 
       {this.props.isHost && 
 
-      <button onClick={this.handleDelete}
+      <>
+      {!this.state.deleting? <button onClick={this.handleDelete}
       className='old-song-button'>
       <FontAwesomeIcon icon='trash-alt'/>
-      </button>}
+      </button>: <div className="old-load-hold">
+        <ClipLoader sizeUnit='em' size={1} color='#FFFFFF'/>
+      </div>}
+      </>}
       <h1 className="old-song-title">
         {this.props.title}
       </h1>
