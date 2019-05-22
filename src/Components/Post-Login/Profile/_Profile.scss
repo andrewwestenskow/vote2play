@@ -95,6 +95,10 @@
   color: white;
   max-width: 350px;
   @include ellipse;
+  @media screen and (max-width: 1200px) {
+    max-width: 250px;
+    font-size: 1.8rem;
+  }
   @media screen and (max-width: 800px) {
     font-size: 1.8rem
   }
