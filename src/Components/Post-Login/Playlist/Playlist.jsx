@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import axios from 'axios'
 import YouTube from 'react-youtube'
 import List from './List/List'
-import {ScaleLoader} from 'react-spinners'
+import { ScaleLoader } from 'react-spinners'
 import { updateGroupId } from '../../../ducks/groupReducer'
 import { updateLoginId } from '../../../ducks/userReducer'
 
@@ -29,7 +29,10 @@ class Playlist extends Component {
       play: 0,
       tuneInPlayer: false,
       playlist: [],
-      hostPresent: true
+      hostPresent: true,
+      currentPlaylist: [],
+      prevList: [],
+      nowPlaying: []
     }
 
 
@@ -78,31 +81,29 @@ class Playlist extends Component {
   getPlaylist = async () => {
     const { group_id } = this.props
     let res = await axios.post('/api/playlist', { group_id })
-    let sortedArray = res.data.sort((a, b) => {
-      const scoreA = a.score
-      const scoreB = b.score
-      if (scoreA < scoreB) {
-        return 1
-      } else {
-        return -1
-      }
-    })
+    const { currentPlaylist, nowPlaying, prevList } = res.data
 
-    if (sortedArray.length === 0) {
+    if (currentPlaylist.length === 0) {
       this.setState({
-        noVideos: true
+        noVideos: true,
+        nowPlaying,
+        currentPlaylist,
+        prevList
       })
     } else {
-      let currentSong = sortedArray[0]
+      let currentSong = nowPlaying[0]
       this.setState({
         currentVideo: currentSong.id,
         currentGroupPlaylistId: currentSong.group_playlist_id,
         currentSongId: currentSong.song_id,
         loading: false,
-        noVideos: false
+        noVideos: false,
+        nowPlaying,
+        currentPlaylist,
+        prevList
       })
     }
-    
+
 
   }
 
@@ -163,7 +164,7 @@ class Playlist extends Component {
       tuneInPlayer: true,
       timecode: timecode
     })
-    
+
   }
 
   broadcastPause = () => {
@@ -198,54 +199,54 @@ class Playlist extends Component {
     let content
     let toShow
     if (this.state.noVideos === true) {
-      content = 
-      <div className='no-video-hold'>
-      <h1 className="no-video-text">Add some songs</h1>
-      <></>
-      <button onClick={this.addFavorite}>Add your favorite song</button>
-      </div>
+      content =
+        <div className='no-video-hold'>
+          <h1 className="no-video-text">Add some songs</h1>
+          <></>
+          <button onClick={this.addFavorite}>Add your favorite song</button>
+        </div>
     } else if (this.state.loading === true) {
       content = <div className="no-video-hold">
-        <ScaleLoader color='#FFFFFF'/>
+        <ScaleLoader color='#FFFFFF' />
       </div>
     } else {
       content =
-      //HOST PLAYER
+        //HOST PLAYER
         <YouTube
           className='YouTube-Player'
           videoId={this.state.currentVideo}
           opts={{ playerVars: { autoplay: 1 } }}
-          onEnd={this.nextSong} 
+          onEnd={this.nextSong}
           onReady={(e) => this.setVideoState(e)}
           onError={this.nextSong}
           onPause={this.broadcastPause}
-          onPlay={this.broadcastPlay}/>
+          onPlay={this.broadcastPlay} />
     }
 
     if (this.state.isHost) {
       toShow = content
-    } else if (this.state.noVideos===true){
+    } else if (this.state.noVideos === true) {
       toShow = content
-    }else if (this.state.tuneInPlayer === true) {
-    
-    
-      
+    } else if (this.state.tuneInPlayer === true) {
+
+
+
       //TUNE IN PLAYER
-      toShow = 
-      <YouTube
-      className='YouTube-Player'
-      videoId={this.state.currentVideo}
-      opts={{ playerVars: { autoplay: 1, controls: 0 } }}
-      onEnd={this.nextSong} 
-      onReady={(e) => this.setTuneInVideoState(e)}
-      />
-    }else {
+      toShow =
+        <YouTube
+          className='YouTube-Player'
+          videoId={this.state.currentVideo}
+          opts={{ playerVars: { autoplay: 1, controls: 0 } }}
+          onEnd={this.nextSong}
+          onReady={(e) => this.setTuneInVideoState(e)}
+        />
+    } else {
       toShow = <div className='not-host-div'
         style={{ backgroundImage: `url(https://img.youtube.com/vi/${this.state.currentVideo}/0.jpg)` }}>
 
         <div className="white-box-thumb">
           {this.state.hostPresent ? <><p className="white-box-thumb-text">Content will play on host device</p>
-          <button style={{marginTop: 15}} onClick={this.tuneIn}>Tune In</button></> : <p className='white-box-thumb-text'>Host is not present, content will not play</p>}
+            <button style={{ marginTop: 15 }} onClick={this.tuneIn}>Tune In</button></> : <p className='white-box-thumb-text'>Host is not present, content will not play</p>}
         </div>
       </div>
     }
@@ -266,14 +267,17 @@ class Playlist extends Component {
         </div>
 
         {toShow}
-        
+
 
         {this.state.ready &&
           <List group_id={this.props.group_id}
+            currentPlaylist={this.state.currentPlaylist}
+            prevList={this.state.prevList}
+            nowPlaying={this.state.nowPlaying}
             next={this.state.next}
             getPlaylist={this.getPlaylist}
             isHost={this.state.isHost}
-            setPlaylist={this.setPlaylist} 
+            setPlaylist={this.setPlaylist}
             favoritesong={this.state.favoritesong}
             song={this.state.song}
             tuneIn={this.state.tuneIn}
@@ -288,7 +292,7 @@ class Playlist extends Component {
             firstname={this.state.firstname}
             hostJoin={this.hostJoin}
             hostLeave={this.hostLeave}
-            nextSong={this.nextSong}/>
+            nextSong={this.nextSong} />
         }
 
       </div>

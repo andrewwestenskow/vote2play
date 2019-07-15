@@ -1,3 +1,6 @@
+const {REACT_APP_YOUTUBE_API_KEY} = process.env
+const axios = require('axios')
+
 module.exports = {
   addToPlaylist: async (req, res) => {
     const db = req.app.get('db')
@@ -54,7 +57,69 @@ module.exports = {
       playlist.forEach(song => {
         song.id = YouTubeGetID(song.url)
       })
-      res.status(200).send(playlist)
+
+      let currentPlaylist = playlist.sort((a, b) => {
+        const scoreA = a.score
+        const scoreB = b.score
+        if (scoreA < scoreB) {
+          return 1
+        } else {
+          return -1
+        }
+      })
+
+      //HANDLES PREVIOUSLY PLAYED
+
+      let prevList = await db.getPreviouslyPlayed([group_id])
+      
+      //EXTRACTS YOUTUBE ID FROM URL
+      function YouTubeGetID(url){
+        var ID = '';
+        url = url.replace(/(>|<)/gi,'').split(/(vi\/|v=|\/v\/|youtu\.be\/|\/embed\/)/);
+        if(url[2] !== undefined) {
+          ID = url[2].split(/[^0-9a-z_\-]/i);
+          ID = ID[0];
+        }
+        else {
+          ID = url;
+        }
+          return ID;
+      }
+      prevList.forEach(song => {
+        song.id = YouTubeGetID(song.url)
+      })
+
+      //GETS VIDEO INFO FROM IDS IDS
+
+      let videoIds1 = currentPlaylist.map(video => {
+        return video.id
+      })
+  
+      let videoIds2 = prevList.map(video => {
+        return video.id
+      })
+  
+      let videoIds = [...videoIds1, ...videoIds2]
+  
+  
+      let searchString = videoIds.join('%2C')
+  
+      let videoData = await axios.get(`https://www.googleapis.com/youtube/v3/videos?part=snippet&id=${searchString}&key=${REACT_APP_YOUTUBE_API_KEY}`)
+  
+      currentPlaylist.forEach(video => {
+        let details = videoData.data.items.find(element => element.id === video.id)
+        video.details = details
+      })
+  
+      prevList.forEach(video => {
+        let details = videoData.data.items.find(element => element.id === video.id)
+        video.details = details
+      })
+  
+      let nowPlaying = currentPlaylist.splice(0, 1)
+
+
+      res.status(200).send({currentPlaylist, prevList, nowPlaying})
     } catch (error) {
       res.sendStatus(500)
     }
@@ -144,8 +209,8 @@ module.exports = {
     const {group_id} = req.body
 
     try {
-      let list = await db.getPreviouslyPlayed([group_id])
-      let playlist = await db.getPlaylist([group_id])
+      let prevList = await db.getPreviouslyPlayed([group_id])
+      
       //EXTRACTS YOUTUBE ID FROM URL
       function YouTubeGetID(url){
         var ID = '';
@@ -159,7 +224,7 @@ module.exports = {
         }
           return ID;
       }
-      list.forEach(song => {
+      prevList.forEach(song => {
         song.id = YouTubeGetID(song.url)
       })
       res.status(200).send(list)

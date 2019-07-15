@@ -10,7 +10,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { connect } from 'react-redux'
 import io from 'socket.io-client'
 require('dotenv').config()
-const { REACT_APP_YOUTUBE_API_KEY, REACT_APP_SOCKET_CONNECT } = process.env
+const { REACT_APP_SOCKET_CONNECT } = process.env
 
 
 class List extends Component {
@@ -229,67 +229,30 @@ class List extends Component {
 
   updatePlaylist = async () => {
 
-    const { group_id } = this.props
-    let res = await axios.post('/api/playlist', { group_id })
-    let sortedArray = res.data.sort((a, b) => {
-      const scoreA = a.score
-      const scoreB = b.score
-      if (scoreA < scoreB) {
-        return 1
-      } else {
-        return -1
-      }
-    })
+    const {group_id} = this.props
 
-    let findPrev = await axios.post('/api/playlist/prev', { group_id })
+    let res = await axios.post('/api/playlist', {group_id})
 
-    let prevPlayed = findPrev.data
+    let {currentPlaylist, prevList, nowPlaying} = res.data
 
-    let videoIds1 = sortedArray.map(video => {
-      return video.id
-    })
+    if (this.props.nowPlaying !== this.state.nowPlaying) {
 
-    let videoIds2 = prevPlayed.map(video => {
-      return video.id
-    })
-
-    let videoIds = [...videoIds1, ...videoIds2]
-
-
-    let searchString = videoIds.join('%2C')
-
-    let videoData = await axios.get(`https://www.googleapis.com/youtube/v3/videos?part=snippet&id=${searchString}&key=${REACT_APP_YOUTUBE_API_KEY}`)
-
-    sortedArray.forEach(video => {
-      let details = videoData.data.items.find(element => element.id === video.id)
-      video.details = details
-    })
-
-    prevPlayed.forEach(video => {
-      let details = videoData.data.items.find(element => element.id === video.id)
-      video.details = details
-    })
-
-    let nowPlaying = sortedArray.splice(0, 1)
-
-    if (nowPlaying !== this.state.nowPlaying) {
-
-      let nowPlayingVote = nowPlaying[0]
+      let nowPlayingVote = this.props.nowPlaying[0]
 
       if (nowPlayingVote) {
         await (axios.post('/api/playlist/vote', { playlistId: nowPlayingVote.group_playlist_id, vote: 9999 }))
 
         this.setState({
           nowPlaying: nowPlaying,
-          playlist: sortedArray,
-          prevPlayed: prevPlayed,
+          playlist: currentPlaylist,
+          prevPlayed: prevList,
           ready: true
         })
 
       } else {
         this.setState({
           ready: false,
-          prevPlayed: prevPlayed,
+          prevPlayed: prevList,
           nowPlaying: [],
         })
       }
