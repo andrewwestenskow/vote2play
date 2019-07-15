@@ -229,17 +229,18 @@ class List extends Component {
 
   updatePlaylist = async () => {
 
-    const {group_id} = this.props
+    const { group_id } = this.props
 
-    let res = await axios.post('/api/playlist', {group_id})
+    let res = await axios.post('/api/playlist', { group_id })
 
-    let {currentPlaylist, prevList, nowPlaying} = res.data
+    let { currentPlaylist, prevList, nowPlaying } = res.data
 
-    if (this.props.nowPlaying !== this.state.nowPlaying) {
+    if (nowPlaying !== this.state.nowPlaying) {
 
-      let nowPlayingVote = this.props.nowPlaying[0]
+      let nowPlayingVote = nowPlaying[0]
 
       if (nowPlayingVote) {
+        console.log(nowPlayingVote)
         await (axios.post('/api/playlist/vote', { playlistId: nowPlayingVote.group_playlist_id, vote: 9999 }))
 
         this.setState({
@@ -390,19 +391,24 @@ class List extends Component {
     return (
       <div className='List'>
         {this.state.ready ?
-          <div className='now-playing-hold'><h1>
-            <span className="now-playing-text">
-              NOW PLAYING:
+          <div className='now-playing-hold'>
+            <h1>
+              <span className="now-playing-text">
+                NOW PLAYING:
+              </span>
+
+            </h1>
+
+            <h1 className='now-playing-title'>{nowPlaying.details.snippet.title}
+            </h1>
+          </div> :
+          <div className='now-playing-hold'>
+            <h1>
+              <span className="now-playing-text">
+                NOW PLAYING:
           </span>
 
-          </h1>
-            <h1 className='now-playing-title'>{nowPlaying.details.snippet.title}</h1>
-          </div> : <div className='now-playing-hold'><h1>
-            <span className="now-playing-text">
-              NOW PLAYING:
-          </span>
-
-          </h1>
+            </h1>
             <h1 className='now-playing-title'>Nothing</h1>
           </div>}
         <div className="white-line-playlist"></div>
@@ -443,11 +449,11 @@ class List extends Component {
                     {!this.state.addNewSuccess ?
                       <ClipLoader color='#FFFFFF' size={1.5} sizeUnit='em' /> :
 
-                      <Lottie options={defaultOptions}/>}
+                      <Lottie options={defaultOptions} />}
                   </div>}
               </form>
 
-            {/* {this.props.isHost && <button className='next-button' onClick={this.props.nextSong}>Next Song</button>} */}
+              {/* {this.props.isHost && <button className='next-button' onClick={this.props.nextSong}>Next Song</button>} */}
             </div>
 
           </div> :
@@ -482,12 +488,12 @@ class List extends Component {
                     {!this.state.addNewSuccess ?
                       <ClipLoader color='#FFFFFF' size={1.5} sizeUnit='em' /> :
 
-                      <Lottie options={defaultOptions}/>}
+                      <Lottie options={defaultOptions} />}
 
                   </div>}
               </form>
 
-            {/* {this.props.isHost && <button className='next-button' onClick={this.props.nextSong}>Next Song</button>} */}
+              {/* {this.props.isHost && <button className='next-button' onClick={this.props.nextSong}>Next Song</button>} */}
             </div>
           </div>}
         <ChatWindow

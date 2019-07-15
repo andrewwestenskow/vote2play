@@ -83,14 +83,19 @@ class Playlist extends Component {
     let res = await axios.post('/api/playlist', { group_id })
     const { currentPlaylist, nowPlaying, prevList } = res.data
 
-    if (currentPlaylist.length === 0 && !nowPlaying) {
+    if (currentPlaylist.length > 0 && nowPlaying.length > 0) {
+      let currentSong = nowPlaying[0]
       this.setState({
-        noVideos: true,
+        noVideos: false,
         nowPlaying,
         currentPlaylist,
-        prevList
+        prevList,
+        currentVideo: currentSong.id,
+        currentGroupPlaylistId: currentSong.group_playlist_id,
+        currentSongId: currentSong.song_id,
+        loading: false
       })
-    } else {
+    } else if(currentPlaylist.length === 0 && nowPlaying.length > 0) {
       let currentSong = nowPlaying[0]
       this.setState({
         currentVideo: currentSong.id,
@@ -101,6 +106,10 @@ class Playlist extends Component {
         nowPlaying,
         currentPlaylist,
         prevList
+      })
+    } else {
+      this.setState({
+        noVideos: true
       })
     }
 
