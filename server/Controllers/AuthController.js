@@ -47,13 +47,15 @@ module.exports = {
     
     const login_id = user.user_login_id
 
+    let userDetails = db.getUserDetails(login_id)
+
     req.session.user = {
       isAuthenticated,
       login_id,
-      user
+      userDetails
     }
 
-    res.status(200).send({isAuthenticated, login_id, user})
+    res.status(200).send({isAuthenticated, login_id, userDetails})
   },
 
   getDetails: async (req, res) => {
