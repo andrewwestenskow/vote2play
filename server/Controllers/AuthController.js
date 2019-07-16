@@ -47,7 +47,10 @@ module.exports = {
     
     const login_id = user.user_login_id
 
-    let userDetails = db.getUserDetails(+login_id)
+    let userDetails = await db.getUserDetails({id: login_id})
+
+    console.log(userDetails)
+
 
     req.session.user = {
       isAuthenticated,
