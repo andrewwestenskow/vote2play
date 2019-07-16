@@ -47,7 +47,7 @@ module.exports = {
     
     const login_id = user.user_login_id
 
-    let userDetails = db.getUserDetails(login_id)
+    let userDetails = db.getUserDetails(+login_id)
 
     req.session.user = {
       isAuthenticated,
