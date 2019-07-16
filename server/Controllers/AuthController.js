@@ -55,10 +55,10 @@ module.exports = {
     req.session.user = {
       isAuthenticated,
       login_id,
-      userDetails
+      userDetails: userDetails[0]
     }
 
-    res.status(200).send({isAuthenticated, login_id, userDetails})
+    res.status(200).send({isAuthenticated, login_id, userDetails: userDetails[0]})
   },
 
   getDetails: async (req, res) => {
