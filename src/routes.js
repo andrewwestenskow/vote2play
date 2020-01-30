@@ -1,5 +1,5 @@
 import React from 'react'
-import {Switch, Route} from 'react-router-dom'
+import { Switch, Route } from 'react-router-dom'
 import Home from './Components/Home/Home'
 import Sidebar from './Components/Post-Login/Sidebar/Sidebar'
 import Dashboard from './Components/Post-Login/Dashboard/Dashboard'
@@ -9,20 +9,23 @@ import JoinGroup from './Components/Post-Login/JoinGroup/JoinGroup'
 import Playlist from './Components/Post-Login/Playlist/Playlist'
 import MobileLogin from './Components/MobileLogin/MobileLogin'
 
-export default(
+export default (
   <Switch>
-    <Route exact path='/' component={Home}/>
-    <Route exact path='/login' component={MobileLogin}/>
-    <Route path='/:login_id' component={() => (
-      <Sidebar>
-        <Switch>
-          <Route path ='/:login_id/dashboard' component={Dashboard}/>
-          <Route path='/:login_id/profile' component={Profile}/>
-          <Route path='/:login_id/creategroup' component={CreateGroup}/>
-          <Route path='/:login_id/joingroup' component={JoinGroup}/>
-          <Route path='/group/:joincode' component={Playlist}/>
-        </Switch>
-      </Sidebar>
-    )}/>
+    <Route exact path="/" component={Home} />
+    <Route exact path="/login" component={MobileLogin} />
+    <Route
+      path="/:login_id"
+      component={() => (
+        <Sidebar>
+          <Switch>
+            <Route path="/:login_id/dashboard" component={Dashboard} />
+            <Route path="/:login_id/profile" component={Profile} />
+            <Route path="/:login_id/creategroup" component={CreateGroup} />
+            <Route path="/:login_id/joingroup" component={JoinGroup} />
+            <Route path="/group/:joincode" component={Playlist} />
+          </Switch>
+        </Sidebar>
+      )}
+    />
   </Switch>
 )

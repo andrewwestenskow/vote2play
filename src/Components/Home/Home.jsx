@@ -61,7 +61,7 @@ class Home extends Component {
 
 
   render() {
-
+    console.log(this.registerRef)
     return (
       <div>
 

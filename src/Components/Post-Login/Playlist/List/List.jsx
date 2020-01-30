@@ -12,7 +12,6 @@ import io from 'socket.io-client'
 require('dotenv').config()
 const { REACT_APP_SOCKET_CONNECT } = process.env
 
-
 class List extends Component {
   constructor(props) {
     super(props)
@@ -26,9 +25,13 @@ class List extends Component {
       chatMessages: [],
       ready: false,
       urlError: false,
-      songAlready: false
+      songAlready: false,
     }
-    this.socket = io.connect(REACT_APP_SOCKET_CONNECT)
+    this.socket = io.connect(REACT_APP_SOCKET_CONNECT, {
+      reconnection: true,
+      reconnectionDelay: 500,
+      reconnectionAttempts: 10,
+    })
     this.socket.on('room response', data => {
       // console.log('room response')
       this.updatePlaylist()
@@ -73,11 +76,11 @@ class List extends Component {
     this.socket.on('new message', data => {
       if (!this.state.chatMessages) {
         this.setState({
-          chatMessages: [data]
+          chatMessages: [data],
         })
       } else {
         this.setState({
-          chatMessages: [...this.state.chatMessages, data]
+          chatMessages: [...this.state.chatMessages, data],
         })
       }
     })
@@ -89,14 +92,13 @@ class List extends Component {
     this.socket.on(`host leave`, () => {
       this.props.hostLeave()
     })
-
   }
 
   //SOCKETS
 
   broadcast = () => {
     this.socket.emit('broadcast to group socket', {
-      group_id: this.props.group_id
+      group_id: this.props.group_id,
     })
   }
 
@@ -104,51 +106,51 @@ class List extends Component {
     // console.log(`hit`)
     this.socket.emit('broadcast to get timecode', {
       group_id: this.props.group_id,
-      login_id: this.props.login_id
+      login_id: this.props.login_id,
     })
   }
 
-  broadcastTimecode = (data) => {
+  broadcastTimecode = data => {
     this.socket.emit('broadcast timecode', {
       group_id: this.props.group_id,
       timecode: this.props.videoState.getCurrentTime(),
-      requester: data.login_id
+      requester: data.login_id,
     })
   }
 
-  broadcastSeek = (timecode) => {
+  broadcastSeek = timecode => {
     this.socket.emit('broadcast seek', {
       group_id: this.props.group_id,
       timecode,
-      host: this.props.login_id
+      host: this.props.login_id,
     })
   }
 
   broadcastPause = () => {
     this.socket.emit('host pause', {
       group_id: this.props.group_id,
-      host: this.props.login_id
+      host: this.props.login_id,
     })
   }
 
   broadcastPlay = () => {
     this.socket.emit('host play', {
       group_id: this.props.group_id,
-      host: this.props.login_id
+      host: this.props.login_id,
     })
   }
 
   broadcastHostJoin = () => {
     this.props.hostJoin()
     this.socket.emit(`host join`, {
-      group_id: this.props.group_id
+      group_id: this.props.group_id,
     })
   }
 
   broadcastHostLeave = () => {
     this.props.hostLeave()
     this.socket.emit(`host leave`, {
-      group_id: this.props.group_id
+      group_id: this.props.group_id,
     })
   }
 
@@ -162,13 +164,13 @@ class List extends Component {
 
   //CHAT METHODS
 
-  handleChatSend = (message) => {
+  handleChatSend = message => {
     this.socket.emit('message send', {
       login_id: message.login_id,
       name: message.name,
       message: message.message,
       image: message.image,
-      group_id: this.props.group_id
+      group_id: this.props.group_id,
     })
   }
 
@@ -179,10 +181,12 @@ class List extends Component {
     if (this.props.isHost) {
       this.broadcastHostJoin()
     }
-    let messages = await axios.post(`/api/messages`, { group_id: this.props.group_id })
+    let messages = await axios.post(`/api/messages`, {
+      group_id: this.props.group_id,
+    })
     if (messages.data.length !== 0) {
       this.setState({
-        chatMessages: messages.data.sendMessage
+        chatMessages: messages.data.sendMessage,
       })
     }
   }
@@ -216,19 +220,21 @@ class List extends Component {
 
   addFavorite = async () => {
     this.setState({
-      newVideoUrl: this.props.favoritesong
+      newVideoUrl: this.props.favoritesong,
     })
 
-    let e = { preventDefault: () => { return } }
+    let e = {
+      preventDefault: () => {
+        return
+      },
+    }
 
     setTimeout(() => {
       this.handleAddNewVideoFormSubmit(e)
-
-    }, 10);
+    }, 10)
   }
 
   updatePlaylist = async () => {
-
     const { group_id } = this.props
 
     let res = await axios.post('/api/playlist', { group_id })
@@ -236,20 +242,21 @@ class List extends Component {
     let { currentPlaylist, prevList, nowPlaying } = res.data
 
     if (nowPlaying !== this.state.nowPlaying) {
-
       let nowPlayingVote = nowPlaying[0]
 
       if (nowPlayingVote) {
         console.log(nowPlayingVote)
-        await (axios.post('/api/playlist/vote', { playlistId: nowPlayingVote.group_playlist_id, vote: 9999 }))
+        await axios.post('/api/playlist/vote', {
+          playlistId: nowPlayingVote.group_playlist_id,
+          vote: 9999,
+        })
 
         this.setState({
           nowPlaying: nowPlaying,
           playlist: currentPlaylist,
           prevPlayed: prevList,
-          ready: true
+          ready: true,
         })
-
       } else {
         this.setState({
           ready: false,
@@ -260,7 +267,7 @@ class List extends Component {
     }
 
     this.socket.emit('join group', {
-      group_id
+      group_id,
     })
 
     if (this.state.nowPlaying[0]) {
@@ -272,30 +279,33 @@ class List extends Component {
     this.props.setPlaylist(this.state.playlist)
   }
 
-  handleNewVideoFormChange = (e) => {
+  handleNewVideoFormChange = e => {
     this.setState({
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     })
   }
 
-  handleAddNewVideoFormSubmit = async (e) => {
+  handleAddNewVideoFormSubmit = async e => {
     e.preventDefault()
     this.setState({
       urlError: false,
       songAlready: false,
-      addNewLoad: true
+      addNewLoad: true,
     })
     const { group_id } = this.props
-    let res = await axios.post('/api/playlist/addsong', { group_id: group_id, songUrl: this.state.newVideoUrl })
+    let res = await axios.post('/api/playlist/addsong', {
+      group_id: group_id,
+      songUrl: this.state.newVideoUrl,
+    })
     // console.log(res.data)
     if (res.data === 'Song already on playlist') {
       this.setState({
-        songAlready: true
+        songAlready: true,
       })
     }
 
     this.setState({
-      newVideoUrl: ''
+      newVideoUrl: '',
     })
 
     this.updatePlaylist()
@@ -306,15 +316,15 @@ class List extends Component {
 
     this.broadcast()
     this.setState({
-      addNewSuccess: true
+      addNewSuccess: true,
     })
 
     setTimeout(() => {
       this.setState({
         addNewLoad: false,
-        addNewSuccess: false
+        addNewSuccess: false,
       })
-    }, 2500);
+    }, 2500)
   }
 
   getPlaylistConditional = () => {
@@ -323,47 +333,53 @@ class List extends Component {
     }
   }
 
-
-
   render() {
-
-    let playlist = this.state.playlist.filter(song => {
-      if (song.details !== undefined) {
-        return true
-      } else {
-        if (this.state.urlError === false) {
-          this.setState({
-            urlError: true
-          })
+    let playlist = this.state.playlist
+      .filter(song => {
+        if (song.details !== undefined) {
+          return true
+        } else {
+          if (this.state.urlError === false) {
+            this.setState({
+              urlError: true,
+            })
+          }
+          axios.delete(`/api/playlist/${song.group_playlist_id}`)
+          axios.delete(`/api/playlist/song/${song.song_id}`)
+          return false
         }
-        axios.delete(`/api/playlist/${song.group_playlist_id}`)
-        axios.delete(`/api/playlist/song/${song.song_id}`)
-        return false
-      }
-    }).map(song => {
-      return <Song key={song.group_playlist_id}
-        data={song.details.snippet}
-        playlistId={song.group_playlist_id}
-        songId={song.song_id}
-        score={song.score}
-        updatePlaylist={this.updatePlaylist}
-        title={song.details.snippet.localized.title}
-        broadcast={this.broadcast}
-        isHost={this.props.isHost}
-        login_id={this.props.login_id}
-        nextSong={this.props.nextSong}
-      />
-    })
+      })
+      .map(song => {
+        return (
+          <Song
+            key={song.group_playlist_id}
+            data={song.details.snippet}
+            playlistId={song.group_playlist_id}
+            songId={song.song_id}
+            score={song.score}
+            updatePlaylist={this.updatePlaylist}
+            title={song.details.snippet.localized.title}
+            broadcast={this.broadcast}
+            isHost={this.props.isHost}
+            login_id={this.props.login_id}
+            nextSong={this.props.nextSong}
+          />
+        )
+      })
 
     let previouslyPlayed = this.state.prevPlayed.map(song => {
       let { snippet } = song.details
-      return <OldSong updatePlaylist={this.updatePlaylist}
-        data={song}
-        key={song.id}
-        title={snippet.title}
-        getPlaylistConditional={this.getPlaylistConditional}
-        broadcast={this.broadcast}
-        isHost={this.props.isHost} />
+      return (
+        <OldSong
+          updatePlaylist={this.updatePlaylist}
+          data={song}
+          key={song.id}
+          title={snippet.title}
+          getPlaylistConditional={this.getPlaylistConditional}
+          broadcast={this.broadcast}
+          isHost={this.props.isHost}
+        />
+      )
     })
 
     let nowPlaying = this.state.nowPlaying[0]
@@ -375,141 +391,152 @@ class List extends Component {
         let currentTime = video.getCurrentTime()
         let length = timestamps.length
         timestamps.push(currentTime)
-        if (timestamps[length - 1] - timestamps[length - 2] > 2 || timestamps[length - 1] < timestamps[length - 2]) {
+        if (
+          timestamps[length - 1] - timestamps[length - 2] > 2 ||
+          timestamps[length - 1] < timestamps[length - 2]
+        ) {
           this.broadcastSeek(currentTime)
         }
       }
-    }, 1000);
+    }, 1000)
 
     const defaultOptions = {
       loop: false,
       autoplay: true,
       animationData: animationData,
-      resizeMode: 'cover'
+      resizeMode: 'cover',
     }
 
     return (
-      <div className='List'>
-        {this.state.ready ?
-          <div className='now-playing-hold'>
+      <div className="List">
+        {this.state.ready ? (
+          <div className="now-playing-hold">
             <h1>
-              <span className="now-playing-text">
-                NOW PLAYING:
-              </span>
-
+              <span className="now-playing-text">NOW PLAYING:</span>
             </h1>
 
-            <h1 className='now-playing-title'>{nowPlaying.details.snippet.title}
+            <h1 className="now-playing-title">
+              {nowPlaying.details.snippet.title}
             </h1>
-          </div> :
-          <div className='now-playing-hold'>
+          </div>
+        ) : (
+          <div className="now-playing-hold">
             <h1>
-              <span className="now-playing-text">
-                NOW PLAYING:
-          </span>
-
+              <span className="now-playing-text">NOW PLAYING:</span>
             </h1>
-            <h1 className='now-playing-title'>Nothing</h1>
-          </div>}
+            <h1 className="now-playing-title">Nothing</h1>
+          </div>
+        )}
         <div className="white-line-playlist"></div>
 
-        {this.state.ready ?
-          <div className='playlist'>
+        {this.state.ready ? (
+          <div className="playlist">
             <div>
-              <h1 className='now-playing-text'>UP NEXT:</h1>
+              <h1 className="now-playing-text">UP NEXT:</h1>
 
               {playlist}
-
             </div>
 
             <div className="previous-chat-hold">
-              <h1 className='now-playing-text'>Previously Played: </h1>
+              <h1 className="now-playing-text">Previously Played: </h1>
               <div className="previously-played">
-                <div>
-                  {previouslyPlayed}
-                </div>
+                <div>{previouslyPlayed}</div>
               </div>
-              <form onSubmit={this.handleAddNewVideoFormSubmit} className='add-new-form'>
+              <form
+                onSubmit={this.handleAddNewVideoFormSubmit}
+                className="add-new-form"
+              >
                 {this.state.songAlready && <p>Song is already on playlist</p>}
-                {this.state.urlError && <p>Error adding song, please try again</p>}
-                <input type="url"
-                  name='newVideoUrl'
+                {this.state.urlError && (
+                  <p>Error adding song, please try again</p>
+                )}
+                <input
+                  type="url"
+                  name="newVideoUrl"
                   onChange={this.handleNewVideoFormChange}
                   value={this.state.newVideoUrl}
-                  placeholder='Add new song'
-                  className='add-song-input'
-                  autoComplete='off' />
+                  placeholder="Add new song"
+                  className="add-song-input"
+                  autoComplete="off"
+                />
 
-                {!this.state.addNewLoad ? <button className='add-song-button'>
-
-                  <FontAwesomeIcon icon='plus-circle' />
-
-                </button> : <div className="new-load-hold">
-
-                    {!this.state.addNewSuccess ?
-                      <ClipLoader color='#FFFFFF' size={1.5} sizeUnit='em' /> :
-
-                      <Lottie options={defaultOptions} />}
-                  </div>}
-              </form>
-
-              {/* {this.props.isHost && <button className='next-button' onClick={this.props.nextSong}>Next Song</button>} */}
-            </div>
-
-          </div> :
-
-          <div className='playlist'>
-
-            <div className="previous-chat-hold">
-              <h1 className='previously-played-text'>Previously Played: </h1>
-              <div className="previously-played">
-                <div>
-                  {previouslyPlayed}
-                </div>
-              </div>
-              <form onSubmit={this.handleAddNewVideoFormSubmit} className='add-new-form'>
-                {this.state.songAlready && <p>Song is already on playlist</p>}
-                {this.state.urlError && <p>Error adding song, please try again</p>}
-                <input type="url"
-                  name='newVideoUrl'
-                  onChange={this.handleNewVideoFormChange}
-                  value={this.state.newVideoUrl}
-                  placeholder='Add new song'
-                  className='add-song-input'
-                  autoComplete='off' />
-
-                {!this.state.addNewLoad ? <button className='add-song-button'>
-
-                  <FontAwesomeIcon icon='plus-circle' />
-
-                </button> :
+                {!this.state.addNewLoad ? (
+                  <button className="add-song-button">
+                    <FontAwesomeIcon icon="plus-circle" />
+                  </button>
+                ) : (
                   <div className="new-load-hold">
-
-                    {!this.state.addNewSuccess ?
-                      <ClipLoader color='#FFFFFF' size={1.5} sizeUnit='em' /> :
-
-                      <Lottie options={defaultOptions} />}
-
-                  </div>}
+                    {!this.state.addNewSuccess ? (
+                      <ClipLoader color="#FFFFFF" size={1.5} sizeUnit="em" />
+                    ) : (
+                      <Lottie options={defaultOptions} />
+                    )}
+                  </div>
+                )}
               </form>
 
               {/* {this.props.isHost && <button className='next-button' onClick={this.props.nextSong}>Next Song</button>} */}
             </div>
-          </div>}
+          </div>
+        ) : (
+          <div className="playlist">
+            <div className="previous-chat-hold">
+              <h1 className="previously-played-text">Previously Played: </h1>
+              <div className="previously-played">
+                <div>{previouslyPlayed}</div>
+              </div>
+              <form
+                onSubmit={this.handleAddNewVideoFormSubmit}
+                className="add-new-form"
+              >
+                {this.state.songAlready && <p>Song is already on playlist</p>}
+                {this.state.urlError && (
+                  <p>Error adding song, please try again</p>
+                )}
+                <input
+                  type="url"
+                  name="newVideoUrl"
+                  onChange={this.handleNewVideoFormChange}
+                  value={this.state.newVideoUrl}
+                  placeholder="Add new song"
+                  className="add-song-input"
+                  autoComplete="off"
+                />
+
+                {!this.state.addNewLoad ? (
+                  <button className="add-song-button">
+                    <FontAwesomeIcon icon="plus-circle" />
+                  </button>
+                ) : (
+                  <div className="new-load-hold">
+                    {!this.state.addNewSuccess ? (
+                      <ClipLoader color="#FFFFFF" size={1.5} sizeUnit="em" />
+                    ) : (
+                      <Lottie options={defaultOptions} />
+                    )}
+                  </div>
+                )}
+              </form>
+
+              {/* {this.props.isHost && <button className='next-button' onClick={this.props.nextSong}>Next Song</button>} */}
+            </div>
+          </div>
+        )}
         <ChatWindow
           image={this.props.image}
           firstname={this.props.firstname}
           handleChatSend={this.handleChatSend}
-          chatMessages={this.state.chatMessages} />
+          chatMessages={this.state.chatMessages}
+        />
       </div>
     )
   }
 }
 
-const mapStateToProps = (reduxStore) => {
+const mapStateToProps = reduxStore => {
   return {
     group_id: reduxStore.group.group_id,
-    login_id: reduxStore.users.login_id
+    login_id: reduxStore.users.login_id,
   }
 }
 

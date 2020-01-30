@@ -8,7 +8,6 @@ import { updateGroupId } from '../../../ducks/groupReducer'
 import { updateLoginId } from '../../../ducks/userReducer'
 
 class Playlist extends Component {
-
   constructor(props) {
     super(props)
     this.state = {
@@ -32,12 +31,9 @@ class Playlist extends Component {
       hostPresent: true,
       currentPlaylist: [],
       prevList: [],
-      nowPlaying: []
+      nowPlaying: [],
     }
-
-
   }
-
 
   //LOCAL FUNCTIONS
 
@@ -51,30 +47,36 @@ class Playlist extends Component {
 
     //GETS CURRENT USER DETAILS TO CHECK IF THEY ARE HOST
     let userDetails = await axios.get('/auth/getdetails')
-    const { firstname, login_id, isAuthenticated, favoritesong, image } = userDetails.data
+    const {
+      firstname,
+      login_id,
+      isAuthenticated,
+      favoritesong,
+      image,
+    } = userDetails.data
     this.setState({
       firstname,
       favoritesong,
-      image
+      image,
     })
     this.props.updateLoginId({ login_id, isAuthenticated })
     //MAKES SURE USER IS ADMIN
     let res = await axios.post('/api/group/checkhost', { login_id, group_id })
     this.setState({
-      isHost: res.data
+      isHost: res.data,
     })
 
     //FETCHES GROUP INFO TO DISPLAY
     axios.post('/api/group/getbyid', { group_id }).then(res => {
       this.setState({
-        groupInfo: res.data
+        groupInfo: res.data,
       })
     })
 
     await this.getPlaylist()
 
     this.setState({
-      ready: true
+      ready: true,
     })
   }
 
@@ -93,9 +95,9 @@ class Playlist extends Component {
         currentVideo: currentSong.id,
         currentGroupPlaylistId: currentSong.group_playlist_id,
         currentSongId: currentSong.song_id,
-        loading: false
+        loading: false,
       })
-    } else if(currentPlaylist.length === 0 && nowPlaying.length > 0) {
+    } else if (currentPlaylist.length === 0 && nowPlaying.length > 0) {
       let currentSong = nowPlaying[0]
       this.setState({
         currentVideo: currentSong.id,
@@ -105,15 +107,13 @@ class Playlist extends Component {
         noVideos: false,
         nowPlaying,
         currentPlaylist,
-        prevList
+        prevList,
       })
     } else {
       this.setState({
-        noVideos: true
+        noVideos: true,
       })
     }
-
-
   }
 
   resetVote = async () => {
@@ -122,114 +122,116 @@ class Playlist extends Component {
     const song_id = this.state.currentSongId
     await axios.post('/api/playlist/reset', { playlistId, group_id, song_id })
     this.setState({
-      next: this.state.next += 1
+      next: (this.state.next += 1),
     })
   }
 
   nextSong = async () => {
     this.setState({
       currentSong: '',
-      next: this.state.next += 1
+      next: (this.state.next += 1),
     })
     await this.resetVote()
     await this.getPlaylist()
   }
 
-  setPlaylist = (videos) => {
+  setPlaylist = videos => {
     let playlist = videos.map(video => video.details.id)
     this.setState({
-      playlist: playlist
+      playlist: playlist,
     })
   }
 
   addFavorite = () => {
     this.setState({
-      song: 1
+      song: 1,
     })
   }
 
   tuneIn = () => {
     let num = this.state.tuneIn
     this.setState({
-      tuneIn: ++num
+      tuneIn: ++num,
     })
   }
 
-  setVideoState = (e) => {
+  setVideoState = e => {
     this.setState({
-      videoState: e.target
+      videoState: e.target,
     })
   }
 
-  setTuneInVideoState = (e) => {
+  setTuneInVideoState = e => {
     this.setState({
-      tuneInVideoState: e.target
+      tuneInVideoState: e.target,
     })
     e.target.seekTo(this.state.timecode + 1.35)
   }
 
-  tuneInPlayer = (timecode) => {
+  tuneInPlayer = timecode => {
     this.setState({
       tuneInPlayer: true,
-      timecode: timecode
+      timecode: timecode,
     })
-
   }
 
   broadcastPause = () => {
     let num = this.state.pause
     this.setState({
-      pause: ++num
+      pause: ++num,
     })
   }
 
   broadcastPlay = () => {
     let num = this.state.play
     this.setState({
-      play: ++num
+      play: ++num,
     })
   }
 
   hostJoin = () => {
     this.setState({
-      hostPresent: true
+      hostPresent: true,
     })
   }
 
   hostLeave = () => {
     this.setState({
-      hostPresent: false
+      hostPresent: false,
     })
   }
 
-
   render() {
-
     let content
     let toShow
     if (this.state.noVideos === true) {
-      content =
-        <div className='no-video-hold'>
+      content = (
+        <div className="no-video-hold">
           <h1 className="no-video-text">Add some songs</h1>
           <></>
           <button onClick={this.addFavorite}>Add your favorite song</button>
         </div>
+      )
     } else if (this.state.loading === true) {
-      content = <div className="no-video-hold">
-        <ScaleLoader color='#FFFFFF' />
-      </div>
+      content = (
+        <div className="no-video-hold">
+          <ScaleLoader color="#FFFFFF" />
+        </div>
+      )
     } else {
-      content =
+      content = (
         //HOST PLAYER
         <YouTube
-          className='YouTube-Player'
+          className="YouTube-Player"
           videoId={this.state.currentVideo}
           opts={{ playerVars: { autoplay: 1 } }}
           onEnd={this.nextSong}
-          onReady={(e) => this.setVideoState(e)}
+          onReady={e => this.setVideoState(e)}
           onError={this.nextSong}
           onPause={this.broadcastPause}
-          onPlay={this.broadcastPlay} />
+          onPlay={this.broadcastPlay}
+        />
+      )
     }
 
     if (this.state.isHost) {
@@ -237,49 +239,68 @@ class Playlist extends Component {
     } else if (this.state.noVideos === true) {
       toShow = content
     } else if (this.state.tuneInPlayer === true) {
-
-
-
       //TUNE IN PLAYER
-      toShow =
+      toShow = (
         <YouTube
-          className='YouTube-Player'
+          className="YouTube-Player"
           videoId={this.state.currentVideo}
           opts={{ playerVars: { autoplay: 1, controls: 0 } }}
           onEnd={this.nextSong}
-          onReady={(e) => this.setTuneInVideoState(e)}
+          onReady={e => this.setTuneInVideoState(e)}
         />
+      )
     } else {
-      toShow = <div className='not-host-div'
-        style={{ backgroundImage: `url(https://img.youtube.com/vi/${this.state.currentVideo}/0.jpg)` }}>
-
-        <div className="white-box-thumb">
-          {this.state.hostPresent ? <><p className="white-box-thumb-text">Content will play on host device</p>
-            <button style={{ marginTop: 15 }} onClick={this.tuneIn}>Tune In</button></> : <p className='white-box-thumb-text'>Host is not present, content will not play</p>}
+      toShow = (
+        <div
+          className="not-host-div"
+          style={{
+            backgroundImage: `url(https://img.youtube.com/vi/${this.state.currentVideo}/0.jpg)`,
+          }}
+        >
+          <div className="white-box-thumb">
+            {this.state.hostPresent ? (
+              <>
+                <p className="white-box-thumb-text">
+                  Content will play on host device
+                </p>
+                <button style={{ marginTop: 15 }} onClick={this.tuneIn}>
+                  Tune In
+                </button>
+              </>
+            ) : (
+              <p className="white-box-thumb-text">
+                Host is not present, content will not play
+              </p>
+            )}
+          </div>
         </div>
-      </div>
+      )
     }
 
     const { groupInfo } = this.state
 
     return (
-
-      <div className='Playlist'>
+      <div className="Playlist">
         <div className="Playlist-Head">
-
           <div className="Playlist-Head-Text-Hold">
-            <h1 className='Playlist-Head-Group-Name'>{groupInfo.name}</h1>
-            <div className='white-line-head'></div>
-            <h3 className='Playlist-Head-Joincode'>Join Code: {groupInfo.joincode}</h3>
+            <h1 className="Playlist-Head-Group-Name">{groupInfo.name}</h1>
+            <div className="white-line-head"></div>
+            <h3 className="Playlist-Head-Joincode">
+              Join Code: {groupInfo.joincode}
+            </h3>
           </div>
-          <img className='Playlist-Head-Image' src={groupInfo.group_image} alt="" />
+          <img
+            className="Playlist-Head-Image"
+            src={groupInfo.group_image}
+            alt=""
+          />
         </div>
 
         {toShow}
 
-
-        {this.state.ready &&
-          <List group_id={this.props.group_id}
+        {this.state.ready && (
+          <List
+            group_id={this.props.group_id}
             currentPlaylist={this.state.currentPlaylist}
             prevList={this.state.prevList}
             nowPlaying={this.state.nowPlaying}
@@ -301,19 +322,22 @@ class Playlist extends Component {
             firstname={this.state.firstname}
             hostJoin={this.hostJoin}
             hostLeave={this.hostLeave}
-            nextSong={this.nextSong} />
-        }
-
+            nextSong={this.nextSong}
+          />
+        )}
       </div>
     )
   }
 }
 
-const mapStateToProps = (reduxStore) => {
+const mapStateToProps = reduxStore => {
   return {
     group_id: reduxStore.group.group_id,
-    login_id: reduxStore.users.login_id
+    login_id: reduxStore.users.login_id,
   }
 }
 
-export default connect(mapStateToProps, { updateGroupId, updateLoginId })(Playlist)
+export default connect(
+  mapStateToProps,
+  { updateGroupId, updateLoginId }
+)(Playlist)
