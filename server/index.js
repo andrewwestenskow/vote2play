@@ -24,10 +24,21 @@ const {
 //MIDDLEWARE
 app.use(express.json())
 
+app.use(
+  session({
+    resave: false,
+    saveUninitialized: false,
+    secret: SESSION_SECRET,
+    cookie: {
+      maxAge: 1000 * 60 * 60 * 24 * 7,
+    },
+  })
+)
+
 app.use(express.static(`${__dirname}/../build`))
 
 const server = app.listen(SERVER_PORT, () =>
-  console.log(`Listening on port ${SERVER_PORT}`),
+  console.log(`Listening on port ${SERVER_PORT}`)
 )
 
 const io = socket(server)
@@ -46,14 +57,14 @@ io.on('connection', socket => {
 
   socket.on('broadcast to get timecode', data => {
     console.log(
-      `request for timecode room ${data.group_id} from user ${data.login_id}`,
+      `request for timecode room ${data.group_id} from user ${data.login_id}`
     )
     socket.to(data.group_id).broadcast.emit('timecode request', data)
   })
 
   socket.on('broadcast timecode', data => {
     console.log(
-      `current timecode for group ${data.group_id} from user ${data.requester}: ${data.timecode}`,
+      `current timecode for group ${data.group_id} from user ${data.requester}: ${data.timecode}`
     )
     socket.to(data.group_id).broadcast.emit('timecode response', data)
   })
